@@ -2,8 +2,9 @@
 
 Downloads static ffmpeg builds for Windows, macOS, and Linux.
 
-- supports windows, macOS, and Linux
-- supports x86_64 and arm64 architectures
+- Supports Windows, macOS, and Linux
+- Supports x86_64 and ARM64 architectures
+- Automatic platform detection and binary caching
 
 ## Usage
 
@@ -29,15 +30,40 @@ ffprobe -v quiet -print_format json -show_format input.mp4
 
 The CLI commands automatically download and cache the appropriate static binaries for your platform.
 
+### PATH Management
+
+You can also programmatically manage your PATH:
+
+```python
+from stat_ffmpeg import add_to_path, remove_from_path
+
+# Add FFmpeg binaries to PATH
+add_to_path()
+
+# Add only if FFmpeg is not already available (weak mode)
+add_to_path(weak=True)
+
+# Remove from PATH
+remove_from_path()
+```
+
 ## Sources of Static Builds
 
 This package downloads static FFmpeg binaries from the following trusted sources:
 
-### Windows (x86_64)
+### Windows
+
+#### x86_64
 
 - **Source**: [CODEX FFMPEG @ gyan.dev](https://www.gyan.dev/ffmpeg/builds/)
 - **URL**: `https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip`
 - **Description**: Official Windows builds, 64-bit static binaries licensed as GPLv3
+
+#### ARM64
+
+- **Source**: [CODEX FFMPEG @ gyan.dev](https://www.gyan.dev/ffmpeg/builds/)
+- **URL**: `https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip`
+- **Description**: Uses x86_64 build via Windows emulation (native ARM64 builds not yet available from major providers)
 
 ### macOS
 
@@ -67,4 +93,21 @@ This package downloads static FFmpeg binaries from the following trusted sources
 
 ## Caching
 
-Downloaded binaries are cached in the package's `binaries/` directory to avoid re-downloading. Each virtual environment gets its own copy of the binaries. The cache is organized by platform and architecture (e.g., `osx-64`, `linux-arm64`, `windows-64`).
+Downloaded binaries are cached in the package's `binaries/` directory to avoid re-downloading. Each virtual environment gets its own copy of the binaries.
+
+The cache is organized by platform and architecture (e.g., `linux-amd64`, `windows-amd64`, `osx-arm64`).
+
+### Cache Management
+
+```python
+from stat_ffmpeg import clear_cache
+
+# Clear all cached binaries
+clear_cache()
+```
+
+Or use the command line:
+
+```bash
+clear_cache
+```
