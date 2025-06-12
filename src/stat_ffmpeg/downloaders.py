@@ -26,7 +26,7 @@ def _download_file(url: str, file_path: Path | str) -> None:
                     sys.stdout.write("\r✅ Download complete!\n")
                 else:
                     sys.stdout.write(f"\r🔽 {percent:3d}%")
-                    sys.stdout.flush()
+                sys.stdout.flush()
         else:
             total = block_num * block_size
             if last_value != total:
@@ -91,7 +91,7 @@ class FFmpegDownloadSingleZip(BaseFFmpegDownloader):
 
     def download_files(self, outfolder: Path) -> tuple[Path, Path]:
         """Download and extract zip archive containing both binaries."""
-        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile() as tmp_file:
             _download_file(self.url, tmp_file.name)
 
             _extract_zip_files(
@@ -99,8 +99,6 @@ class FFmpegDownloadSingleZip(BaseFFmpegDownloader):
                 outfolder=outfolder,
                 target_names=[self.ffmpeg_name, self.ffprobe_name],
             )
-
-            Path(tmp_file.name).unlink()
 
         return outfolder / self.ffmpeg_name, outfolder / self.ffprobe_name
 
@@ -113,7 +111,7 @@ class FFmpegDownloadSingleTar(BaseFFmpegDownloader):
 
     def download_files(self, outfolder: Path) -> tuple[Path, Path]:
         """Download and extract tar archive containing both binaries."""
-        with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        with tempfile.NamedTemporaryFile() as tmp_file:
             _download_file(self.url, tmp_file.name)
 
             _extract_tar_files(
@@ -121,8 +119,6 @@ class FFmpegDownloadSingleTar(BaseFFmpegDownloader):
                 outfolder=outfolder,
                 target_names=[self.ffmpeg_name, self.ffprobe_name],
             )
-
-            Path(tmp_file.name).unlink()
 
         return outfolder / self.ffmpeg_name, outfolder / self.ffprobe_name
 
@@ -139,7 +135,7 @@ class FFmpegDownloadTwoZips(BaseFFmpegDownloader):
         target_binaries = {self.ffmpeg_url: self.ffmpeg_name, self.ffprobe_url: self.ffprobe_name}
 
         for url, target_name in target_binaries.items():
-            with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as tmp_file:
+            with tempfile.NamedTemporaryFile(suffix=".zip") as tmp_file:
                 _download_file(url, tmp_file.name)
 
                 _extract_zip_files(
@@ -147,7 +143,5 @@ class FFmpegDownloadTwoZips(BaseFFmpegDownloader):
                     outfolder=outfolder,
                     target_names=[target_name],
                 )
-
-            Path(tmp_file.name).unlink()
 
         return outfolder / self.ffmpeg_name, outfolder / self.ffprobe_name
