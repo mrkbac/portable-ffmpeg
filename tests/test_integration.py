@@ -20,18 +20,23 @@ import stat_ffmpeg
 from stat_ffmpeg import add_to_path, clear_cache, get_ffmpeg, remove_from_path
 
 
+@pytest.fixture(scope="session")
+def downloaded_binaries() -> tuple[Path, Path]:
+    """Download FFmpeg binaries once per test session."""
+    # Clear cache once at the start to ensure fresh download
+    clear_cache()
+    return get_ffmpeg()
+
+
 class TestModuleIntegration:
     """Integration tests for the complete module."""
 
-    @pytest.fixture(autouse=True)
-    def setup_and_cleanup(self) -> Generator[None, None, None]:
-        """Clear cache before and after each test."""
-        clear_cache()
-        yield
-        clear_cache()
-
+    @pytest.mark.slow
     def test_full_workflow(self) -> None:
         """Test the complete workflow: download, cache, PATH management."""
+        # Clear cache to test fresh download
+        clear_cache()
+
         # 1. Download binaries
         ffmpeg_path, ffprobe_path = get_ffmpeg()
 
@@ -56,6 +61,7 @@ class TestModuleIntegration:
         clear_cache()
         assert not CACHE_DIR.exists()
 
+    @pytest.mark.slow
     def test_weak_path_integration(self) -> None:
         """Test add_to_path with weak=True integration."""
         # Store original PATH
@@ -77,9 +83,10 @@ class TestModuleIntegration:
         # Cleanup
         os.environ["PATH"] = original_path
 
-    def test_binary_execution_integration(self) -> None:
+    @pytest.mark.slow
+    def test_binary_execution_integration(self, downloaded_binaries: tuple[Path, Path]) -> None:
         """Test that downloaded binaries can actually be executed."""
-        ffmpeg_path, ffprobe_path = get_ffmpeg()
+        ffmpeg_path, ffprobe_path = downloaded_binaries
 
         # Test ffmpeg version
         result = subprocess.run(
@@ -99,13 +106,7 @@ class TestModuleIntegration:
 class TestConcurrencyIntegration:
     """Integration tests for concurrent access."""
 
-    @pytest.fixture(autouse=True)
-    def setup_and_cleanup(self) -> Generator[None, None, None]:
-        """Clear cache before and after each test."""
-        clear_cache()
-        yield
-        clear_cache()
-
+    @pytest.mark.slow
     def test_concurrent_downloads(self) -> None:
         """Test that concurrent calls to get_ffmpeg work correctly."""
 
@@ -180,7 +181,7 @@ class TestErrorHandlingIntegration:
 
     @pytest.fixture(autouse=True)
     def setup_and_cleanup(self) -> Generator[None, None, None]:
-        """Clear cache before and after each test."""
+        """Clear cache before and after each test - needed for error scenarios."""
         clear_cache()
         yield
         clear_cache()
@@ -210,6 +211,7 @@ class TestErrorHandlingIntegration:
             # First call should fail
             get_ffmpeg()
 
+    @pytest.mark.slow
     def test_partial_cache_recovery(self) -> None:
         """Test recovery when cache contains only one binary."""
         # First, download both binaries
@@ -228,6 +230,7 @@ class TestErrorHandlingIntegration:
         assert new_ffmpeg_path == ffmpeg_path
         assert new_ffprobe_path == ffprobe_path
 
+    @pytest.mark.slow
     def test_corrupted_cache_directory_recovery(self) -> None:
         """Test recovery when cache directory is corrupted."""
         # Clear cache first
@@ -262,30 +265,19 @@ class TestErrorHandlingIntegration:
 class TestPlatformSpecificIntegration:
     """Integration tests for platform-specific behavior."""
 
-    @pytest.fixture(autouse=True)
-    def setup_and_cleanup(self) -> Generator[None, None, None]:
-        """Clear cache before and after each test."""
-        clear_cache()
-        yield
-        clear_cache()
-
-    def test_binary_permissions_unix(self, mocker: "MockerFixture") -> None:
+    @pytest.mark.slow
+    def test_binary_permissions_unix(self, downloaded_binaries: tuple[Path, Path]) -> None:
         """Test that Unix binaries get correct permissions."""
-        # Mock to force Unix behavior
-        mocker.patch(
-            "stat_ffmpeg.core.OperatingSystems.from_current_system",
-            return_value=stat_ffmpeg.OperatingSystems.LINUX,
-        )
-
-        ffmpeg_path, ffprobe_path = get_ffmpeg()
+        ffmpeg_path, ffprobe_path = downloaded_binaries
 
         # Check that binaries are executable
         assert os.access(ffmpeg_path, os.X_OK)
         assert os.access(ffprobe_path, os.X_OK)
 
-    def test_cache_directory_structure(self) -> None:
+    @pytest.mark.slow
+    def test_cache_directory_structure(self, downloaded_binaries: tuple[Path, Path]) -> None:
         """Test that cache directory structure is correct."""
-        ffmpeg_path, ffprobe_path = get_ffmpeg()
+        ffmpeg_path, ffprobe_path = downloaded_binaries
 
         # Verify cache structure
         assert CACHE_DIR.exists()

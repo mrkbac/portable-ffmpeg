@@ -33,6 +33,7 @@ class TestGetFFmpeg:
         yield
         clear_cache()
 
+    @pytest.mark.slow
     def test_get_ffmpeg_returns_paths(self) -> None:
         """Test that get_ffmpeg returns Path objects."""
         ffmpeg_path, ffprobe_path = get_ffmpeg()
@@ -42,6 +43,7 @@ class TestGetFFmpeg:
         assert ffmpeg_path.exists()
         assert ffprobe_path.exists()
 
+    @pytest.mark.slow
     def test_get_ffmpeg_caching_behavior(self) -> None:
         """Test that get_ffmpeg uses cached binaries when available."""
         # First call - should download
@@ -58,6 +60,7 @@ class TestGetFFmpeg:
         assert ffmpeg_path1 == ffmpeg_path2
         assert ffprobe_path1 == ffprobe_path2
 
+    @pytest.mark.slow
     def test_get_ffmpeg_binary_names_windows(self, mocker: "MockerFixture") -> None:
         """Test that Windows binaries have .exe extension."""
         mocker.patch(
@@ -74,6 +77,7 @@ class TestGetFFmpeg:
         assert ffmpeg_path.name == "ffmpeg.exe"
         assert ffprobe_path.name == "ffprobe.exe"
 
+    @pytest.mark.slow
     def test_get_ffmpeg_binary_names_unix(self, mocker: "MockerFixture") -> None:
         """Test that Unix binaries don't have .exe extension."""
         mocker.patch(
@@ -114,6 +118,7 @@ class TestGetFFmpeg:
         with pytest.raises(ValueError, match="Unsupported architecture: sparc"):
             get_ffmpeg()
 
+    @pytest.mark.slow
     def test_get_ffmpeg_handles_corrupted_cache(self, mocker: "MockerFixture") -> None:
         """Test that get_ffmpeg handles corrupted cache directory."""
         mocker.patch(
