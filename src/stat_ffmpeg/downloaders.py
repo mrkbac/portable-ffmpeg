@@ -91,11 +91,12 @@ class FFmpegDownloadSingleZip(BaseFFmpegDownloader):
 
     def download_files(self, outfolder: Path) -> tuple[Path, Path]:
         """Download and extract zip archive containing both binaries."""
-        with tempfile.NamedTemporaryFile() as tmp_file:
-            _download_file(self.url, tmp_file.name)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_file = Path(tmp_dir) / "download.zip"
+            _download_file(self.url, tmp_file)
 
             _extract_zip_files(
-                zip_file=Path(tmp_file.name),
+                zip_file=tmp_file,
                 outfolder=outfolder,
                 target_names=[self.ffmpeg_name, self.ffprobe_name],
             )
@@ -111,11 +112,12 @@ class FFmpegDownloadSingleTar(BaseFFmpegDownloader):
 
     def download_files(self, outfolder: Path) -> tuple[Path, Path]:
         """Download and extract tar archive containing both binaries."""
-        with tempfile.NamedTemporaryFile() as tmp_file:
-            _download_file(self.url, tmp_file.name)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_file = Path(tmp_dir) / "download.tar.xz"
+            _download_file(self.url, tmp_file)
 
             _extract_tar_files(
-                tar_file=Path(tmp_file.name),
+                tar_file=tmp_file,
                 outfolder=outfolder,
                 target_names=[self.ffmpeg_name, self.ffprobe_name],
             )
@@ -135,11 +137,12 @@ class FFmpegDownloadTwoZips(BaseFFmpegDownloader):
         target_binaries = {self.ffmpeg_url: self.ffmpeg_name, self.ffprobe_url: self.ffprobe_name}
 
         for url, target_name in target_binaries.items():
-            with tempfile.NamedTemporaryFile(suffix=".zip") as tmp_file:
-                _download_file(url, tmp_file.name)
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                tmp_file = Path(tmp_dir) / f"{target_name}.zip"
+                _download_file(url, tmp_file)
 
                 _extract_zip_files(
-                    zip_file=Path(tmp_file.name),
+                    zip_file=tmp_file,
                     outfolder=outfolder,
                     target_names=[target_name],
                 )
