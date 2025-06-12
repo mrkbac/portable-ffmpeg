@@ -1,0 +1,116 @@
+"""Core functionality for managing FFmpeg binaries."""
+
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+from .config import DOWNLOAD_URLS
+from .enums import Architectures, OperatingSystems
+
+CACHE_DIR = Path(__file__).parent / "binaries"
+
+
+def get_ffmpeg() -> tuple[Path, Path]:
+    """Download and return paths to static ffmpeg and ffprobe binaries.
+
+    :return: Tuple containing paths to ffmpeg and ffprobe binaries.
+
+    """
+    system = OperatingSystems.from_current_system()
+    arch = Architectures.from_current_architecture()
+
+    # Create cache directory inside the package
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Get platform-specific configuration
+    if system not in DOWNLOAD_URLS:
+        msg = f"Unsupported operating system: {system}"
+        raise ValueError(msg)
+
+    if arch not in DOWNLOAD_URLS[system]:
+        msg = f"Unsupported {system} architecture: {arch}"
+        raise ValueError(msg)
+
+    config = DOWNLOAD_URLS[system][arch]
+
+    # Check if binaries already exist in cache
+    cache_subdir = f"{system.value}-{arch.value}"
+    ffmpeg_path = CACHE_DIR / cache_subdir / config.ffmpeg_name
+    ffprobe_path = CACHE_DIR / cache_subdir / config.ffprobe_name
+
+    if not ffmpeg_path.exists() or not ffprobe_path.exists():
+        print(f"Downloading FFmpeg binaries for {system} {arch}...")
+        # Create platform-specific cache directory
+        platform_cache_dir = CACHE_DIR / cache_subdir
+
+        # Handle corrupted cache (file exists where directory should be)
+        if platform_cache_dir.exists() and not platform_cache_dir.is_dir():
+            platform_cache_dir.unlink()
+
+        platform_cache_dir.mkdir(parents=True, exist_ok=True)
+
+        # Download and extract binaries using dataclass method
+        ffmpeg_path, ffprobe_path = config.download_files(platform_cache_dir)
+
+        # Make binaries executable on Unix-like systems
+        if system != OperatingSystems.WINDOWS:
+            ffmpeg_path.chmod(0o755)
+            ffprobe_path.chmod(0o755)
+
+    return ffmpeg_path, ffprobe_path
+
+
+def clear_cache() -> None:
+    """Clear the cached FFmpeg binaries.
+
+    This removes all downloaded binaries from the cache directory,
+    forcing them to be re-downloaded on the next call to get_ffmpeg().
+    """
+    if CACHE_DIR.exists():
+        shutil.rmtree(CACHE_DIR)
+
+
+def add_to_path(*, weak: bool = False) -> None:
+    """Add FFmpeg binaries to system PATH.
+
+    Args:
+        weak: If True, only add to PATH if ffmpeg is not already available.
+              If False, always add to PATH (taking precedence).
+
+    """
+    if weak and shutil.which("ffmpeg") is not None:
+        return  # ffmpeg already available, don't override
+
+    ffmpeg_path, _ = get_ffmpeg()
+    bin_dir = str(ffmpeg_path.parent)
+
+    current_path = os.environ.get("PATH", "")
+    if bin_dir not in current_path:
+        os.environ["PATH"] = f"{bin_dir}{os.pathsep}{current_path}"
+
+
+def remove_from_path() -> None:
+    """Remove FFmpeg binaries from system PATH."""
+    ffmpeg_path, _ = get_ffmpeg()
+    bin_dir = str(ffmpeg_path.parent)
+
+    current_path = os.environ.get("PATH", "")
+    path_parts = current_path.split(os.pathsep)
+
+    # Remove our binary directory from PATH
+    new_path_parts = [part for part in path_parts if part != bin_dir]
+    os.environ["PATH"] = os.pathsep.join(new_path_parts)
+
+
+def run_ffmpeg() -> None:
+    """Entry point to run ffmpeg binary directly."""
+    ffmpeg_path, _ = get_ffmpeg()
+    subprocess.run([str(ffmpeg_path)] + sys.argv[1:], check=False)
+
+
+def run_ffprobe() -> None:
+    """Entry point to run ffprobe binary directly."""
+    _, ffprobe_path = get_ffmpeg()
+    subprocess.run([str(ffprobe_path)] + sys.argv[1:], check=False)

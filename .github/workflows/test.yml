@@ -1,0 +1,46 @@
+name: Lint and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: tox-dev/action-pre-commit-uv@v1
+
+  test:
+    needs: pre-commit
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          # x86
+          - ubuntu-latest
+          - windows-latest
+          - macos-13
+          # arm64
+          - ubuntu-24.04-arm
+          - windows-11-arm
+          - macos-latest
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: uv sync --dev -p "${{ matrix.python-version }}"
+
+      - name: Run tests
+        run: uv run pytest
