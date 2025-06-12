@@ -11,7 +11,7 @@ import pytest
 if TYPE_CHECKING:
     from pytest_mock import MockerFixture
 
-from stat_ffmpeg.core import (
+from portable_ffmpeg.core import (
     CACHE_DIR,
     add_to_path,
     clear_cache,
@@ -20,7 +20,7 @@ from stat_ffmpeg.core import (
     run_ffmpeg,
     run_ffprobe,
 )
-from stat_ffmpeg.enums import Architectures, OperatingSystems
+from portable_ffmpeg.enums import Architectures, OperatingSystems
 
 
 class TestGetFFmpeg:
@@ -63,7 +63,7 @@ class TestGetFFmpeg:
     def test_get_ffmpeg_unsupported_os(self, mocker: "MockerFixture") -> None:
         """Test that unsupported OS raises ValueError."""
         mocker.patch(
-            "stat_ffmpeg.core.OperatingSystems.from_current_system",
+            "portable_ffmpeg.core.OperatingSystems.from_current_system",
             side_effect=ValueError("Unsupported operating system: freebsd"),
         )
 
@@ -73,11 +73,11 @@ class TestGetFFmpeg:
     def test_get_ffmpeg_unsupported_arch(self, mocker: "MockerFixture") -> None:
         """Test that unsupported architecture raises ValueError."""
         mocker.patch(
-            "stat_ffmpeg.core.OperatingSystems.from_current_system",
+            "portable_ffmpeg.core.OperatingSystems.from_current_system",
             return_value=OperatingSystems.LINUX,
         )
         mocker.patch(
-            "stat_ffmpeg.core.Architectures.from_current_architecture",
+            "portable_ffmpeg.core.Architectures.from_current_architecture",
             side_effect=ValueError("Unsupported architecture: sparc"),
         )
 
@@ -88,11 +88,11 @@ class TestGetFFmpeg:
     def test_get_ffmpeg_handles_corrupted_cache(self, mocker: "MockerFixture") -> None:
         """Test that get_ffmpeg handles corrupted cache directory."""
         mocker.patch(
-            "stat_ffmpeg.core.OperatingSystems.from_current_system",
+            "portable_ffmpeg.core.OperatingSystems.from_current_system",
             return_value=OperatingSystems.LINUX,
         )
         mocker.patch(
-            "stat_ffmpeg.core.Architectures.from_current_architecture",
+            "portable_ffmpeg.core.Architectures.from_current_architecture",
             return_value=Architectures.AMD64,
         )
 
@@ -168,7 +168,7 @@ class TestAddToPath:
         """Test weak=True when ffmpeg doesn't exist."""
         mock_which = mocker.patch("shutil.which", return_value=None)
 
-        with patch("stat_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
+        with patch("portable_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
             mock_path = Path("/cache/ffmpeg")
             mock_get_ffmpeg.return_value = (mock_path, Path("/cache/ffprobe"))
 
@@ -182,7 +182,7 @@ class TestAddToPath:
 
     def test_add_to_path_strong(self) -> None:
         """Test add_to_path without weak flag."""
-        with patch("stat_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
+        with patch("portable_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
             mock_path = Path("/cache/ffmpeg")
             mock_get_ffmpeg.return_value = (mock_path, Path("/cache/ffprobe"))
 
@@ -195,7 +195,7 @@ class TestAddToPath:
 
     def test_add_to_path_already_in_path(self) -> None:
         """Test that add_to_path doesn't duplicate entries."""
-        with patch("stat_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
+        with patch("portable_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
             mock_path = Path("/cache/ffmpeg")
             mock_get_ffmpeg.return_value = (mock_path, Path("/cache/ffprobe"))
 
@@ -216,7 +216,7 @@ class TestRemoveFromPath:
 
     def test_remove_from_path(self) -> None:
         """Test that remove_from_path removes the binary directory."""
-        with patch("stat_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
+        with patch("portable_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
             mock_path = Path("/cache/ffmpeg")
             mock_get_ffmpeg.return_value = (mock_path, Path("/cache/ffprobe"))
 
@@ -231,7 +231,7 @@ class TestRemoveFromPath:
 
     def test_remove_from_path_not_in_path(self) -> None:
         """Test remove_from_path when directory not in PATH."""
-        with patch("stat_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
+        with patch("portable_ffmpeg.core.get_ffmpeg") as mock_get_ffmpeg:
             mock_path = Path("/cache/ffmpeg")
             mock_get_ffmpeg.return_value = (mock_path, Path("/cache/ffprobe"))
 
@@ -247,9 +247,9 @@ class TestRemoveFromPath:
 class TestRunFFmpeg:
     """Tests for run_ffmpeg function."""
 
-    @patch("stat_ffmpeg.core.subprocess.run")
-    @patch("stat_ffmpeg.core.get_ffmpeg")
-    @patch("stat_ffmpeg.core.sys.argv", ["stat_ffmpeg", "-version"])
+    @patch("portable_ffmpeg.core.subprocess.run")
+    @patch("portable_ffmpeg.core.get_ffmpeg")
+    @patch("portable_ffmpeg.core.sys.argv", ["stat_ffmpeg", "-version"])
     def test_run_ffmpeg(self, mock_get_ffmpeg: MagicMock, mock_subprocess_run: MagicMock) -> None:
         """Test that run_ffmpeg calls subprocess with correct arguments."""
         mock_ffmpeg_path = Path("/cache/ffmpeg")
@@ -261,9 +261,9 @@ class TestRunFFmpeg:
             [str(mock_ffmpeg_path), "-version"], check=False
         )
 
-    @patch("stat_ffmpeg.core.subprocess.run")
-    @patch("stat_ffmpeg.core.get_ffmpeg")
-    @patch("stat_ffmpeg.core.sys.argv", ["stat_ffmpeg"])
+    @patch("portable_ffmpeg.core.subprocess.run")
+    @patch("portable_ffmpeg.core.get_ffmpeg")
+    @patch("portable_ffmpeg.core.sys.argv", ["stat_ffmpeg"])
     def test_run_ffmpeg_no_args(
         self, mock_get_ffmpeg: MagicMock, mock_subprocess_run: MagicMock
     ) -> None:
@@ -279,9 +279,9 @@ class TestRunFFmpeg:
 class TestRunFFprobe:
     """Tests for run_ffprobe function."""
 
-    @patch("stat_ffmpeg.core.subprocess.run")
-    @patch("stat_ffmpeg.core.get_ffmpeg")
-    @patch("stat_ffmpeg.core.sys.argv", ["stat_ffmpeg", "-version"])
+    @patch("portable_ffmpeg.core.subprocess.run")
+    @patch("portable_ffmpeg.core.get_ffmpeg")
+    @patch("portable_ffmpeg.core.sys.argv", ["stat_ffmpeg", "-version"])
     def test_run_ffprobe(self, mock_get_ffmpeg: MagicMock, mock_subprocess_run: MagicMock) -> None:
         """Test that run_ffprobe calls subprocess with correct arguments."""
         mock_ffprobe_path = Path("/cache/ffprobe")
@@ -293,9 +293,9 @@ class TestRunFFprobe:
             [str(mock_ffprobe_path), "-version"], check=False
         )
 
-    @patch("stat_ffmpeg.core.subprocess.run")
-    @patch("stat_ffmpeg.core.get_ffmpeg")
-    @patch("stat_ffmpeg.core.sys.argv", ["stat_ffmpeg"])
+    @patch("portable_ffmpeg.core.subprocess.run")
+    @patch("portable_ffmpeg.core.get_ffmpeg")
+    @patch("portable_ffmpeg.core.sys.argv", ["stat_ffmpeg"])
     def test_run_ffprobe_no_args(
         self, mock_get_ffmpeg: MagicMock, mock_subprocess_run: MagicMock
     ) -> None:

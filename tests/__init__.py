@@ -1,1 +1,1 @@
-"""Test suite for stat_ffmpeg package."""
+"""Test suite for portable_ffmpeg package."""

@@ -1,5 +1,5 @@
 [project]
-name = "stat-ffmpeg"
+name = "portable-ffmpeg"
 version = "0.1.0"
 description = "Downloads static ffmpeg builds for Windows, macOS, and Linux"
 readme = "README.md"
@@ -15,9 +15,9 @@ dependencies = [
 dev = ["pytest", "pytest-cov", "ruff", "pyright", "pre-commit"]
 
 [project.scripts]
-ffmpeg = "stat_ffmpeg:run_ffmpeg"
-ffprobe = "stat_ffmpeg:run_ffprobe"
-clear_cache = "stat_ffmpeg:clear_cache"
+ffmpeg = "portable_ffmpeg:run_ffmpeg"
+ffprobe = "portable_ffmpeg:run_ffprobe"
+clear_cache = "portable_ffmpeg:clear_cache"
 
 [build-system]
 requires = ["hatchling"]

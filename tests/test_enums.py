@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from stat_ffmpeg.enums import Architectures, OperatingSystems
+from portable_ffmpeg.enums import Architectures, OperatingSystems
 
 if TYPE_CHECKING:
     from pytest_mock import MockerFixture

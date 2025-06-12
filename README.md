@@ -1,4 +1,4 @@
-# Stat FFMPEG
+# Portable FFmpeg
 
 Downloads static ffmpeg builds for Windows, macOS, and Linux.
 
@@ -11,7 +11,7 @@ Downloads static ffmpeg builds for Windows, macOS, and Linux.
 ### Python API
 
 ```python
-from stat_ffmpeg import get_ffmpeg
+from portable_ffmpeg import get_ffmpeg
 ffmpeg_path, ffprobe_path = get_ffmpeg()
 print(ffmpeg_path)  # Path to ffmpeg executable
 ```
@@ -35,7 +35,7 @@ The CLI commands automatically download and cache the appropriate static binarie
 You can also programmatically manage your PATH:
 
 ```python
-from stat_ffmpeg import add_to_path, remove_from_path
+from portable_ffmpeg import add_to_path, remove_from_path
 
 # Add FFmpeg binaries to PATH
 add_to_path()
@@ -92,7 +92,7 @@ The cache is organized by platform and architecture (e.g., `linux-amd64`, `windo
 ### Cache Management
 
 ```python
-from stat_ffmpeg import clear_cache
+from portable_ffmpeg import clear_cache
 
 # Clear all cached binaries
 clear_cache()

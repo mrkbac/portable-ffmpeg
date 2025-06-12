@@ -4,7 +4,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from stat_ffmpeg.downloaders import (
+from portable_ffmpeg.downloaders import (
     FFmpegDownloadSingleTar,
     FFmpegDownloadSingleZip,
     FFmpegDownloadTwoZips,
@@ -14,8 +14,8 @@ from stat_ffmpeg.downloaders import (
 class TestFFmpegDownloadSingleZip:
     """Tests for FFmpegDownloadSingleZip downloader."""
 
-    @patch("stat_ffmpeg.downloaders._extract_zip_files")
-    @patch("stat_ffmpeg.downloaders.urllib.request.urlretrieve")
+    @patch("portable_ffmpeg.downloaders._extract_zip_files")
+    @patch("portable_ffmpeg.downloaders.urllib.request.urlretrieve")
     def test_download_files_integration(
         self,
         mock_urlretrieve: MagicMock,  # noqa: ARG002

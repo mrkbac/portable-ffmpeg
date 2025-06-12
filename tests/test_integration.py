@@ -1,4 +1,4 @@
-"""Integration tests for stat_ffmpeg module."""
+"""Integration tests for portable_ffmpeg module."""
 
 import concurrent.futures
 import contextlib
@@ -11,8 +11,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from stat_ffmpeg import add_to_path, clear_cache, get_ffmpeg, remove_from_path
-from stat_ffmpeg.core import CACHE_DIR
+from portable_ffmpeg import add_to_path, clear_cache, get_ffmpeg, remove_from_path
+from portable_ffmpeg.core import CACHE_DIR
 
 if TYPE_CHECKING:
     from pytest_mock import MockerFixture
@@ -199,11 +199,11 @@ class TestErrorHandlingIntegration:
             return MagicMock()
 
         mocker.patch(
-            "stat_ffmpeg.downloaders.urllib.request.urlretrieve", side_effect=mock_urlretrieve
+            "portable_ffmpeg.downloaders.urllib.request.urlretrieve", side_effect=mock_urlretrieve
         )
-        mocker.patch("stat_ffmpeg.downloaders.zipfile.ZipFile")
-        mocker.patch("stat_ffmpeg.downloaders.Path.write_bytes")
-        mocker.patch("stat_ffmpeg.downloaders.Path.unlink")
+        mocker.patch("portable_ffmpeg.downloaders.zipfile.ZipFile")
+        mocker.patch("portable_ffmpeg.downloaders.Path.write_bytes")
+        mocker.patch("portable_ffmpeg.downloaders.Path.unlink")
 
         with pytest.raises(ConnectionError):
             # First call should fail
@@ -235,7 +235,7 @@ class TestErrorHandlingIntegration:
         clear_cache()
 
         # Get current system info to use the right platform directory
-        from stat_ffmpeg.enums import Architectures, OperatingSystems
+        from portable_ffmpeg.enums import Architectures, OperatingSystems
 
         system = OperatingSystems.from_current_system()
         arch = Architectures.from_current_architecture()
