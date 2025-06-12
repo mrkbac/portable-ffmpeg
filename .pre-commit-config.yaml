@@ -18,16 +18,11 @@ repos:
         args: [--fix]
       - id: ruff-format
 
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.402
-    hooks:
-      - id: pyright
-
   - repo: local
     hooks:
-      - id: pytest
-        name: pytest
-        entry: uv run pytest
+      - id: pyright
+        name: pyright
+        entry: uv run --no-progress --frozen --all-extras --all-groups pyright --project pyproject.toml .
         language: system
         types: [python]
         pass_filenames: false

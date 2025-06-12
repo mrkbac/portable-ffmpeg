@@ -57,7 +57,3 @@ dev = [
     "pytest-mock>=3.14.1",
     "ruff>=0.11.13",
 ]
-
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
