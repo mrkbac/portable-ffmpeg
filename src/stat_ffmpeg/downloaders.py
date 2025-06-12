@@ -12,7 +12,7 @@ from pathlib import Path
 
 def _download_file(url: str, file_path: Path | str) -> None:
     """Download a file from a URL."""
-    print(f"🔽 Downloading from {url}...")
+    print(f"🔽 Downloading from {url}")
     last_value = 0
 
     def reporthook(block_num: int, block_size: int, total_size: int) -> None:

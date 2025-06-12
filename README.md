@@ -3,7 +3,7 @@
 Downloads static ffmpeg builds for Windows, macOS, and Linux.
 
 - Supports Windows, macOS, and Linux
-- Supports x86_64 and ARM64 architectures
+- Supports x86_64 architecture on all platforms, ARM64 on macOS and Linux
 - Automatic platform detection and binary caching
 
 ## Usage
@@ -51,19 +51,11 @@ remove_from_path()
 
 This package downloads static FFmpeg binaries from the following trusted sources:
 
-### Windows
-
-#### x86_64
+### Windows (x86_64 only)
 
 - **Source**: [CODEX FFMPEG @ gyan.dev](https://www.gyan.dev/ffmpeg/builds/)
 - **URL**: `https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip`
 - **Description**: Official Windows builds, 64-bit static binaries licensed as GPLv3
-
-#### ARM64
-
-- **Source**: [CODEX FFMPEG @ gyan.dev](https://www.gyan.dev/ffmpeg/builds/)
-- **URL**: `https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip`
-- **Description**: Uses x86_64 build via Windows emulation (native ARM64 builds not yet available from major providers)
 
 ### macOS
 

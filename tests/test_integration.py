@@ -9,15 +9,13 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
+import pytest
+
+from stat_ffmpeg import add_to_path, clear_cache, get_ffmpeg, remove_from_path
 from stat_ffmpeg.core import CACHE_DIR
 
 if TYPE_CHECKING:
     from pytest_mock import MockerFixture
-
-import pytest
-
-import stat_ffmpeg
-from stat_ffmpeg import add_to_path, clear_cache, get_ffmpeg, remove_from_path
 
 
 @pytest.fixture(scope="session")

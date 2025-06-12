@@ -2,12 +2,12 @@
 
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from pytest_mock import MockerFixture
-
 import pytest
 
 from stat_ffmpeg.enums import Architectures, OperatingSystems
+
+if TYPE_CHECKING:
+    from pytest_mock import MockerFixture
 
 
 class TestOperatingSystems:

@@ -19,13 +19,6 @@ DOWNLOAD_URLS: dict[
             ffmpeg_name="ffmpeg.exe",
             ffprobe_name="ffprobe.exe",
         ),
-        # Note: Native ARM64 Windows builds are not available from major providers
-        # Using x64 build which works through emulation on Windows 11 ARM64
-        Architectures.ARM64: FFmpegDownloadSingleZip(
-            url="https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
-            ffmpeg_name="ffmpeg.exe",
-            ffprobe_name="ffprobe.exe",
-        ),
     },
     OperatingSystems.OSX: {
         Architectures.AMD64: FFmpegDownloadTwoZips(

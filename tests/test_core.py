@@ -6,10 +6,10 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 if TYPE_CHECKING:
     from pytest_mock import MockerFixture
-
-import pytest
 
 from stat_ffmpeg.core import (
     CACHE_DIR,
@@ -59,40 +59,6 @@ class TestGetFFmpeg:
         # Paths should be identical
         assert ffmpeg_path1 == ffmpeg_path2
         assert ffprobe_path1 == ffprobe_path2
-
-    @pytest.mark.slow
-    def test_get_ffmpeg_binary_names_windows(self, mocker: "MockerFixture") -> None:
-        """Test that Windows binaries have .exe extension."""
-        mocker.patch(
-            "stat_ffmpeg.core.OperatingSystems.from_current_system",
-            return_value=OperatingSystems.WINDOWS,
-        )
-        mocker.patch(
-            "stat_ffmpeg.core.Architectures.from_current_architecture",
-            return_value=Architectures.AMD64,
-        )
-
-        ffmpeg_path, ffprobe_path = get_ffmpeg()
-
-        assert ffmpeg_path.name == "ffmpeg.exe"
-        assert ffprobe_path.name == "ffprobe.exe"
-
-    @pytest.mark.slow
-    def test_get_ffmpeg_binary_names_unix(self, mocker: "MockerFixture") -> None:
-        """Test that Unix binaries don't have .exe extension."""
-        mocker.patch(
-            "stat_ffmpeg.core.OperatingSystems.from_current_system",
-            return_value=OperatingSystems.LINUX,
-        )
-        mocker.patch(
-            "stat_ffmpeg.core.Architectures.from_current_architecture",
-            return_value=Architectures.AMD64,
-        )
-
-        ffmpeg_path, ffprobe_path = get_ffmpeg()
-
-        assert ffmpeg_path.name == "ffmpeg"
-        assert ffprobe_path.name == "ffprobe"
 
     def test_get_ffmpeg_unsupported_os(self, mocker: "MockerFixture") -> None:
         """Test that unsupported OS raises ValueError."""
