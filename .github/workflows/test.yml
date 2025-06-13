@@ -44,4 +44,4 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run scripts/run_test.py
+          uv run run_test.py
