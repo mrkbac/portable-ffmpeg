@@ -4,12 +4,15 @@ import os
 import shutil
 import subprocess
 import sys
+import threading
 from pathlib import Path
 
 from .config import DOWNLOAD_URLS
 from .enums import Architectures, OperatingSystems
 
 CACHE_DIR = Path(__file__).parent / "binaries"
+_download_lock = threading.Lock()
+_path_lock = threading.Lock()
 
 
 def get_ffmpeg() -> tuple[Path, Path]:
@@ -37,27 +40,24 @@ def get_ffmpeg() -> tuple[Path, Path]:
 
     # Check if binaries already exist in cache
     cache_subdir = f"{system.value}-{arch.value}"
-    ffmpeg_path = CACHE_DIR / cache_subdir / config.ffmpeg_name
-    ffprobe_path = CACHE_DIR / cache_subdir / config.ffprobe_name
+    platform_cache_dir = CACHE_DIR / cache_subdir
+    ffmpeg_path = platform_cache_dir / config.ffmpeg_name
+    ffprobe_path = platform_cache_dir / config.ffprobe_name
 
-    if not ffmpeg_path.exists() or not ffprobe_path.exists():
-        print(f"Downloading FFmpeg binaries for {system} {arch}...")
-        # Create platform-specific cache directory
-        platform_cache_dir = CACHE_DIR / cache_subdir
+    with _download_lock:
+        if not ffmpeg_path.exists() or not ffprobe_path.exists():
+            # Use lock to prevent concurrent downloads
+            print(f"Downloading FFmpeg binaries for {system} {arch}...")
+            # Create platform-specific cache directory
 
-        # Handle corrupted cache (file exists where directory should be)
-        if platform_cache_dir.exists() and not platform_cache_dir.is_dir():
-            platform_cache_dir.unlink()
+            # Handle corrupted cache (file exists where directory should be)
+            if platform_cache_dir.exists() and not platform_cache_dir.is_dir():
+                platform_cache_dir.unlink()
 
-        platform_cache_dir.mkdir(parents=True, exist_ok=True)
+            platform_cache_dir.mkdir(parents=True, exist_ok=True)
 
-        # Download and extract binaries using dataclass method
-        ffmpeg_path, ffprobe_path = config.download_files(platform_cache_dir)
-
-        # Make binaries executable on Unix-like systems
-        if system != OperatingSystems.WINDOWS:
-            ffmpeg_path.chmod(0o755)
-            ffprobe_path.chmod(0o755)
+            # Download and extract binaries using dataclass method
+            ffmpeg_path, ffprobe_path = config.download_files(platform_cache_dir)
 
     return ffmpeg_path, ffprobe_path
 
@@ -80,28 +80,30 @@ def add_to_path(*, weak: bool = False) -> None:
               If False, always add to PATH (taking precedence).
 
     """
-    if weak and shutil.which("ffmpeg") is not None:
-        return  # ffmpeg already available, don't override
+    with _path_lock:
+        if weak and shutil.which("ffmpeg") is not None:
+            return  # ffmpeg already available, don't override
 
-    ffmpeg_path, _ = get_ffmpeg()
-    bin_dir = str(ffmpeg_path.parent)
+        ffmpeg_path, _ = get_ffmpeg()
+        bin_dir = str(ffmpeg_path.parent)
 
-    current_path = os.environ.get("PATH", "")
-    if bin_dir not in current_path:
-        os.environ["PATH"] = f"{bin_dir}{os.pathsep}{current_path}"
+        current_path = os.environ.get("PATH", "")
+        if bin_dir not in current_path:
+            os.environ["PATH"] = f"{bin_dir}{os.pathsep}{current_path}"
 
 
 def remove_from_path() -> None:
     """Remove FFmpeg binaries from system PATH."""
-    ffmpeg_path, _ = get_ffmpeg()
-    bin_dir = str(ffmpeg_path.parent)
+    with _path_lock:
+        ffmpeg_path, _ = get_ffmpeg()
+        bin_dir = str(ffmpeg_path.parent)
 
-    current_path = os.environ.get("PATH", "")
-    path_parts = current_path.split(os.pathsep)
+        current_path = os.environ.get("PATH", "")
+        path_parts = current_path.split(os.pathsep)
 
-    # Remove our binary directory from PATH
-    new_path_parts = [part for part in path_parts if part != bin_dir]
-    os.environ["PATH"] = os.pathsep.join(new_path_parts)
+        # Remove our binary directory from PATH
+        new_path_parts = [part for part in path_parts if part != bin_dir]
+        os.environ["PATH"] = os.pathsep.join(new_path_parts)
 
 
 def run_ffmpeg() -> None:

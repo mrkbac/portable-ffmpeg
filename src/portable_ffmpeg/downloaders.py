@@ -49,6 +49,9 @@ def _extract_zip_files(zip_file: Path, outfolder: Path, target_names: list[str])
                 member_data = zip_ref.read(member)
                 output_path = outfolder / filename
                 output_path.write_bytes(member_data)
+                # Set executable permissions on Unix systems
+                if sys.platform != "win32":
+                    output_path.chmod(0o755)
                 extracted_files.append(output_path)
     return extracted_files
 
@@ -66,6 +69,9 @@ def _extract_tar_files(tar_file: Path, outfolder: Path, target_names: list[str])
                     if extracted_file:
                         output_path = outfolder / filename
                         output_path.write_bytes(extracted_file.read())
+                        # Set executable permissions on Unix systems
+                        if sys.platform != "win32":
+                            output_path.chmod(0o755)
                         extracted_files.append(output_path)
     return extracted_files
 
