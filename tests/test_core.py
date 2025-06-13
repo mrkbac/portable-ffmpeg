@@ -76,7 +76,12 @@ class TestEdgeCases:
 
         # Mock to return a supported platform but empty version config
         mocker.patch(
-            "portable_ffmpeg.core.DOWNLOAD_URLS", {OperatingSystems.OSX: {Architectures.ARM64: {}}}
+            "portable_ffmpeg.core.DOWNLOAD_URLS",
+            {
+                OperatingSystems.from_current_system(): {
+                    Architectures.from_current_architecture(): {}
+                }
+            },
         )
 
         with pytest.raises(ValueError, match="Unsupported FFmpeg version"):
