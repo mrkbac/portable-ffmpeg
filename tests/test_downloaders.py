@@ -10,6 +10,7 @@ from portable_ffmpeg.downloaders import (
     FFmpegDownloadTwoZips,
     _download_file,
     _extract_tar_files,
+    _extract_zip_files,
 )
 
 
@@ -92,6 +93,29 @@ class TestDownloadHelpers:
             assert len(result) == 1
             assert result[0].name == "ffmpeg"
 
+    @patch("portable_ffmpeg.downloaders.zipfile.ZipFile")
+    @patch("portable_ffmpeg.downloaders.sys.platform", "linux")
+    def test_extract_zip_files(self, mock_zip_open: MagicMock) -> None:
+        """Test ZIP file extraction."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_dir_path = Path(tmp_dir)
+            zip_file = tmp_dir_path / "test.zip"
+            output_dir = tmp_dir_path / "output"
+            output_dir.mkdir()
+
+            # Mock zip file behavior
+            mock_zip = MagicMock()
+            mock_zip_open.return_value.__enter__ = lambda _: mock_zip
+            mock_zip_open.return_value.__exit__ = lambda *_: None
+
+            mock_zip.namelist.return_value = ["subdir/ffmpeg", "other/file.txt"]
+            mock_zip.read.return_value = b"test ffmpeg content"
+
+            result = _extract_zip_files(zip_file, output_dir, ["ffmpeg"])
+
+            assert len(result) == 1
+            assert result[0].name == "ffmpeg"
+
 
 class TestFFmpegDownloadSingleTar:
     """Tests for FFmpegDownloadSingleTar downloader."""
@@ -146,3 +170,31 @@ class TestFFmpegDownloadTwoZips:
         assert downloader.ffprobe_url == "https://example.com/ffprobe.zip"
         assert downloader.ffmpeg_name == "ffmpeg"
         assert downloader.ffprobe_name == "ffprobe"
+
+    @patch("portable_ffmpeg.downloaders._extract_zip_files")
+    @patch("portable_ffmpeg.downloaders._download_file")
+    def test_download_files(self, mock_download: MagicMock, mock_extract: MagicMock) -> None:
+        """Test TwoZips downloader download_files method."""
+        downloader = FFmpegDownloadTwoZips(
+            ffmpeg_url="https://example.com/ffmpeg.zip",
+            ffprobe_url="https://example.com/ffprobe.zip",
+            ffmpeg_name="ffmpeg",
+            ffprobe_name="ffprobe",
+        )
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            outfolder = Path(temp_dir)
+
+            # Mock the extraction to return the expected files
+            ffmpeg_path = outfolder / "ffmpeg"
+            ffprobe_path = outfolder / "ffprobe"
+            mock_extract.return_value = [ffmpeg_path, ffprobe_path]
+
+            result = downloader.download_files(outfolder)
+
+            # Verify download was called twice (once for each binary)
+            assert mock_download.call_count == 2
+            # Verify extraction was called twice
+            assert mock_extract.call_count == 2
+            # Should return correct paths
+            assert result == (ffmpeg_path, ffprobe_path)

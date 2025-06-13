@@ -21,7 +21,7 @@ DOWNLOAD_URLS: dict[
                 ffprobe_name="ffprobe.exe",
             ),
             FFmpegVersions.V7: FFmpegDownloadSingleZip(
-                url="https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.1-essentials_build.zip",
+                url="https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.1.1-essentials_build.zip",
                 ffmpeg_name="ffmpeg.exe",
                 ffprobe_name="ffprobe.exe",
             ),
