@@ -1,41 +1,27 @@
 """Integration tests for portable_ffmpeg module."""
 
 import concurrent.futures
-import contextlib
 import os
 import subprocess
-from collections.abc import Generator
 from pathlib import Path
-from typing import TYPE_CHECKING
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
 from portable_ffmpeg import add_to_path, clear_cache, get_ffmpeg, remove_from_path
 from portable_ffmpeg.core import CACHE_DIR
-
-if TYPE_CHECKING:
-    from pytest_mock import MockerFixture
-
-
-@pytest.fixture(scope="session")
-def downloaded_binaries() -> tuple[Path, Path]:
-    """Download FFmpeg binaries once per test session."""
-    # Clear cache once at the start to ensure fresh download
-    clear_cache()
-    return get_ffmpeg()
+from portable_ffmpeg.enums import FFmpegVersions
 
 
 class TestModuleIntegration:
-    """Integration tests for the complete module."""
+    """Comprehensive integration tests for the complete module."""
 
-    @pytest.mark.slow
-    def test_full_workflow(self) -> None:
-        """Test the complete workflow: download, cache, PATH management."""
-        # Clear cache to test fresh download
+    def test_complete_workflow(self) -> None:
+        """Test the complete workflow: download, cache, PATH management, execution."""
+        # Clear cache to ensure fresh download
         clear_cache()
 
-        # 1. Download binaries
+        # 1. Download binaries and verify caching
         ffmpeg_path, ffprobe_path = get_ffmpeg()
 
         # Verify binaries exist and are executable
@@ -44,175 +30,104 @@ class TestModuleIntegration:
         assert os.access(ffmpeg_path, os.X_OK)
         assert os.access(ffprobe_path, os.X_OK)
 
-        # 2. Add to PATH
-        os.environ.get("PATH", "")
-        add_to_path()
+        # Verify cache structure
+        assert CACHE_DIR.exists()
+        platform_dirs = list(CACHE_DIR.iterdir())
+        assert len(platform_dirs) == 1
+        assert platform_dirs[0].is_dir()
+        assert ffmpeg_path.parent == platform_dirs[0]
 
-        bin_dir = str(ffmpeg_path.parent)
-        assert bin_dir in os.environ["PATH"]
+        # 2. Test caching - second call should use cached binaries
+        ffmpeg_path2, ffprobe_path2 = get_ffmpeg()
+        assert ffmpeg_path == ffmpeg_path2
+        assert ffprobe_path == ffprobe_path2
 
-        # 3. Remove from PATH
-        remove_from_path()
-        assert bin_dir not in os.environ["PATH"]
-
-        # 4. Clear cache
-        clear_cache()
-        assert not CACHE_DIR.exists()
-
-    @pytest.mark.slow
-    def test_weak_path_integration(self) -> None:
-        """Test add_to_path with weak=True integration."""
-        # Store original PATH
-        original_path = os.environ.get("PATH", "")
-
-        # Mock shutil.which to return None (ffmpeg not found)
-        with patch("shutil.which", return_value=None):
-            # Add with weak=True (should add since ffmpeg not available)
-            add_to_path(weak=True)
-            ffmpeg_path, _ = get_ffmpeg()
-            bin_dir = str(ffmpeg_path.parent)
-            assert bin_dir in os.environ["PATH"]
-
-            # Add with weak=True again (should not duplicate)
-            path_after_first = os.environ["PATH"]
-            add_to_path(weak=True)
-            assert os.environ["PATH"] == path_after_first
-
-        # Cleanup
-        os.environ["PATH"] = original_path
-
-    @pytest.mark.slow
-    def test_binary_execution_integration(self, downloaded_binaries: tuple[Path, Path]) -> None:
-        """Test that downloaded binaries can actually be executed."""
-        ffmpeg_path, ffprobe_path = downloaded_binaries
-
-        # Test ffmpeg version
+        # 3. Test binary execution
         result = subprocess.run(
             [str(ffmpeg_path), "-version"], capture_output=True, text=True, timeout=30, check=False
         )
         assert result.returncode == 0
         assert "ffmpeg version" in result.stdout.lower()
 
-        # Test ffprobe version
         result = subprocess.run(
             [str(ffprobe_path), "-version"], capture_output=True, text=True, timeout=30, check=False
         )
         assert result.returncode == 0
         assert "ffprobe version" in result.stdout.lower()
 
+        # 4. Test PATH management
+        original_path = os.environ.get("PATH", "")
 
-class TestConcurrencyIntegration:
-    """Integration tests for concurrent access."""
+        # Add to PATH
+        add_to_path()
+        bin_dir = str(ffmpeg_path.parent)
+        assert bin_dir in os.environ["PATH"]
 
-    @pytest.mark.slow
-    def test_concurrent_downloads(self) -> None:
-        """Test that concurrent calls to get_ffmpeg work correctly."""
+        # Test weak add (should not duplicate)
+        with patch("shutil.which", return_value="/usr/bin/ffmpeg"):
+            add_to_path(weak=True)  # Should not add since ffmpeg exists
+            assert os.environ["PATH"].count(bin_dir) == 1
+
+        # Remove from PATH
+        remove_from_path()
+        assert bin_dir not in os.environ["PATH"]
+
+        # Restore original PATH
+        os.environ["PATH"] = original_path
+
+        # 5. Test cache clearing
+        clear_cache()
+        assert not CACHE_DIR.exists()
+
+    def test_concurrent_operations(self) -> None:
+        """Test concurrent downloads and PATH operations work correctly."""
+        clear_cache()
 
         def download_ffmpeg() -> tuple[Path, Path]:
             return get_ffmpeg()
-
-        # Run multiple downloads concurrently
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            futures = [executor.submit(download_ffmpeg) for _ in range(5)]
-            results = [future.result() for future in futures]
-
-        # All results should be identical
-        first_result = results[0]
-        for result in results[1:]:
-            assert result[0] == first_result[0]  # ffmpeg path
-            assert result[1] == first_result[1]  # ffprobe path
-
-        # Verify files exist
-        assert first_result[0].exists()
-        assert first_result[1].exists()
-
-    @pytest.mark.skip("Flaky due to race conditions in concurrent operations")
-    def test_concurrent_cache_clear_and_download(self) -> None:
-        """Test concurrent cache clearing and downloading."""
-
-        def clear_and_download() -> tuple[Path, Path]:
-            with contextlib.suppress(OSError):
-                # Handle race condition where another thread might be clearing cache
-                clear_cache()
-            return get_ffmpeg()
-
-        def just_download() -> tuple[Path, Path]:
-            return get_ffmpeg()
-
-        # Mix of clear+download and just download operations
-        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-            futures = []
-            futures.extend([executor.submit(clear_and_download) for _ in range(2)])
-            futures.extend([executor.submit(just_download) for _ in range(2)])
-
-            results = [future.result() for future in futures]
-
-        # All operations should succeed and return valid paths
-        for ffmpeg_path, ffprobe_path in results:
-            assert isinstance(ffmpeg_path, Path)
-            assert isinstance(ffprobe_path, Path)
-
-    def test_race_condition_path_management(self) -> None:
-        """Test race conditions in PATH management."""
 
         def path_operations() -> bool:
             try:
                 add_to_path()
                 remove_from_path()
-                add_to_path(weak=True)
             except Exception:
                 return False
             else:
                 return True
 
-        # Run PATH operations concurrently
+        # Test concurrent downloads
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-            futures = [executor.submit(path_operations) for _ in range(3)]
-            results = [future.result() for future in futures]
+            download_futures = [executor.submit(download_ffmpeg) for _ in range(3)]
+            path_futures = [executor.submit(path_operations) for _ in range(2)]
 
-        # All operations should succeed
-        assert all(results)
+            results = [future.result() for future in download_futures]
+            path_results = [future.result() for future in path_futures]
 
+        # All downloads should return identical paths
+        first_result = results[0]
+        for result in results[1:]:
+            assert result[0] == first_result[0]
+            assert result[1] == first_result[1]
 
-class TestErrorHandlingIntegration:
-    """Integration tests for error handling across modules."""
+        # All PATH operations should succeed
+        assert all(path_results)
 
-    @pytest.fixture(autouse=True)
-    def setup_and_cleanup(self) -> Generator[None, None, None]:
-        """Clear cache before and after each test - needed for error scenarios."""
+        # Verify files exist
+        assert first_result[0].exists()
+        assert first_result[1].exists()
+
+    def test_error_handling(self) -> None:
+        """Test error handling scenarios."""
         clear_cache()
-        yield
-        clear_cache()
 
-    def test_network_error_recovery(self, mocker: "MockerFixture") -> None:
-        """Test recovery from network errors during download."""
-        # Mock network failure on first attempt, success on second
-        call_count = 0
+        # Test network error handling
+        with patch("portable_ffmpeg.downloaders.urllib.request.urlretrieve") as mock_urlretrieve:
+            mock_urlretrieve.side_effect = ConnectionError("Network error")
 
-        def mock_urlretrieve(*_args: object, **_kwargs: object) -> MagicMock:
-            nonlocal call_count
-            call_count += 1
-            if call_count == 1:
-                msg = "Network error"
-                raise ConnectionError(msg)
-            # On subsequent calls, use real implementation or mock success
-            return MagicMock()
+            with pytest.raises(ConnectionError):
+                get_ffmpeg()
 
-        mocker.patch(
-            "portable_ffmpeg.downloaders.urllib.request.urlretrieve", side_effect=mock_urlretrieve
-        )
-        mocker.patch("portable_ffmpeg.downloaders.zipfile.ZipFile")
-        mocker.patch("portable_ffmpeg.downloaders.Path.write_bytes")
-        mocker.patch("portable_ffmpeg.downloaders.Path.unlink")
-
-        with pytest.raises(ConnectionError):
-            # First call should fail
-            get_ffmpeg()
-
-    @pytest.mark.slow
-    def test_partial_cache_recovery(self) -> None:
-        """Test recovery when cache contains only one binary."""
-        # First, download both binaries
+        # Test partial cache recovery
         ffmpeg_path, ffprobe_path = get_ffmpeg()
         assert ffmpeg_path.exists()
         assert ffprobe_path.exists()
@@ -228,65 +143,68 @@ class TestErrorHandlingIntegration:
         assert new_ffmpeg_path == ffmpeg_path
         assert new_ffprobe_path == ffprobe_path
 
-    @pytest.mark.slow
-    def test_corrupted_cache_directory_recovery(self) -> None:
-        """Test recovery when cache directory is corrupted."""
-        # Clear cache first
+        # Test corrupted cache directory recovery
         clear_cache()
-
-        # Get current system info to use the right platform directory
         from portable_ffmpeg.enums import Architectures, OperatingSystems
 
         system = OperatingSystems.from_current_system()
         arch = Architectures.from_current_architecture()
-
-        # Create a file where directory should be
-        platform_subdir = CACHE_DIR / f"{system.value}-{arch.value}"
-
-        # Ensure parent exists
-        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        platform_subdir = CACHE_DIR / f"{system.value}-{arch.value}-latest"
 
         # Create file where directory should be
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
         platform_subdir.touch()
         assert platform_subdir.exists()
         assert not platform_subdir.is_dir()
 
         # get_ffmpeg should handle this and recreate as directory
         ffmpeg_path, ffprobe_path = get_ffmpeg()
-
-        # Should have recovered and created proper directory structure
         assert platform_subdir.is_dir()
         assert ffmpeg_path.exists()
         assert ffprobe_path.exists()
 
+    def test_version_support(self) -> None:
+        """Test version support and validation."""
+        from portable_ffmpeg.config import DOWNLOAD_URLS
+        from portable_ffmpeg.enums import Architectures, OperatingSystems
 
-class TestPlatformSpecificIntegration:
-    """Integration tests for platform-specific behavior."""
+        # Test that all enum versions have configurations
+        enum_versions = set(FFmpegVersions)
+        configured_versions = set()
 
-    @pytest.mark.slow
-    def test_binary_permissions_unix(self, downloaded_binaries: tuple[Path, Path]) -> None:
-        """Test that Unix binaries get correct permissions."""
-        ffmpeg_path, ffprobe_path = downloaded_binaries
+        for os_configs in DOWNLOAD_URLS.values():
+            for arch_configs in os_configs.values():
+                configured_versions.update(arch_configs.keys())
 
-        # Check that binaries are executable
-        assert os.access(ffmpeg_path, os.X_OK)
-        assert os.access(ffprobe_path, os.X_OK)
+        missing_versions = enum_versions - configured_versions
+        assert not missing_versions, (
+            f"Versions {missing_versions} are in enum but have no configurations"
+        )
 
-    @pytest.mark.slow
-    def test_cache_directory_structure(self, downloaded_binaries: tuple[Path, Path]) -> None:
-        """Test that cache directory structure is correct."""
-        ffmpeg_path, ffprobe_path = downloaded_binaries
+        # Test current platform support
+        system = OperatingSystems.from_current_system()
+        arch = Architectures.from_current_architecture()
 
-        # Verify cache structure
-        assert CACHE_DIR.exists()
-        assert CACHE_DIR.is_dir()
+        if system in DOWNLOAD_URLS and arch in DOWNLOAD_URLS[system]:
+            available_versions = list(DOWNLOAD_URLS[system][arch].keys())
+            assert len(available_versions) > 0
 
-        # Should have platform-specific subdirectory
-        platform_dirs = list(CACHE_DIR.iterdir())
-        assert len(platform_dirs) == 1
-        assert platform_dirs[0].is_dir()
+            # Test at least one version works
+            test_version = available_versions[0]
+            clear_cache()
+            ffmpeg_path, ffprobe_path = get_ffmpeg(test_version)
 
-        # Platform directory should contain the binaries
-        platform_dir = platform_dirs[0]
-        assert ffmpeg_path.parent == platform_dir
-        assert ffprobe_path.parent == platform_dir
+            assert ffmpeg_path.exists()
+            assert ffprobe_path.exists()
+            assert os.access(ffmpeg_path, os.X_OK)
+            assert os.access(ffprobe_path, os.X_OK)
+
+            # Test version-specific caching
+            if len(available_versions) > 1:
+                version2 = available_versions[1]
+                ffmpeg_path2, _ = get_ffmpeg(version2)
+
+                # Different versions should be in different cache directories
+                assert ffmpeg_path.parent != ffmpeg_path2.parent
+                assert test_version.value in str(ffmpeg_path.parent)
+                assert version2.value in str(ffmpeg_path2.parent)

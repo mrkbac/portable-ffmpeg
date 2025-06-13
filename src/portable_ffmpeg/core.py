@@ -8,17 +8,21 @@ import threading
 from pathlib import Path
 
 from .config import DOWNLOAD_URLS
-from .enums import Architectures, OperatingSystems
+from .enums import Architectures, FFmpegVersions, OperatingSystems
 
 CACHE_DIR = Path(__file__).parent / "binaries"
 _download_lock = threading.Lock()
 _path_lock = threading.Lock()
 
 
-def get_ffmpeg() -> tuple[Path, Path]:
+def get_ffmpeg(version: FFmpegVersions = FFmpegVersions.LATEST) -> tuple[Path, Path]:
     """Download and return paths to static ffmpeg and ffprobe binaries.
 
-    :return: Tuple containing paths to ffmpeg and ffprobe binaries.
+    Args:
+        version: FFmpeg major version to download (default: latest).
+
+    Returns:
+        Tuple containing paths to ffmpeg and ffprobe binaries.
 
     """
     system = OperatingSystems.from_current_system()
@@ -36,10 +40,14 @@ def get_ffmpeg() -> tuple[Path, Path]:
         msg = f"Unsupported {system} architecture: {arch}"
         raise ValueError(msg)
 
-    config = DOWNLOAD_URLS[system][arch]
+    if version not in DOWNLOAD_URLS[system][arch]:
+        msg = f"Unsupported FFmpeg version {version} for {system} {arch}"
+        raise ValueError(msg)
+
+    config = DOWNLOAD_URLS[system][arch][version]
 
     # Check if binaries already exist in cache
-    cache_subdir = f"{system.value}-{arch.value}"
+    cache_subdir = f"{system.value}-{arch.value}-{version.value}"
     platform_cache_dir = CACHE_DIR / cache_subdir
     ffmpeg_path = platform_cache_dir / config.ffmpeg_name
     ffprobe_path = platform_cache_dir / config.ffprobe_name
@@ -47,7 +55,7 @@ def get_ffmpeg() -> tuple[Path, Path]:
     with _download_lock:
         if not ffmpeg_path.exists() or not ffprobe_path.exists():
             # Use lock to prevent concurrent downloads
-            print(f"Downloading FFmpeg binaries for {system} {arch}...")
+            print(f"Downloading FFmpeg {version.value} binaries for {system} {arch}...")
             # Create platform-specific cache directory
 
             # Handle corrupted cache (file exists where directory should be)
@@ -72,19 +80,20 @@ def clear_cache() -> None:
         shutil.rmtree(CACHE_DIR)
 
 
-def add_to_path(*, weak: bool = False) -> None:
+def add_to_path(*, weak: bool = False, version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
     """Add FFmpeg binaries to system PATH.
 
     Args:
         weak: If True, only add to PATH if ffmpeg is not already available.
               If False, always add to PATH (taking precedence).
+        version: FFmpeg major version to use (default: latest).
 
     """
     with _path_lock:
         if weak and shutil.which("ffmpeg") is not None:
             return  # ffmpeg already available, don't override
 
-        ffmpeg_path, _ = get_ffmpeg()
+        ffmpeg_path, _ = get_ffmpeg(version)
         bin_dir = str(ffmpeg_path.parent)
 
         current_path = os.environ.get("PATH", "")
@@ -92,10 +101,15 @@ def add_to_path(*, weak: bool = False) -> None:
             os.environ["PATH"] = f"{bin_dir}{os.pathsep}{current_path}"
 
 
-def remove_from_path() -> None:
-    """Remove FFmpeg binaries from system PATH."""
+def remove_from_path(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
+    """Remove FFmpeg binaries from system PATH.
+
+    Args:
+        version: FFmpeg major version to use (default: latest).
+
+    """
     with _path_lock:
-        ffmpeg_path, _ = get_ffmpeg()
+        ffmpeg_path, _ = get_ffmpeg(version)
         bin_dir = str(ffmpeg_path.parent)
 
         current_path = os.environ.get("PATH", "")
@@ -106,13 +120,23 @@ def remove_from_path() -> None:
         os.environ["PATH"] = os.pathsep.join(new_path_parts)
 
 
-def run_ffmpeg() -> None:
-    """Entry point to run ffmpeg binary directly."""
-    ffmpeg_path, _ = get_ffmpeg()
+def run_ffmpeg(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
+    """Entry point to run ffmpeg binary directly.
+
+    Args:
+        version: FFmpeg major version to use (default: latest).
+
+    """
+    ffmpeg_path, _ = get_ffmpeg(version)
     subprocess.run([str(ffmpeg_path)] + sys.argv[1:], check=False)
 
 
-def run_ffprobe() -> None:
-    """Entry point to run ffprobe binary directly."""
-    _, ffprobe_path = get_ffmpeg()
+def run_ffprobe(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
+    """Entry point to run ffprobe binary directly.
+
+    Args:
+        version: FFmpeg major version to use (default: latest).
+
+    """
+    _, ffprobe_path = get_ffmpeg(version)
     subprocess.run([str(ffprobe_path)] + sys.argv[1:], check=False)

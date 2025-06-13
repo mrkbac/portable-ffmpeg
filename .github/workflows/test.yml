@@ -43,4 +43,9 @@ jobs:
         run: uv sync --dev -p "${{ matrix.python-version }}"
 
       - name: Run tests
-        run: uv run pytest
+        run: |
+          uv run pytest --cov=src/portable_ffmpeg --cov-report=term-missing | tee test_output.txt
+          echo "## Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          grep -A 20 "coverage.*=" test_output.txt | tail -10 >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY

@@ -43,3 +43,12 @@ class Architectures(Enum):
 
         msg = f"Unsupported architecture: {machine}"
         raise ValueError(msg)
+
+
+class FFmpegVersions(Enum):
+    """Supported FFmpeg major versions."""
+
+    LATEST = "latest"
+    V7 = "7"
+    V6 = "6"
+    V5 = "5"

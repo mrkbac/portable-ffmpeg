@@ -5,10 +5,11 @@ for cross-platform use without requiring system installation.
 """
 
 from .core import add_to_path, clear_cache, get_ffmpeg, remove_from_path, run_ffmpeg, run_ffprobe
-from .enums import Architectures, OperatingSystems
+from .enums import Architectures, FFmpegVersions, OperatingSystems
 
 __all__ = [
     "Architectures",
+    "FFmpegVersions",
     "OperatingSystems",
     "add_to_path",
     "clear_cache",

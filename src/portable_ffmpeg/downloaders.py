@@ -86,7 +86,6 @@ class BaseFFmpegDownloader(ABC):
     @abstractmethod
     def download_files(self, outfolder: Path) -> tuple[Path, Path]:
         """Download and extract the FFmpeg and FFprobe binaries."""
-        ...
 
 
 @dataclass

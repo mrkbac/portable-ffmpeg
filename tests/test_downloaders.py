@@ -8,6 +8,8 @@ from portable_ffmpeg.downloaders import (
     FFmpegDownloadSingleTar,
     FFmpegDownloadSingleZip,
     FFmpegDownloadTwoZips,
+    _download_file,
+    _extract_tar_files,
 )
 
 
@@ -41,6 +43,56 @@ class TestFFmpegDownloadSingleZip:
             assert result == (ffmpeg_path, ffprobe_path)
 
 
+class TestDownloadHelpers:
+    """Test helper functions for downloading."""
+
+    def test_download_file_progress_unknown_size(self) -> None:
+        """Test download progress reporting with unknown size."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_file = Path(tmp_dir) / "test.txt"
+
+            # Mock urllib.request.urlretrieve to call reporthook with unknown size
+            def mock_urlretrieve(_url: str, _file_path: Path, reporthook) -> None:  # noqa: ANN001
+                # Simulate download with unknown total size (total_size = -1)
+                reporthook(0, 1024, -1)  # This should trigger the unknown size branch
+                reporthook(1, 1024, -1)
+                tmp_file.write_text("test content")
+
+            with patch("portable_ffmpeg.downloaders.urllib.request.urlretrieve", mock_urlretrieve):
+                _download_file("http://example.com/test.txt", tmp_file)
+
+            assert tmp_file.exists()
+
+    @patch("portable_ffmpeg.downloaders.tarfile.open")
+    @patch("portable_ffmpeg.downloaders.sys.platform", "linux")
+    def test_extract_tar_files(self, mock_tar_open: MagicMock) -> None:
+        """Test TAR file extraction."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_dir_path = Path(tmp_dir)
+            tar_file = tmp_dir_path / "test.tar"
+            output_dir = tmp_dir_path / "output"
+            output_dir.mkdir()
+
+            # Mock tar file behavior
+            mock_tar = MagicMock()
+            mock_tar_open.return_value.__enter__ = lambda _: mock_tar
+            mock_tar_open.return_value.__exit__ = lambda *_: None
+
+            mock_member = MagicMock()
+            mock_member.isfile.return_value = True
+            mock_member.name = "subdir/ffmpeg"
+            mock_tar.getmembers.return_value = [mock_member]
+
+            mock_extracted = MagicMock()
+            mock_extracted.read.return_value = b"test ffmpeg content"
+            mock_tar.extractfile.return_value = mock_extracted
+
+            result = _extract_tar_files(tar_file, output_dir, ["ffmpeg"])
+
+            assert len(result) == 1
+            assert result[0].name == "ffmpeg"
+
+
 class TestFFmpegDownloadSingleTar:
     """Tests for FFmpegDownloadSingleTar downloader."""
 
@@ -52,6 +104,31 @@ class TestFFmpegDownloadSingleTar:
         assert downloader.url == "https://example.com/test.tar.xz"
         assert downloader.ffmpeg_name == "ffmpeg"
         assert downloader.ffprobe_name == "ffprobe"
+
+    @patch("portable_ffmpeg.downloaders._extract_tar_files")
+    @patch("portable_ffmpeg.downloaders._download_file")
+    def test_download_files(self, mock_download: MagicMock, mock_extract: MagicMock) -> None:
+        """Test TAR downloader download_files method."""
+        downloader = FFmpegDownloadSingleTar(
+            url="https://example.com/test.tar.xz", ffmpeg_name="ffmpeg", ffprobe_name="ffprobe"
+        )
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            outfolder = Path(temp_dir)
+
+            # Mock the extraction to return the expected files
+            ffmpeg_path = outfolder / "ffmpeg"
+            ffprobe_path = outfolder / "ffprobe"
+            mock_extract.return_value = [ffmpeg_path, ffprobe_path]
+
+            result = downloader.download_files(outfolder)
+
+            # Verify download was called
+            mock_download.assert_called_once()
+            # Verify extraction was called with correct parameters
+            mock_extract.assert_called_once()
+            # Should return correct paths
+            assert result == (ffmpeg_path, ffprobe_path)
 
 
 class TestFFmpegDownloadTwoZips:

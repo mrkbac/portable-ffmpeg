@@ -7,9 +7,7 @@ authors = [
     { name = "Marko Bausch", email = "60338487+mrkbac@users.noreply.github.com" },
 ]
 requires-python = ">=3.10"
-dependencies = [
-    "pytest>=8.4.0",
-]
+dependencies = ["pytest>=8.4.0"]
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-cov", "ruff", "pyright", "pre-commit"]
@@ -30,22 +28,23 @@ line-length = 100
 [tool.ruff.lint]
 select = ['ALL']
 ignore = [
-    "S310",  # Audit URL open (expected for downloading binaries)
-    "S103",  # os.chmod setting permissive mask (need executable permissions)
-    "S603",  # subprocess call: check for execution of untrusted input (expected for CLI entry points)
+    "S310",    # Audit URL open (expected for downloading binaries)
+    "S103",    # os.chmod setting permissive mask (need executable permissions)
+    "S603",    # subprocess call: check for execution of untrusted input (expected for CLI entry points)
     "COM812",  # Trailing comma missing (conflicts with formatter)
-    "PLR2004",  # Magic values (acceptable in some cases)
-    "T201",  # print statement used
+    "PLR2004", # Magic values (acceptable in some cases)
+    "T201",    # print statement used
+    "ERA001",  # Commented-out code
 ]
 [tool.ruff.lint.per-file-ignores]
 # relaxes in tests
 "tests/*" = [
-    "S101",  # Use of assert detected (legitimate in tests)
+    "S101",    # Use of assert detected (legitimate in tests)
     "BLE001",  # Broad exception catching (acceptable in tests)
-    "PT011",  # Broad pytest.raises (sometimes acceptable)
-    "PERF203",  # try-except in loop (acceptable in tests)
-    "PLR2004",  # Magic values (acceptable in tests)
-    "D401",  # Imperative mood (less important in tests)
+    "PT011",   # Broad pytest.raises (sometimes acceptable)
+    "PERF203", # try-except in loop (acceptable in tests)
+    "PLR2004", # Magic values (acceptable in tests)
+    "D401",    # Imperative mood (less important in tests)
 ]
 
 [dependency-groups]
@@ -59,6 +58,4 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-markers = [
-    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
-]
+markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
