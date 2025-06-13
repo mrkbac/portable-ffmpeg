@@ -177,9 +177,6 @@ wheels = [
 name = "portable-ffmpeg"
 version = "0.1.0"
 source = { editable = "." }
-dependencies = [
-    { name = "pytest" },
-]
 
 [package.optional-dependencies]
 dev = [
@@ -204,8 +201,7 @@ dev = [
 requires-dist = [
     { name = "pre-commit", marker = "extra == 'dev'" },
     { name = "pyright", marker = "extra == 'dev'" },
-    { name = "pytest", specifier = ">=8.4.0" },
-    { name = "pytest", marker = "extra == 'dev'" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.4.0" },
     { name = "pytest-cov", marker = "extra == 'dev'" },
     { name = "ruff", marker = "extra == 'dev'" },
 ]

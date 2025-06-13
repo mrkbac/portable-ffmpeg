@@ -6,15 +6,45 @@ readme = "README.md"
 authors = [
     { name = "Marko Bausch", email = "60338487+mrkbac@users.noreply.github.com" },
 ]
+license = { text = "MIT" }
 requires-python = ">=3.10"
-dependencies = ["pytest>=8.4.0"]
+dependencies = []
+keywords = [
+    "ffmpeg",
+    "ffprobe",
+    "video",
+    "audio",
+    "multimedia",
+    "static",
+    "portable",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/mrkbac/portable-ffmpeg"
+Repository = "https://github.com/mrkbac/portable-ffmpeg"
+Issues = "https://github.com/mrkbac/portable-ffmpeg/issues"
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-cov", "ruff", "pyright", "pre-commit"]
+dev = ["pytest>=8.4.0", "pytest-cov", "ruff", "pyright", "pre-commit"]
 
 [project.scripts]
-ffmpeg = "portable_ffmpeg:run_ffmpeg"
-ffprobe = "portable_ffmpeg:run_ffprobe"
+static_ffmpeg = "portable_ffmpeg:run_ffmpeg"
+static_ffprobe = "portable_ffmpeg:run_ffprobe"
+print_paths = "portable_ffmpeg:print_paths"
 clear_cache = "portable_ffmpeg:clear_cache"
 
 [build-system]

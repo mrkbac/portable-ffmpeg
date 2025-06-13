@@ -18,14 +18,17 @@ print(ffmpeg_path)  # Path to ffmpeg executable
 
 ### Command Line Interface
 
-After installation, you can use `ffmpeg` and `ffprobe` directly from the command line:
+After installation, you can use `static_ffmpeg` and `static_ffprobe` directly from the command line:
 
 ```bash
-# Use ffmpeg
-ffmpeg -i input.mp4 output.mp3
+# Use static ffmpeg
+static_ffmpeg -i input.mp4 output.mp3
 
-# Use ffprobe
-ffprobe -v quiet -print_format json -show_format input.mp4
+# Use static ffprobe
+static_ffprobe -v quiet -print_format json -show_format input.mp4
+
+# Print paths to the binaries
+print_paths
 ```
 
 The CLI commands automatically download and cache the appropriate static binaries for your platform.
@@ -82,6 +85,35 @@ This package downloads static FFmpeg binaries from the following trusted sources
   - x86_64: `https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz`
   - arm64: `https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz`
 - **Description**: Latest versions of FFmpeg for Linux kernels 3.2.0+, statically linked
+
+
+### Alternative Sources
+
+The following sources provide FFmpeg static builds but are not currently supported by this package. They could be considered for future releases:
+
+- **[FFmpeg Martin Riedl](https://ffmpeg.martin-riedl.de/)**
+  - **Platforms**: macOS, Linux
+  - **Architectures**: x86_64, ARM64
+  - **Description**: Regularly updated static builds with comprehensive codec support
+
+- **[BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds)**
+  - **Platforms**: Windows, Linux
+  - **Architectures**: x86_64, ARM64, x86 (Windows only)
+  - **Description**: GitHub Actions-built binaries with automated releases
+
+- **[EverMeet FFmpeg](https://evermeet.cx/ffmpeg/)**
+  - **Platforms**: macOS only
+  - **Architectures**: x86_64
+  - **Description**: Long-standing macOS static builds provider
+
+- **[FreeBSD FFmpeg Static](https://github.com/Thefrank/ffmpeg-static-freebsd/)**
+  - **Platforms**: FreeBSD only
+  - **Architectures**: Various
+  - **Description**: Static builds specifically for FreeBSD systems
+
+- **[John Van Sickle Extended](https://johnvansickle.com/ffmpeg/)**
+  - **Additional Architectures**: i686, armhf, armel (beyond the currently supported x86_64 and ARM64)
+  - **Description**: Comprehensive Linux support including older and embedded architectures
 
 ## Caching
 
