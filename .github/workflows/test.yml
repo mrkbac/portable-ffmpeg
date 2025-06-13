@@ -44,10 +44,4 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run pytest --cov=src/portable_ffmpeg --cov-report=term-missing --cov-fail-under=100 | tee test_output.txt
-          TEST_EXIT_CODE=${PIPESTATUS[0]}
-          echo "## Coverage Summary" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          grep -A 20 "coverage.*=" test_output.txt >> $GITHUB_STEP_SUMMARY || echo "No coverage data found" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          exit $TEST_EXIT_CODE
+          uv run scripts/run_test.py
