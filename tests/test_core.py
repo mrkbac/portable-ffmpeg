@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from portable_ffmpeg.core import get_ffmpeg, run_ffmpeg, run_ffprobe
+from portable_ffmpeg.core import get_ffmpeg, print_paths, run_ffmpeg, run_ffprobe
 from portable_ffmpeg.enums import FFmpegVersions
 
 if TYPE_CHECKING:
@@ -114,3 +114,16 @@ class TestCliEntryPoints:
             run_ffprobe()
 
         mock_subprocess_run.assert_called_once_with([str(mock_path), "-version"], check=False)
+
+    @patch("portable_ffmpeg.core.get_ffmpeg")
+    def test_print_paths(
+        self, mock_get_ffmpeg: MagicMock, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test print_paths entry point."""
+        mock_get_ffmpeg.return_value = (Path("/cache/ffmpeg"), Path("/cache/ffprobe"))
+
+        print_paths()
+
+        captured = capsys.readouterr()
+        assert "FFmpeg: /cache/ffmpeg" in captured.out
+        assert "FFprobe: /cache/ffprobe" in captured.out

@@ -16,7 +16,7 @@ def main() -> None:
             "pytest",
             "--cov=src/portable_ffmpeg",
             "--cov-report=term-missing",
-            "--cov-fail-under=95",
+            "--cov-fail-under=100",
         ],
         check=False,
         capture_output=True,

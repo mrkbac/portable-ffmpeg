@@ -65,6 +65,8 @@ ignore = [
     "PLR2004", # Magic values (acceptable in some cases)
     "T201",    # print statement used
     "ERA001",  # Commented-out code
+    "D203",    # one-blank-line-before-class (conflicts with D211)
+    "D213",    # multi-line-summary-second-line (conflicts with D212)
 ]
 [tool.ruff.lint.per-file-ignores]
 # relaxes in tests
@@ -81,7 +83,6 @@ ignore = [
 dev = [
     "pre-commit>=4.2.0",
     "pyright>=1.1.402",
-    "pytest-asyncio>=1.0.0",
     "pytest-cov>=6.2.1",
     "pytest-mock>=3.14.1",
     "ruff>=0.11.13",
