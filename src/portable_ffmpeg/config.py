@@ -8,6 +8,8 @@ from .downloaders import (
 )
 from .enums import Architectures, FFmpegVersions, OperatingSystems
 
+_BTBN_BASE = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest"
+
 # Download URLs for different platforms, architectures, and versions
 DOWNLOAD_URLS: dict[
     OperatingSystems,
@@ -16,12 +18,17 @@ DOWNLOAD_URLS: dict[
     OperatingSystems.WINDOWS: {
         Architectures.AMD64: {
             FFmpegVersions.LATEST: FFmpegDownloadSingleZip(
-                url="https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
+                url=f"{_BTBN_BASE}/ffmpeg-master-latest-win64-gpl.zip",
+                ffmpeg_name="ffmpeg.exe",
+                ffprobe_name="ffprobe.exe",
+            ),
+            FFmpegVersions.V8: FFmpegDownloadSingleZip(
+                url=f"{_BTBN_BASE}/ffmpeg-n8.0-latest-win64-gpl-8.0.zip",
                 ffmpeg_name="ffmpeg.exe",
                 ffprobe_name="ffprobe.exe",
             ),
             FFmpegVersions.V7: FFmpegDownloadSingleZip(
-                url="https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.1.1-essentials_build.zip",
+                url=f"{_BTBN_BASE}/ffmpeg-n7.1-latest-win64-gpl-7.1.zip",
                 ffmpeg_name="ffmpeg.exe",
                 ffprobe_name="ffprobe.exe",
             ),
@@ -30,8 +37,14 @@ DOWNLOAD_URLS: dict[
     OperatingSystems.OSX: {
         Architectures.AMD64: {
             FFmpegVersions.LATEST: FFmpegDownloadTwoZips(
-                ffmpeg_url="https://www.osxexperts.net/ffmpeg71intel.zip",
-                ffprobe_url="https://www.osxexperts.net/ffprobe71intel.zip",
+                ffmpeg_url="https://www.osxexperts.net/ffmpeg80intel.zip",
+                ffprobe_url="https://www.osxexperts.net/ffprobe80intel.zip",
+                ffmpeg_name="ffmpeg",
+                ffprobe_name="ffprobe",
+            ),
+            FFmpegVersions.V8: FFmpegDownloadTwoZips(
+                ffmpeg_url="https://www.osxexperts.net/ffmpeg80intel.zip",
+                ffprobe_url="https://www.osxexperts.net/ffprobe80intel.zip",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
@@ -44,8 +57,14 @@ DOWNLOAD_URLS: dict[
         },
         Architectures.ARM64: {
             FFmpegVersions.LATEST: FFmpegDownloadTwoZips(
-                ffmpeg_url="https://www.osxexperts.net/ffmpeg711arm.zip",
-                ffprobe_url="https://www.osxexperts.net/ffprobe711arm.zip",
+                ffmpeg_url="https://www.osxexperts.net/ffmpeg80arm.zip",
+                ffprobe_url="https://www.osxexperts.net/ffprobe80arm.zip",
+                ffmpeg_name="ffmpeg",
+                ffprobe_name="ffprobe",
+            ),
+            FFmpegVersions.V8: FFmpegDownloadTwoZips(
+                ffmpeg_url="https://www.osxexperts.net/ffmpeg80arm.zip",
+                ffprobe_url="https://www.osxexperts.net/ffprobe80arm.zip",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
@@ -60,12 +79,17 @@ DOWNLOAD_URLS: dict[
     OperatingSystems.LINUX: {
         Architectures.AMD64: {
             FFmpegVersions.LATEST: FFmpegDownloadSingleTar(
-                url="https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
+                url=f"{_BTBN_BASE}/ffmpeg-master-latest-linux64-gpl.tar.xz",
+                ffmpeg_name="ffmpeg",
+                ffprobe_name="ffprobe",
+            ),
+            FFmpegVersions.V8: FFmpegDownloadSingleTar(
+                url=f"{_BTBN_BASE}/ffmpeg-n8.0-latest-linux64-gpl-8.0.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
             FFmpegVersions.V7: FFmpegDownloadSingleTar(
-                url="https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
+                url=f"{_BTBN_BASE}/ffmpeg-n7.1-latest-linux64-gpl-7.1.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
@@ -82,12 +106,17 @@ DOWNLOAD_URLS: dict[
         },
         Architectures.ARM64: {
             FFmpegVersions.LATEST: FFmpegDownloadSingleTar(
-                url="https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz",
+                url=f"{_BTBN_BASE}/ffmpeg-master-latest-linuxarm64-gpl.tar.xz",
+                ffmpeg_name="ffmpeg",
+                ffprobe_name="ffprobe",
+            ),
+            FFmpegVersions.V8: FFmpegDownloadSingleTar(
+                url=f"{_BTBN_BASE}/ffmpeg-n8.0-latest-linuxarm64-gpl-8.0.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
             FFmpegVersions.V7: FFmpegDownloadSingleTar(
-                url="https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz",
+                url=f"{_BTBN_BASE}/ffmpeg-n7.1-latest-linuxarm64-gpl-7.1.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),

@@ -54,11 +54,12 @@ remove_from_path()
 
 This package downloads static FFmpeg binaries from the following trusted sources:
 
-### Windows (x86_64 only)
+### Windows (x86_64) and Linux (x86_64 and arm64)
 
-- **Source**: [CODEX FFMPEG @ gyan.dev](https://www.gyan.dev/ffmpeg/builds/)
-- **URL**: `https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip`
-- **Description**: Official Windows builds, 64-bit static binaries licensed as GPLv3
+- **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds)
+- **Description**: GitHub Actions-built GPL static binaries with daily automated releases, supporting tagged version builds (8.0, 7.1)
+- **Versions**: LATEST (master), V8 (8.0), V7 (7.1)
+- **Legacy V5/V6 (Linux only)**: Older builds are sourced from [John Van Sickle](https://johnvansickle.com/ffmpeg/)
 
 ### macOS
 
@@ -66,40 +67,32 @@ This package downloads static FFmpeg binaries from the following trusted sources
 
 - **Source**: [OSXExperts.net](http://www.osxexperts.net/)
 - **URLs**:
-  - FFmpeg: `https://www.osxexperts.net/ffmpeg71intel.zip`
-  - FFprobe: `https://www.osxexperts.net/ffprobe71intel.zip`
-- **Description**: Static FFmpeg 7.1 binaries for macOS Intel processors
+  - FFmpeg: `https://www.osxexperts.net/ffmpeg80intel.zip`
+  - FFprobe: `https://www.osxexperts.net/ffprobe80intel.zip`
+- **Description**: Static FFmpeg 8.0 binaries for macOS Intel processors
 
 #### Apple Silicon (arm64)
 
 - **Source**: [OSXExperts.net](http://www.osxexperts.net/)
 - **URLs**:
-  - FFmpeg: `https://www.osxexperts.net/ffmpeg711arm.zip`
-  - FFprobe: `https://www.osxexperts.net/ffprobe711arm.zip`
-- **Description**: Static FFmpeg 7.1.1 binaries optimized for Apple Silicon processors
-
-### Linux (x86_64 and arm64)
-
-- **Source**: [John Van Sickle - FFmpeg Static Builds](https://johnvansickle.com/ffmpeg/)
-- **URLs**:
-  - x86_64: `https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz`
-  - arm64: `https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-arm64-static.tar.xz`
-- **Description**: Latest versions of FFmpeg for Linux kernels 3.2.0+, statically linked
+  - FFmpeg: `https://www.osxexperts.net/ffmpeg80arm.zip`
+  - FFprobe: `https://www.osxexperts.net/ffprobe80arm.zip`
+- **Description**: Static FFmpeg 8.0 binaries optimized for Apple Silicon processors
 
 
 ### Alternative Sources
 
-The following sources provide FFmpeg static builds but are not currently supported by this package. They could be considered for future releases:
+The following sources provide FFmpeg static builds but are not currently used by this package:
+
+- **[CODEX FFMPEG @ gyan.dev](https://www.gyan.dev/ffmpeg/builds/)**
+  - **Platforms**: Windows only
+  - **Architectures**: x86_64
+  - **Description**: Official Windows builds with essentials and full variants
 
 - **[FFmpeg Martin Riedl](https://ffmpeg.martin-riedl.de/)**
   - **Platforms**: macOS, Linux
   - **Architectures**: x86_64, ARM64
   - **Description**: Regularly updated static builds with comprehensive codec support
-
-- **[BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds)**
-  - **Platforms**: Windows, Linux
-  - **Architectures**: x86_64, ARM64, x86 (Windows only)
-  - **Description**: GitHub Actions-built binaries with automated releases
 
 - **[EverMeet FFmpeg](https://evermeet.cx/ffmpeg/)**
   - **Platforms**: macOS only
@@ -111,9 +104,10 @@ The following sources provide FFmpeg static builds but are not currently support
   - **Architectures**: Various
   - **Description**: Static builds specifically for FreeBSD systems
 
-- **[John Van Sickle Extended](https://johnvansickle.com/ffmpeg/)**
-  - **Additional Architectures**: i686, armhf, armel (beyond the currently supported x86_64 and ARM64)
-  - **Description**: Comprehensive Linux support including older and embedded architectures
+- **[John Van Sickle](https://johnvansickle.com/ffmpeg/)**
+  - **Platforms**: Linux
+  - **Architectures**: x86_64, ARM64, i686, armhf, armel
+  - **Description**: Static Linux builds (used for legacy V5/V6 version support)
 
 ## Caching
 

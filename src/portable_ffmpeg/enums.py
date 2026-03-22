@@ -49,6 +49,7 @@ class FFmpegVersions(Enum):
     """Supported FFmpeg major versions."""
 
     LATEST = "latest"
+    V8 = "8"
     V7 = "7"
     V6 = "6"
     V5 = "5"
