@@ -120,10 +120,12 @@ class TestCliEntryPoints:
         self, mock_get_ffmpeg: MagicMock, capsys: pytest.CaptureFixture[str]
     ) -> None:
         """Test print_paths entry point."""
-        mock_get_ffmpeg.return_value = (Path("/cache/ffmpeg"), Path("/cache/ffprobe"))
+        ffmpeg_path = Path("/cache/ffmpeg")
+        ffprobe_path = Path("/cache/ffprobe")
+        mock_get_ffmpeg.return_value = (ffmpeg_path, ffprobe_path)
 
         print_paths()
 
         captured = capsys.readouterr()
-        assert "FFmpeg: /cache/ffmpeg" in captured.out
-        assert "FFprobe: /cache/ffprobe" in captured.out
+        assert f"FFmpeg: {ffmpeg_path}" in captured.out
+        assert f"FFprobe: {ffprobe_path}" in captured.out
