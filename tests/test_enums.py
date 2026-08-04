@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from portable_ffmpeg.enums import Architectures, OperatingSystems
+from portable_ffmpeg.enums import Architectures, FFmpegVersions, OperatingSystems
 
 if TYPE_CHECKING:
     from pytest_mock import MockerFixture
@@ -79,3 +79,16 @@ class TestArchitectures:
         mocker.patch("platform.machine", return_value="sparc")
         with pytest.raises(ValueError, match="Unsupported architecture"):
             Architectures.from_current_architecture()
+
+
+class TestFFmpegVersions:
+    """Tests for FFmpegVersions enum."""
+
+    def test_enum_values(self) -> None:
+        """Test that supported FFmpeg major version values are correct."""
+        assert FFmpegVersions.LATEST.value == "latest"
+        assert FFmpegVersions.V9.value == "9"
+        assert FFmpegVersions.V8.value == "8"
+        assert FFmpegVersions.V7.value == "7"
+        assert FFmpegVersions.V6.value == "6"
+        assert FFmpegVersions.V5.value == "5"

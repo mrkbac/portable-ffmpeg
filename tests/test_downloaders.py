@@ -1,10 +1,16 @@
 """Tests for the downloaders module."""
 
 import tempfile
+import urllib.request
 from pathlib import Path
+from types import TracebackType
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from portable_ffmpeg.downloaders import (
+    _DOWNLOAD_CHUNK_SIZE,
+    _DOWNLOAD_USER_AGENT,
     FFmpegDownloadSingleTar,
     FFmpegDownloadSingleZip,
     FFmpegDownloadTwoZips,
@@ -14,15 +20,43 @@ from portable_ffmpeg.downloaders import (
 )
 
 
+class FakeResponse:
+    """Small streamed response fake for download tests."""
+
+    def __init__(self, chunks: list[bytes], headers: dict[str, str]) -> None:
+        """Initialize response chunks and HTTP headers."""
+        self._chunks = chunks
+        self.headers = headers
+        self.read_sizes: list[int] = []
+
+    def __enter__(self) -> "FakeResponse":
+        """Enter the response context."""
+        return self
+
+    def __exit__(
+        self,
+        _exc_type: type[BaseException] | None,
+        _exc_value: BaseException | None,
+        _traceback: TracebackType | None,
+    ) -> None:
+        """Exit the response context."""
+        return
+
+    def read(self, size: int = -1) -> bytes:
+        """Return one chunk at a time and record the requested read size."""
+        self.read_sizes.append(size)
+        if self._chunks:
+            return self._chunks.pop(0)
+        return b""
+
+
 class TestFFmpegDownloadSingleZip:
     """Tests for FFmpegDownloadSingleZip downloader."""
 
     @patch("portable_ffmpeg.downloaders._extract_zip_files")
-    @patch("portable_ffmpeg.downloaders.urllib.request.urlretrieve")
+    @patch("portable_ffmpeg.downloaders._download_file")
     def test_download_files_integration(
-        self,
-        mock_urlretrieve: MagicMock,  # noqa: ARG002
-        mock_extract: MagicMock,  # noqa: ARG002
+        self, mock_download: MagicMock, mock_extract: MagicMock
     ) -> None:
         """Test that download_files works with mocked dependencies."""
         downloader = FFmpegDownloadSingleZip(
@@ -40,6 +74,8 @@ class TestFFmpegDownloadSingleZip:
 
             result = downloader.download_files(outfolder)
 
+            mock_download.assert_called_once()
+            mock_extract.assert_called_once()
             # Should return correct paths
             assert result == (ffmpeg_path, ffprobe_path)
 
@@ -47,22 +83,50 @@ class TestFFmpegDownloadSingleZip:
 class TestDownloadHelpers:
     """Test helper functions for downloading."""
 
-    def test_download_file_progress_unknown_size(self) -> None:
-        """Test download progress reporting with unknown size."""
+    @patch("portable_ffmpeg.downloaders.urllib.request.urlopen")
+    def test_download_file_streams_known_size_and_sets_user_agent(
+        self, mock_urlopen: MagicMock, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test streamed writes, known-size progress, and the explicit User-Agent."""
         with tempfile.TemporaryDirectory() as tmp_dir:
-            tmp_file = Path(tmp_dir) / "test.txt"
+            tmp_file = Path(tmp_dir) / "known.txt"
+            response = FakeResponse([b"first", b"second"], {"Content-Length": "11"})
+            mock_urlopen.return_value = response
 
-            # Mock urllib.request.urlretrieve to call reporthook with unknown size
-            def mock_urlretrieve(_url: str, _file_path: Path, reporthook) -> None:  # noqa: ANN001
-                # Simulate download with unknown total size (total_size = -1)
-                reporthook(0, 1024, -1)  # This should trigger the unknown size branch
-                reporthook(1, 1024, -1)
-                tmp_file.write_text("test content")
+            _download_file("http://example.com/test.txt", str(tmp_file))
 
-            with patch("portable_ffmpeg.downloaders.urllib.request.urlretrieve", mock_urlretrieve):
-                _download_file("http://example.com/test.txt", tmp_file)
+            assert tmp_file.read_bytes() == b"firstsecond"
+            assert response.read_sizes == [_DOWNLOAD_CHUNK_SIZE] * 3
+            request = mock_urlopen.call_args.args[0]
+            assert isinstance(request, urllib.request.Request)
+            assert request.get_header("User-agent") == _DOWNLOAD_USER_AGENT
 
-            assert tmp_file.exists()
+            captured = capsys.readouterr()
+            assert "Download complete!" in captured.out
+
+    @patch("portable_ffmpeg.downloaders.urllib.request.urlopen")
+    def test_download_file_progress_unknown_size(
+        self, mock_urlopen: MagicMock, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        """Test download progress reporting with an unknown content length."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_file = Path(tmp_dir) / "unknown.txt"
+            mock_urlopen.return_value = FakeResponse([b"test", b" content"], {})
+
+            _download_file("http://example.com/test.txt", tmp_file)
+
+            assert tmp_file.read_text() == "test content"
+            captured = capsys.readouterr()
+            assert "4 bytes" in captured.out
+            assert "12 bytes" in captured.out
+
+    @patch("portable_ffmpeg.downloaders.urllib.request.urlopen")
+    def test_download_file_propagates_download_errors(self, mock_urlopen: MagicMock) -> None:
+        """Test that download exceptions are not swallowed."""
+        mock_urlopen.side_effect = ConnectionError("Network error")
+
+        with pytest.raises(ConnectionError, match="Network error"):
+            _download_file("http://example.com/test.txt", Path("test.txt"))
 
     @patch("portable_ffmpeg.downloaders.tarfile.open")
     @patch("portable_ffmpeg.downloaders.sys.platform", "linux")

@@ -16,6 +16,46 @@ from portable_ffmpeg.enums import FFmpegVersions
 class TestModuleIntegration:
     """Comprehensive integration tests for the complete module."""
 
+    @pytest.mark.slow
+    def test_v9_download_current_platform(self) -> None:
+        """Download V9 on supported current platforms and verify both executables."""
+        from portable_ffmpeg.enums import Architectures, OperatingSystems
+
+        system = OperatingSystems.from_current_system()
+        architecture = Architectures.from_current_architecture()
+        from portable_ffmpeg.config import DOWNLOAD_URLS
+
+        if system is OperatingSystems.LINUX:
+            pytest.skip("Linux V9 awaits a redistributable stable FFmpeg 9.0 asset")
+        if (
+            system not in DOWNLOAD_URLS
+            or architecture not in DOWNLOAD_URLS[system]
+            or FFmpegVersions.V9 not in DOWNLOAD_URLS[system][architecture]
+        ):
+            pytest.skip("V9 is not configured for this platform")
+
+        clear_cache()
+        ffmpeg_path, ffprobe_path = get_ffmpeg(FFmpegVersions.V9)
+
+        for executable, expected_prefix in [
+            (ffmpeg_path, "ffmpeg version 9."),
+            (ffprobe_path, "ffprobe version 9."),
+        ]:
+            assert executable.exists()
+            assert os.access(executable, os.X_OK)
+            result = subprocess.run(
+                [str(executable), "-version"],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            assert result.returncode == 0
+            assert result.stdout.splitlines()[0].startswith(expected_prefix)
+
+        assert architecture in {Architectures.AMD64, Architectures.ARM64}
+        clear_cache()
+
     def test_complete_workflow(self) -> None:
         """Test the complete workflow: download, cache, PATH management, execution."""
         # Clear cache to ensure fresh download
@@ -121,8 +161,8 @@ class TestModuleIntegration:
         clear_cache()
 
         # Test network error handling
-        with patch("portable_ffmpeg.downloaders.urllib.request.urlretrieve") as mock_urlretrieve:
-            mock_urlretrieve.side_effect = ConnectionError("Network error")
+        with patch("portable_ffmpeg.downloaders.urllib.request.urlopen") as mock_urlopen:
+            mock_urlopen.side_effect = ConnectionError("Network error")
 
             with pytest.raises(ConnectionError):
                 get_ffmpeg()

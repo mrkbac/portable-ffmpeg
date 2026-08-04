@@ -9,33 +9,38 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 
+_DOWNLOAD_CHUNK_SIZE = 1024 * 1024
+_DOWNLOAD_USER_AGENT = "portable-ffmpeg/0.2 (+https://github.com/mrkbac/portable-ffmpeg)"
+
 
 def _download_file(url: str, file_path: Path | str) -> None:
     """Download a file from a URL."""
     print(f"🔽 Downloading from {url}")
     last_value = 0
 
-    def reporthook(block_num: int, block_size: int, total_size: int) -> None:
-        nonlocal last_value
-        if total_size > 0:
-            downloaded = block_num * block_size
-            percent = downloaded * 100 // total_size
-            if percent != last_value:
-                last_value = percent
-                if percent == 100:
-                    sys.stdout.write("\r✅ Download complete!\n")
-                else:
-                    sys.stdout.write(f"\r🔽 {percent:3d}%")
-                sys.stdout.flush()
-        else:
-            total = block_num * block_size
-            if last_value != total:
-                last_value = total
-                sys.stdout.write(f"\r🔽 {block_num * block_size} bytes")
-                sys.stdout.flush()
+    request = urllib.request.Request(url, headers={"User-Agent": _DOWNLOAD_USER_AGENT})
+    with urllib.request.urlopen(request) as response, Path(file_path).open("wb") as output:
+        content_length = response.headers.get("Content-Length")
+        total_size = int(content_length) if content_length else -1
+        downloaded = 0
 
-    # Kick off download
-    urllib.request.urlretrieve(url, file_path, reporthook)
+        while chunk := response.read(_DOWNLOAD_CHUNK_SIZE):
+            output.write(chunk)
+            downloaded += len(chunk)
+
+            if total_size > 0:
+                percent = min(downloaded * 100 // total_size, 100)
+                if percent != last_value:
+                    last_value = percent
+                    if percent == 100:
+                        sys.stdout.write("\r✅ Download complete!\n")
+                    else:
+                        sys.stdout.write(f"\r🔽 {percent:3d}%")
+                    sys.stdout.flush()
+            elif downloaded != last_value:
+                last_value = downloaded
+                sys.stdout.write(f"\r🔽 {downloaded} bytes")
+                sys.stdout.flush()
 
 
 def _extract_zip_files(zip_file: Path, outfolder: Path, target_names: list[str]) -> list[Path]:

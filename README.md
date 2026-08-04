@@ -1,10 +1,11 @@
 # Portable FFmpeg
 
-Downloads static ffmpeg builds for Windows, macOS, and Linux.
+Downloads static FFmpeg builds for Windows, macOS, and Linux.
 
 - Supports Windows, macOS, and Linux
 - Supports x86_64 architecture on all platforms, ARM64 on macOS and Linux
 - Automatic platform detection and binary caching
+- Explicit FFmpeg 9.0 support on Windows amd64 and macOS amd64/arm64
 
 ## Usage
 
@@ -54,45 +55,48 @@ remove_from_path()
 
 This package downloads static FFmpeg binaries from the following trusted sources:
 
-### Windows (x86_64) and Linux (x86_64 and arm64)
+### Windows (x86_64)
 
 - **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds)
-- **Description**: GitHub Actions-built GPL static binaries with daily automated releases, supporting tagged version builds (8.0, 7.1)
-- **Versions**: LATEST (master), V8 (8.0), V7 (7.1)
+- **Description**: GitHub Actions-built GPL static binaries with daily automated releases and tagged version builds
+- **Versions**: LATEST remains the rolling BtbN master build; V8 selects the current BtbN 8.1 asset and V7 retains its existing 7.1 mapping
+- **V9**: [GyanD/codexffmpeg 9.0 essentials](https://github.com/GyanD/codexffmpeg/releases/download/9.0/ffmpeg-9.0-essentials_build.zip), with SHA256 `e6b54767a6065919048f1a098eb27211ca4e12b4348a05d88777a5855d0b6e71`
+- **License**: The verified GyanD archive includes a GNU GPLv3 `LICENSE` file.
+
+### Linux (x86_64 and arm64)
+
+- **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds) for LATEST, V8, and V7
+- **V9**: Not configured until BtbN or another trusted source publishes a redistributable stable 9.0 build. Martin Riedl's Linux 9.0 build metadata enables nonfree DeckLink support, so it is not used as a package default.
 - **Legacy V5/V6 (Linux only)**: Older builds are sourced from [John Van Sickle](https://johnvansickle.com/ffmpeg/)
 
 ### macOS
 
-#### Intel (x86_64)
+#### FFmpeg 9.0 (Intel and Apple Silicon)
 
-- **Source**: [OSXExperts.net](http://www.osxexperts.net/)
-- **URLs**:
-  - FFmpeg: `https://www.osxexperts.net/ffmpeg80intel.zip`
-  - FFprobe: `https://www.osxexperts.net/ffprobe80intel.zip`
-- **Description**: Static FFmpeg 8.0 binaries for macOS Intel processors
+- **Source**: [Martin Riedl's FFmpeg Build Server](https://ffmpeg.martin-riedl.de/)
+- **LATEST and V9**: Both select the verified stable FFmpeg 9.0 release assets below. Each asset has a matching `.sha256` sidecar.
+- **License**: The verified macOS V9 binaries report GPLv3.
 
-#### Apple Silicon (arm64)
+| Architecture | FFmpeg | FFprobe |
+| --- | --- | --- |
+| Intel (amd64) | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1785871427_9.0/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1785871427_9.0/ffprobe.zip` |
+| Apple Silicon (arm64) | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1785863997_9.0/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1785863997_9.0/ffprobe.zip` |
 
-- **Source**: [OSXExperts.net](http://www.osxexperts.net/)
-- **URLs**:
-  - FFmpeg: `https://www.osxexperts.net/ffmpeg80arm.zip`
-  - FFprobe: `https://www.osxexperts.net/ffprobe80arm.zip`
-- **Description**: Static FFmpeg 8.0 binaries optimized for Apple Silicon processors
+The existing OSXExperts mappings remain available for explicit V8 and V7 selections.
+
+### Version coverage
+
+| Selector | Windows amd64 | Linux amd64/arm64 | macOS amd64/arm64 |
+| --- | --- | --- | --- |
+| `LATEST` | BtbN rolling master | BtbN rolling master | Martin Riedl stable 9.0 |
+| `V9` | GyanD/codexffmpeg stable 9.0 | Not configured pending a redistributable stable 9.0 asset | Martin Riedl stable 9.0 |
+| `V8`, `V7` | BtbN 8.1/7.1 | BtbN 8.1/7.1 | Existing OSXExperts 8.0/7.x mappings |
+| `V6`, `V5` | Not configured | Existing John Van Sickle mappings | Not configured |
 
 
 ### Alternative Sources
 
 The following sources provide FFmpeg static builds but are not currently used by this package:
-
-- **[CODEX FFMPEG @ gyan.dev](https://www.gyan.dev/ffmpeg/builds/)**
-  - **Platforms**: Windows only
-  - **Architectures**: x86_64
-  - **Description**: Official Windows builds with essentials and full variants
-
-- **[FFmpeg Martin Riedl](https://ffmpeg.martin-riedl.de/)**
-  - **Platforms**: macOS, Linux
-  - **Architectures**: x86_64, ARM64
-  - **Description**: Regularly updated static builds with comprehensive codec support
 
 - **[EverMeet FFmpeg](https://evermeet.cx/ffmpeg/)**
   - **Platforms**: macOS only
