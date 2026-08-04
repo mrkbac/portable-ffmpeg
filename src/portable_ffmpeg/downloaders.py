@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 _DOWNLOAD_CHUNK_SIZE = 1024 * 1024
-_DOWNLOAD_USER_AGENT = "portable-ffmpeg/0.2 (+https://github.com/mrkbac/portable-ffmpeg)"
+_DOWNLOAD_USER_AGENT = "portable-ffmpeg/0.3 (+https://github.com/mrkbac/portable-ffmpeg)"
 
 
 def _download_file(url: str, file_path: Path | str) -> None:
