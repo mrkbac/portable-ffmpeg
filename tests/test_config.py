@@ -12,29 +12,35 @@ from portable_ffmpeg.enums import Architectures, FFmpegVersions, OperatingSystem
 
 V9_URLS = {
     (OperatingSystems.OSX, Architectures.AMD64): (
-        "https://ffmpeg.martin-riedl.de/download/macos/amd64/1785871427_9.0/ffmpeg.zip",
-        "https://ffmpeg.martin-riedl.de/download/macos/amd64/1785871427_9.0/ffprobe.zip",
+        "https://ffmpeg.martin-riedl.de/download/macos/amd64/1789931006_9.0.2/ffmpeg.zip",
+        "https://ffmpeg.martin-riedl.de/download/macos/amd64/1789931006_9.0.2/ffprobe.zip",
     ),
     (OperatingSystems.OSX, Architectures.ARM64): (
-        "https://ffmpeg.martin-riedl.de/download/macos/arm64/1785863997_9.0/ffmpeg.zip",
-        "https://ffmpeg.martin-riedl.de/download/macos/arm64/1785863997_9.0/ffprobe.zip",
+        "https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffmpeg.zip",
+        "https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffprobe.zip",
     ),
 }
 
 BTBN_V8_URLS = {
     (OperatingSystems.WINDOWS, Architectures.AMD64): (
-        "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/"
-        "ffmpeg-n8.1-latest-win64-gpl-8.1.zip",
+        (
+            "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/"
+            "ffmpeg-n8.1-latest-win64-gpl-8.1.zip"
+        ),
         FFmpegDownloadSingleZip,
     ),
     (OperatingSystems.LINUX, Architectures.AMD64): (
-        "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/"
-        "ffmpeg-n8.1-latest-linux64-gpl-8.1.tar.xz",
+        (
+            "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/"
+            "ffmpeg-n8.1-latest-linux64-gpl-8.1.tar.xz"
+        ),
         FFmpegDownloadSingleTar,
     ),
     (OperatingSystems.LINUX, Architectures.ARM64): (
-        "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/"
-        "ffmpeg-n8.1-latest-linuxarm64-gpl-8.1.tar.xz",
+        (
+            "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/"
+            "ffmpeg-n8.1-latest-linuxarm64-gpl-8.1.tar.xz"
+        ),
         FFmpegDownloadSingleTar,
     ),
 }
@@ -78,23 +84,45 @@ def test_btb_n_v8_uses_current_8_1_assets(
         assert config.url == expected_url
 
 
-def test_windows_v9_uses_gyand_release_asset() -> None:
-    """Windows V9 maps to the verified GyanD 9.0 essentials release."""
-    config = DOWNLOAD_URLS[OperatingSystems.WINDOWS][Architectures.AMD64][FFmpegVersions.V9]
-
-    assert isinstance(config, FFmpegDownloadSingleZip)
-    assert config.url == (
-        "https://github.com/GyanD/codexffmpeg/releases/download/9.0/ffmpeg-9.0-essentials_build.zip"
-    )
-    assert (config.ffmpeg_name, config.ffprobe_name) == ("ffmpeg.exe", "ffprobe.exe")
-
-
-@pytest.mark.parametrize("architecture", [Architectures.AMD64, Architectures.ARM64])
-def test_linux_v9_is_not_configured_without_redistributable_assets(
-    architecture: Architectures,
+@pytest.mark.parametrize(
+    ("operating_system", "architecture", "asset"),
+    [
+        (OperatingSystems.WINDOWS, Architectures.AMD64, "win64-gpl-9.0.zip"),
+        (OperatingSystems.LINUX, Architectures.AMD64, "linux64-gpl-9.0.tar.xz"),
+        (OperatingSystems.LINUX, Architectures.ARM64, "linuxarm64-gpl-9.0.tar.xz"),
+    ],
+)
+def test_btbn_v9_uses_current_9_0_assets(
+    operating_system: OperatingSystems, architecture: Architectures, asset: str
 ) -> None:
-    """Linux V9 remains absent until a suitable redistributable release is available."""
-    assert FFmpegVersions.V9 not in DOWNLOAD_URLS[OperatingSystems.LINUX][architecture]
+    """Windows and Linux V9 map to the rolling BtbN 9.0 release assets."""
+    config = DOWNLOAD_URLS[operating_system][architecture][FFmpegVersions.V9]
+
+    assert isinstance(config, (FFmpegDownloadSingleZip, FFmpegDownloadSingleTar))
+    assert config.url == (
+        f"https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-n9.0-latest-{asset}"
+    )
+
+
+@pytest.mark.parametrize(
+    ("operating_system", "architecture", "asset"),
+    [
+        (OperatingSystems.WINDOWS, Architectures.AMD64, "win64-gpl-7.1.zip"),
+        (OperatingSystems.LINUX, Architectures.AMD64, "linux64-gpl-7.1.tar.xz"),
+        (OperatingSystems.LINUX, Architectures.ARM64, "linuxarm64-gpl-7.1.tar.xz"),
+    ],
+)
+def test_btbn_v7_is_pinned_to_last_7_1_build(
+    operating_system: OperatingSystems, architecture: Architectures, asset: str
+) -> None:
+    """BtbN no longer ships 7.1 in `latest`, so V7 is pinned to the last tagged 7.1 build."""
+    config = DOWNLOAD_URLS[operating_system][architecture][FFmpegVersions.V7]
+
+    assert isinstance(config, (FFmpegDownloadSingleZip, FFmpegDownloadSingleTar))
+    assert config.url == (
+        "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-07-31-14-10/"
+        f"ffmpeg-n7.1.5-12-g1fdbca85aa-{asset}"
+    )
 
 
 @pytest.mark.parametrize(

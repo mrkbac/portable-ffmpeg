@@ -9,11 +9,15 @@ from .downloaders import (
 from .enums import Architectures, FFmpegVersions, OperatingSystems
 
 _BTBN_BASE = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest"
-_GYAN_V9_WINDOWS_AMD64 = (
-    "https://github.com/GyanD/codexffmpeg/releases/download/9.0/ffmpeg-9.0-essentials_build.zip"
+# BtbN only keeps the two newest release branches in "latest"; 7.1 is pinned to its last build.
+_BTBN_V7_BASE = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-07-31-14-10"
+_BTBN_V7_TAG = "n7.1.5-12-g1fdbca85aa"
+_MARTIN_RIEDL_MACOS_AMD64_V9 = (
+    "https://ffmpeg.martin-riedl.de/download/macos/amd64/1789931006_9.0.2"
 )
-_MARTIN_RIEDL_MACOS_AMD64_V9 = "https://ffmpeg.martin-riedl.de/download/macos/amd64/1785871427_9.0"
-_MARTIN_RIEDL_MACOS_ARM64_V9 = "https://ffmpeg.martin-riedl.de/download/macos/arm64/1785863997_9.0"
+_MARTIN_RIEDL_MACOS_ARM64_V9 = (
+    "https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2"
+)
 
 # Download URLs for different platforms, architectures, and versions
 DOWNLOAD_URLS: dict[
@@ -28,7 +32,7 @@ DOWNLOAD_URLS: dict[
                 ffprobe_name="ffprobe.exe",
             ),
             FFmpegVersions.V9: FFmpegDownloadSingleZip(
-                url=_GYAN_V9_WINDOWS_AMD64,
+                url=f"{_BTBN_BASE}/ffmpeg-n9.0-latest-win64-gpl-9.0.zip",
                 ffmpeg_name="ffmpeg.exe",
                 ffprobe_name="ffprobe.exe",
             ),
@@ -38,7 +42,7 @@ DOWNLOAD_URLS: dict[
                 ffprobe_name="ffprobe.exe",
             ),
             FFmpegVersions.V7: FFmpegDownloadSingleZip(
-                url=f"{_BTBN_BASE}/ffmpeg-n7.1-latest-win64-gpl-7.1.zip",
+                url=f"{_BTBN_V7_BASE}/ffmpeg-{_BTBN_V7_TAG}-win64-gpl-7.1.zip",
                 ffmpeg_name="ffmpeg.exe",
                 ffprobe_name="ffprobe.exe",
             ),
@@ -105,13 +109,18 @@ DOWNLOAD_URLS: dict[
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
+            FFmpegVersions.V9: FFmpegDownloadSingleTar(
+                url=f"{_BTBN_BASE}/ffmpeg-n9.0-latest-linux64-gpl-9.0.tar.xz",
+                ffmpeg_name="ffmpeg",
+                ffprobe_name="ffprobe",
+            ),
             FFmpegVersions.V8: FFmpegDownloadSingleTar(
                 url=f"{_BTBN_BASE}/ffmpeg-n8.1-latest-linux64-gpl-8.1.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
             FFmpegVersions.V7: FFmpegDownloadSingleTar(
-                url=f"{_BTBN_BASE}/ffmpeg-n7.1-latest-linux64-gpl-7.1.tar.xz",
+                url=f"{_BTBN_V7_BASE}/ffmpeg-{_BTBN_V7_TAG}-linux64-gpl-7.1.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
@@ -132,13 +141,18 @@ DOWNLOAD_URLS: dict[
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
+            FFmpegVersions.V9: FFmpegDownloadSingleTar(
+                url=f"{_BTBN_BASE}/ffmpeg-n9.0-latest-linuxarm64-gpl-9.0.tar.xz",
+                ffmpeg_name="ffmpeg",
+                ffprobe_name="ffprobe",
+            ),
             FFmpegVersions.V8: FFmpegDownloadSingleTar(
                 url=f"{_BTBN_BASE}/ffmpeg-n8.1-latest-linuxarm64-gpl-8.1.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),
             FFmpegVersions.V7: FFmpegDownloadSingleTar(
-                url=f"{_BTBN_BASE}/ffmpeg-n7.1-latest-linuxarm64-gpl-7.1.tar.xz",
+                url=f"{_BTBN_V7_BASE}/ffmpeg-{_BTBN_V7_TAG}-linuxarm64-gpl-7.1.tar.xz",
                 ffmpeg_name="ffmpeg",
                 ffprobe_name="ffprobe",
             ),

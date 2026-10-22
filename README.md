@@ -5,7 +5,7 @@ Downloads static FFmpeg builds for Windows, macOS, and Linux.
 - Supports Windows, macOS, and Linux
 - Supports x86_64 architecture on all platforms, ARM64 on macOS and Linux
 - Automatic platform detection and binary caching
-- Explicit FFmpeg 9.0 support on Windows amd64 and macOS amd64/arm64
+- Explicit FFmpeg 9.0 support on Windows amd64, Linux amd64/arm64, and macOS amd64/arm64
 
 ## Usage
 
@@ -13,6 +13,7 @@ Downloads static FFmpeg builds for Windows, macOS, and Linux.
 
 ```python
 from portable_ffmpeg import get_ffmpeg
+
 ffmpeg_path, ffprobe_path = get_ffmpeg()
 print(ffmpeg_path)  # Path to ffmpeg executable
 ```
@@ -59,28 +60,26 @@ This package downloads static FFmpeg binaries from the following trusted sources
 
 - **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds)
 - **Description**: GitHub Actions-built GPL static binaries with daily automated releases and tagged version builds
-- **Versions**: LATEST remains the rolling BtbN master build; V8 selects the current BtbN 8.1 asset and V7 retains its existing 7.1 mapping
-- **V9**: [GyanD/codexffmpeg 9.0 essentials](https://github.com/GyanD/codexffmpeg/releases/download/9.0/ffmpeg-9.0-essentials_build.zip), with SHA256 `e6b54767a6065919048f1a098eb27211ca4e12b4348a05d88777a5855d0b6e71`
-- **License**: The verified GyanD archive includes a GNU GPLv3 `LICENSE` file.
+- **Versions**: LATEST is the rolling BtbN master build; V9 and V8 select the rolling BtbN 9.0 and 8.1 assets
+- **V7**: BtbN only keeps its two newest release branches in `latest`, so V7 is pinned to the last tagged 7.1 build ([autobuild-2026-07-31-14-10](https://github.com/BtbN/FFmpeg-Builds/releases/tag/autobuild-2026-07-31-14-10), FFmpeg 7.1.5)
 
 ### Linux (x86_64 and arm64)
 
-- **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds) for LATEST, V8, and V7
-- **V9**: Not configured until BtbN or another trusted source publishes a redistributable stable 9.0 build. Martin Riedl's Linux 9.0 build metadata enables nonfree DeckLink support, so it is not used as a package default.
+- **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds) for LATEST, V9, V8, and V7 (V7 pinned as on Windows)
 - **Legacy V5/V6 (Linux only)**: Older builds are sourced from [John Van Sickle](https://johnvansickle.com/ffmpeg/)
 
 ### macOS
 
-#### FFmpeg 9.0 (Intel and Apple Silicon)
+#### FFmpeg 9.0.2 (Intel and Apple Silicon)
 
 - **Source**: [Martin Riedl's FFmpeg Build Server](https://ffmpeg.martin-riedl.de/)
-- **LATEST and V9**: Both select the verified stable FFmpeg 9.0 release assets below. Each asset has a matching `.sha256` sidecar.
+- **LATEST and V9**: Both select the verified stable FFmpeg 9.0.2 release assets below. Each asset has a matching `.sha256` sidecar.
 - **License**: The verified macOS V9 binaries report GPLv3.
 
 | Architecture | FFmpeg | FFprobe |
 | --- | --- | --- |
-| Intel (amd64) | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1785871427_9.0/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1785871427_9.0/ffprobe.zip` |
-| Apple Silicon (arm64) | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1785863997_9.0/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1785863997_9.0/ffprobe.zip` |
+| Intel (amd64) | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1789931006_9.0.2/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1789931006_9.0.2/ffprobe.zip` |
+| Apple Silicon (arm64) | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffprobe.zip` |
 
 The existing OSXExperts mappings remain available for explicit V8 and V7 selections.
 
@@ -88,9 +87,9 @@ The existing OSXExperts mappings remain available for explicit V8 and V7 selecti
 
 | Selector | Windows amd64 | Linux amd64/arm64 | macOS amd64/arm64 |
 | --- | --- | --- | --- |
-| `LATEST` | BtbN rolling master | BtbN rolling master | Martin Riedl stable 9.0 |
-| `V9` | GyanD/codexffmpeg stable 9.0 | Not configured pending a redistributable stable 9.0 asset | Martin Riedl stable 9.0 |
-| `V8`, `V7` | BtbN 8.1/7.1 | BtbN 8.1/7.1 | Existing OSXExperts 8.0/7.x mappings |
+| `LATEST` | BtbN rolling master | BtbN rolling master | Martin Riedl stable 9.0.2 |
+| `V9`, `V8` | BtbN rolling 9.0/8.1 | BtbN rolling 9.0/8.1 | Martin Riedl stable 9.0.2 / OSXExperts 8.0 |
+| `V7` | BtbN pinned 7.1.5 | BtbN pinned 7.1.5 | OSXExperts 7.x |
 | `V6`, `V5` | Not configured | Existing John Van Sickle mappings | Not configured |
 
 
