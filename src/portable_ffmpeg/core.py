@@ -128,7 +128,7 @@ def run_ffmpeg(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
 
     """
     ffmpeg_path, _ = get_ffmpeg(version)
-    subprocess.run([str(ffmpeg_path)] + sys.argv[1:], check=False)
+    subprocess.run([str(ffmpeg_path), *sys.argv[1:]], check=False)
 
 
 def run_ffprobe(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
@@ -139,7 +139,7 @@ def run_ffprobe(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
 
     """
     _, ffprobe_path = get_ffmpeg(version)
-    subprocess.run([str(ffprobe_path)] + sys.argv[1:], check=False)
+    subprocess.run([str(ffprobe_path), *sys.argv[1:]], check=False)
 
 
 def print_paths() -> None:

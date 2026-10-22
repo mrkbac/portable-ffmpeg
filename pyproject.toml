@@ -39,7 +39,7 @@ Repository = "https://github.com/mrkbac/portable-ffmpeg"
 Issues = "https://github.com/mrkbac/portable-ffmpeg/issues"
 
 [project.optional-dependencies]
-dev = ["pytest>=8.4.0", "pytest-cov", "ruff", "pyright", "pre-commit"]
+dev = ["pytest>=9.1.0", "pytest-cov", "ruff", "pyright", "pre-commit"]
 
 [project.scripts]
 static_ffmpeg = "portable_ffmpeg:run_ffmpeg"
@@ -67,6 +67,7 @@ ignore = [
     "ERA001",  # Commented-out code
     "D203",    # one-blank-line-before-class (conflicts with D211)
     "D213",    # multi-line-summary-second-line (conflicts with D212)
+    "CPY001",  # No copyright headers in this project
 ]
 [tool.ruff.lint.per-file-ignores]
 # relaxes in tests
@@ -77,15 +78,17 @@ ignore = [
     "PERF203", # try-except in loop (acceptable in tests)
     "PLR2004", # Magic values (acceptable in tests)
     "D401",    # Imperative mood (less important in tests)
+    "PLC0415", # Lazy imports are fine in tests
+    "PYI034",  # `Self` return type needs 3.11+
 ]
 
 [dependency-groups]
 dev = [
     "pre-commit>=4.2.0",
-    "pyright>=1.1.402",
-    "pytest-cov>=6.2.1",
-    "pytest-mock>=3.14.1",
-    "ruff>=0.11.13",
+    "pyright>=1.1.414",
+    "pytest-cov>=7.1.0",
+    "pytest-mock>=3.17.0",
+    "ruff>=0.17.2",
 ]
 
 [tool.pytest.ini_options]

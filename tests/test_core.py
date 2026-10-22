@@ -47,7 +47,7 @@ class TestEdgeCases:
             "portable_ffmpeg.enums.Architectures.from_current_architecture", return_value=fake_arch
         )
 
-        with pytest.raises(ValueError, match="Unsupported OperatingSystems.OSX architecture"):
+        with pytest.raises(ValueError, match=r"Unsupported OperatingSystems\.OSX architecture"):
             get_ffmpeg()
 
     def test_unsupported_platform(self, mocker: "MockerFixture") -> None:
