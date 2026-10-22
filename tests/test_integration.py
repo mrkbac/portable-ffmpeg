@@ -2,6 +2,7 @@
 
 import concurrent.futures
 import os
+import re
 import subprocess
 from pathlib import Path
 from unittest.mock import patch
@@ -25,8 +26,6 @@ class TestModuleIntegration:
         architecture = Architectures.from_current_architecture()
         from portable_ffmpeg.config import DOWNLOAD_URLS
 
-        if system is OperatingSystems.LINUX:
-            pytest.skip("Linux V9 awaits a redistributable stable FFmpeg 9.0 asset")
         if (
             system not in DOWNLOAD_URLS
             or architecture not in DOWNLOAD_URLS[system]
@@ -37,9 +36,10 @@ class TestModuleIntegration:
         clear_cache()
         ffmpeg_path, ffprobe_path = get_ffmpeg(FFmpegVersions.V9)
 
-        for executable, expected_prefix in [
-            (ffmpeg_path, "ffmpeg version 9."),
-            (ffprobe_path, "ffprobe version 9."),
+        # BtbN builds report "version n9.0.2-...", other sources "version 9.0.2".
+        for executable, expected in [
+            (ffmpeg_path, r"ffmpeg version n?9\."),
+            (ffprobe_path, r"ffprobe version n?9\."),
         ]:
             assert executable.exists()
             assert os.access(executable, os.X_OK)
@@ -51,7 +51,7 @@ class TestModuleIntegration:
                 check=False,
             )
             assert result.returncode == 0
-            assert result.stdout.splitlines()[0].startswith(expected_prefix)
+            assert re.match(expected, result.stdout.splitlines()[0])
 
         assert architecture in {Architectures.AMD64, Architectures.ARM64}
         clear_cache()
