@@ -7,7 +7,7 @@ authors = [
     { name = "Marko Bausch", email = "60338487+mrkbac@users.noreply.github.com" },
 ]
 license = { text = "MIT" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = []
 keywords = [
     "ffmpeg",
@@ -24,10 +24,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Multimedia :: Video",
     "Topic :: Multimedia :: Sound/Audio",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -52,7 +53,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py311"
 line-length = 100
 
 [tool.ruff.lint]
@@ -65,10 +66,11 @@ ignore = [
     "PLR2004", # Magic values (acceptable in some cases)
     "T201",    # print statement used
     "ERA001",  # Commented-out code
-    "D203",    # one-blank-line-before-class (conflicts with D211)
-    "D213",    # multi-line-summary-second-line (conflicts with D212)
     "CPY001",  # No copyright headers in this project
 ]
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.ruff.lint.per-file-ignores]
 # relaxes in tests
 "tests/*" = [
@@ -83,13 +85,37 @@ ignore = [
 ]
 
 [dependency-groups]
-dev = [
-    "pre-commit>=4.2.0",
-    "pyright>=1.1.414",
-    "pytest-cov>=7.1.0",
-    "pytest-mock>=3.17.0",
-    "ruff>=0.17.2",
-]
+dev = [{ include-group = "test" }, "pre-commit>=4.7.0", "ruff>=0.17.2", "ty>=0.0.91"]
+# Kept separate so CI can test on Pythons that pre-commit's deps have no wheels for yet.
+test = ["pytest>=9.1.0", "pytest-cov>=7.1.0", "pytest-mock>=3.17.0"]
+
+[tool.ty.environment]
+# Lowest supported version: ty must not use or allow features newer than this.
+python-version = "3.11"
+
+[tool.ty.terminal]
+error-on-warning = true
+
+[tool.ty.rules]
+# Everything ty ships off by default, turned on.
+blanket-ignore-comment = "error"
+disjoint-cast = "error"
+division-by-zero = "error"
+dynamic-function-decorator-return = "error"
+invalid-legacy-positional-parameter = "error"
+mismatched-sentinel-name = "error"
+missing-direct-dependency = "error"
+missing-override-decorator = "ignore" # needs @override: py3.12+ or typing_extensions
+missing-type-argument = "error"
+possibly-missing-attribute = "error"
+possibly-missing-import = "error"
+possibly-unresolved-reference = "error"
+redundant-condition-strict = "error"
+truthiness-test-of-none-union = "error"
+unsound-assignment = "error"
+unsound-return-statement = "error"
+unsound-yield = "error"
+unsupported-dynamic-base = "error"
 
 [tool.pytest.ini_options]
 markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]

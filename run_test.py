@@ -30,7 +30,8 @@ def main() -> None:
         print(result.stderr, file=sys.stderr)
 
     # Write summary to GitHub Actions if environment variable is set
-    if summary_file := os.environ.get("GITHUB_STEP_SUMMARY"):
+    summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_file is not None:
         print(f"Writing summary to {summary_file}")
         with Path(summary_file).open("w") as f:
             f.write("# Test Coverage Summary\n\n")

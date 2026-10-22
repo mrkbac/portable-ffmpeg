@@ -29,7 +29,7 @@ jobs:
           # arm64
           - ubuntu-24.04-arm
           - macos-latest
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
 
     steps:
       - uses: actions/checkout@v6
@@ -38,7 +38,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Install dependencies
-        run: uv sync --frozen --dev -p "${{ matrix.python-version }}"
+        run: uv sync --frozen --no-dev --group test -p "${{ matrix.python-version }}"
 
       - name: Run tests
         run: |
