@@ -1,134 +1,89 @@
 # Portable FFmpeg
 
-Downloads static FFmpeg builds for Windows, macOS, and Linux.
-
-- Supports Windows, macOS, and Linux
-- Supports x86_64 architecture on all platforms, ARM64 on macOS and Linux
-- Automatic platform detection and binary caching
-- Explicit FFmpeg 9.0 support on Windows amd64, Linux amd64/arm64, and macOS amd64/arm64
-
-## Usage
-
-### Python API
-
-```python
-from portable_ffmpeg import get_ffmpeg
-
-ffmpeg_path, ffprobe_path = get_ffmpeg()
-print(ffmpeg_path)  # Path to ffmpeg executable
-```
-
-### Command Line Interface
-
-After installation, you can use `static_ffmpeg` and `static_ffprobe` directly from the command line:
+FFmpeg and FFprobe for Windows x86-64, Linux x86-64/ARM64, and macOS Intel/Apple Silicon. Downloads and installed executables are verified with pinned SHA-256 hashes.
 
 ```bash
-# Use static ffmpeg
-static_ffmpeg -i input.mp4 output.mp3
-
-# Use static ffprobe
-static_ffprobe -v quiet -print_format json -show_format input.mp4
-
-# Print paths to the binaries
-print_paths
+uv add portable-ffmpeg
 ```
 
-The CLI commands automatically download and cache the appropriate static binaries for your platform.
+For an offline installation, use the platform-specific binary bundle instead:
 
-### PATH Management
+```bash
+uv add portable-ffmpeg-full
+```
 
-You can also programmatically manage your PATH:
+`portable-ffmpeg-full` depends on the matching version of `portable-ffmpeg` and adds only its platform's compressed payload. The Python wrapper is shared. `get_ffmpeg()` prefers that payload, verifies it, and extracts it into the cache without contacting the network. A corrupt or incompatible installed payload raises an error rather than silently downloading another copy.
+
+## Python API
 
 ```python
-from portable_ffmpeg import add_to_path, remove_from_path
+from portable_ffmpeg import get_ffmpeg, add_to_path, remove_from_path
 
-# Add FFmpeg binaries to PATH
+ffmpeg_path, ffprobe_path = get_ffmpeg()
 add_to_path()
-
-# Add only if FFmpeg is not already available (weak mode)
-add_to_path(weak=True)
-
-# Remove from PATH
+add_to_path(weak=True)  # Preserve an existing ffmpeg on PATH.
 remove_from_path()
 ```
 
-## Sources of Static Builds
+`get_ffmpeg()` and `get_ffmpeg(FFmpegVersions.V9)` use the same pinned FFmpeg 9 build and share a cache. `LATEST` selects the stable build pinned by this package release. FFmpeg 5–8 selectors have been removed; existing applications using them must switch to V9.
 
-This package downloads static FFmpeg binaries from the following trusted sources:
-
-### Windows (x86_64)
-
-- **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds)
-- **Description**: GitHub Actions-built GPL static binaries with daily automated releases and tagged version builds
-- **Versions**: LATEST is the rolling BtbN master build; V9 and V8 select the rolling BtbN 9.0 and 8.1 assets
-- **V7**: BtbN only keeps its two newest release branches in `latest`, so V7 is pinned to the last tagged 7.1 build ([autobuild-2026-07-31-14-10](https://github.com/BtbN/FFmpeg-Builds/releases/tag/autobuild-2026-07-31-14-10), FFmpeg 7.1.5)
-
-### Linux (x86_64 and arm64)
-
-- **Source**: [BtbN FFmpeg Builds](https://github.com/BtbN/FFmpeg-Builds) for LATEST, V9, V8, and V7 (V7 pinned as on Windows)
-- **Legacy V5/V6 (Linux only)**: Older builds are sourced from [John Van Sickle](https://johnvansickle.com/ffmpeg/)
-
-### macOS
-
-#### FFmpeg 9.0.2 (Intel and Apple Silicon)
-
-- **Source**: [Martin Riedl's FFmpeg Build Server](https://ffmpeg.martin-riedl.de/)
-- **LATEST and V9**: Both select the verified stable FFmpeg 9.0.2 release assets below. Each asset has a matching `.sha256` sidecar.
-- **License**: The verified macOS V9 binaries report GPLv3.
-
-| Architecture | FFmpeg | FFprobe |
-| --- | --- | --- |
-| Intel (amd64) | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1789931006_9.0.2/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/amd64/1789931006_9.0.2/ffprobe.zip` |
-| Apple Silicon (arm64) | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffmpeg.zip` | `https://ffmpeg.martin-riedl.de/download/macos/arm64/1789931890_9.0.2/ffprobe.zip` |
-
-The existing OSXExperts mappings remain available for explicit V8 and V7 selections.
-
-### Version coverage
-
-| Selector | Windows amd64 | Linux amd64/arm64 | macOS amd64/arm64 |
-| --- | --- | --- | --- |
-| `LATEST` | BtbN rolling master | BtbN rolling master | Martin Riedl stable 9.0.2 |
-| `V9`, `V8` | BtbN rolling 9.0/8.1 | BtbN rolling 9.0/8.1 | Martin Riedl stable 9.0.2 / OSXExperts 8.0 |
-| `V7` | BtbN pinned 7.1.5 | BtbN pinned 7.1.5 | OSXExperts 7.x |
-| `V6`, `V5` | Not configured | Existing John Van Sickle mappings | Not configured |
-
-
-### Alternative Sources
-
-The following sources provide FFmpeg static builds but are not currently used by this package:
-
-- **[EverMeet FFmpeg](https://evermeet.cx/ffmpeg/)**
-  - **Platforms**: macOS only
-  - **Architectures**: x86_64
-  - **Description**: Long-standing macOS static builds provider
-
-- **[FreeBSD FFmpeg Static](https://github.com/Thefrank/ffmpeg-static-freebsd/)**
-  - **Platforms**: FreeBSD only
-  - **Architectures**: Various
-  - **Description**: Static builds specifically for FreeBSD systems
-
-- **[John Van Sickle](https://johnvansickle.com/ffmpeg/)**
-  - **Platforms**: Linux
-  - **Architectures**: x86_64, ARM64, i686, armhf, armel
-  - **Description**: Static Linux builds (used for legacy V5/V6 version support)
-
-## Caching
-
-Downloaded binaries are cached in the package's `binaries/` directory to avoid re-downloading. Each virtual environment gets its own copy of the binaries.
-
-The cache is organized by platform and architecture (e.g., `linux-amd64`, `windows-amd64`, `osx-arm64`).
-
-### Cache Management
-
-```python
-from portable_ffmpeg import clear_cache
-
-# Clear all cached binaries
-clear_cache()
-```
-
-Or use the command line:
+## Command line
 
 ```bash
+static_ffmpeg -i input.mp4 output.mp3
+static_ffprobe -v quiet -print_format json -show_format input.mp4
+print_paths
 clear_cache
 ```
+
+## Builds and hardware support
+
+| Platform | FFmpeg build | Minimum runtime |
+| --- | --- | --- |
+| Windows x86-64 | BtbN 9.0.2, commit `7adfbe40dc` | Windows 10 22H2 |
+| Linux x86-64 / ARM64 | Same BtbN snapshot | glibc 2.28, Linux 4.18 |
+| macOS Intel / Apple Silicon | Martin Riedl 9.0.2 | macOS 12 |
+
+The executables include software encoding and decoding of H.264, H.265, VP9, and AV1. Windows/Linux builds include NVIDIA, AMD AMF, Vulkan, and (on x86-64) Intel QSV; Linux also includes VAAPI. macOS uses VideoToolbox, with H.264/H.265 hardware encoding and hardware decoding where the machine supports the codec. GPU generation, drivers, codec profiles, and input formats determine actual hardware availability.
+
+This package returns executable paths and forwards CLI arguments. The calling application chooses the encoder and implements software retry when a hardware operation is unsupported.
+
+## Download and cache contract
+
+Each owned release asset is one `.tar.xz` with both executables at the root (`.exe` on Windows), GPL and third-party notices, source references, and provenance. It uses one solid XZ stream with a 256 MiB LZMA2 dictionary. Decoding needs approximately 256 MiB of dictionary memory. No extra compression dependency is required.
+
+The downloader verifies the archive before parsing it, copies only regular root files, then verifies the actual FFmpeg and FFprobe hashes before making the complete cache directory available. Missing, empty, duplicate, linked, nested-only, or checksum-mismatched executables cannot become a valid installation. Socket waits are bounded to 30 seconds. Archive readers and multi-file upstream layouts exist only in release preparation; the installed package reads TAR.XZ only.
+
+Binaries are cached inside the package's `binaries/` directory. Each virtual environment gets its own cache. The cache key includes the pinned artifact configuration, so updates use a fresh cache. Both downloaded and bundled payloads use the same installation path. `clear_cache()` removes cached installations; it leaves an installed offline payload intact.
+
+## Licenses and corresponding source
+
+The Python wrapper is [MIT-licensed](LICENSE). FFmpeg reports GPL version 3 or later; included dependencies retain their respective license and copyright terms. No `--enable-nonfree` binaries are selected. The offline binary distribution includes GPL and third-party notices and source-access directions.
+
+The binary release includes the exact BtbN build-run dependency cache, FFmpeg source and build recipes, reconstructed macOS dependency archives and recipes, locked Rust dependencies, copyright/license notices, and source identity records. The macOS x264 source was identified through the official repository history: master had not changed between the binary build and source collection. [Source locks](licenses) record the evidence and limitations. No bit-for-bit rebuild is claimed.
+
+The source archives are separate release assets; GitHub's automatic archive of this Python repository is not FFmpeg's corresponding source. Preserve the source and notice assets for as long as the binaries remain available.
+
+## Preparing and publishing
+
+The release-preparation command requires reviewed source inputs and refuses incomplete reviews, mismatched source/binary hashes, or existing output directories:
+
+```bash
+uv run -m scripts.prepare_release dist/ffmpeg-9.0.2-1 dist/source-inputs-9.0.2
+uv run -m scripts.publish_release dist/ffmpeg-9.0.2-1
+uv run pytest --release-dir dist/ffmpeg-9.0.2-1
+uv build --out-dir dist/python
+uv run -m scripts.build_full_wheels dist/ffmpeg-9.0.2-1 dist/python
+```
+
+`SOURCE_MANIFEST.json` supplies the reviewed input identities. Final `manifest.json` describes the five executable archives and individual executable hashes; `SHA256SUMS` covers every upload asset. Source ZIPs are split below GitHub's 2 GiB-per-file limit. Binary TARs and offline wheels have fixed archive metadata for repeatable packaging.
+
+To upload the verified binary/source set as a **draft**, without publishing it:
+
+```bash
+uv run -m scripts.publish_release dist/ffmpeg-9.0.2-1 --draft
+```
+
+The draft uploader requires a clean, committed checkout and targets its exact commit. Push that commit before uploading. Merge the scoped publishing workflow before making any binary release public, and enable immutable releases in the GitHub repository. Publish binary/source release `ffmpeg-9.0.2-1` before releasing Python packages `portable-ffmpeg` and `portable-ffmpeg-full` version 0.5.0. The client URLs become publicly usable only after that binary release is published.
+
+Python package releases use `v` tags. The publication workflow downloads the already-published binary set, runs tests, builds the base package and all five offline wheels, and publishes `dist/python/*`. Both PyPI projects need trusted-publisher configuration: owner `mrkbac`, repository `portable-ffmpeg`, workflow filename `publish.yml`, environment `release`. Configure the existing base project under its Publishing settings; add `portable-ffmpeg-full` as a [pending publisher](https://pypi.org/manage/account/publishing/) before its first upload. Binary release tags do not trigger PyPI publication.

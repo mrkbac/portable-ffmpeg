@@ -1,0 +1,1384 @@
+{
+  "schema": 1,
+  "family": "btbn",
+  "platforms": [
+    "windows-amd64",
+    "linux-amd64",
+    "linux-arm64"
+  ],
+  "ffmpeg_commit": "7adfbe40dcde598f93a6963d2f7b22cd75202ccc",
+  "build_recipe_commit": "5031c6f1082414e53688d39e521849905071070d",
+  "build_run": "https://github.com/BtbN/FFmpeg-Builds/actions/runs/41199749965",
+  "source_cache": {
+    "artifact_id": 13042311561,
+    "url": "https://api.github.com/repos/BtbN/FFmpeg-Builds/actions/artifacts/13042311561/zip",
+    "sha256": "3de9f854a07aef24a0029b206e9ef43d674cbd957249575342e9a728d59c2c4d",
+    "cache_tar_gz_sha256": "3b8689a9e3e86d4f5258b5f88a7154d2df22b1559cbc8db65e66e999a05f3f2b"
+  },
+  "rust_std_revisions": {
+    "windows-amd64": "58cf8f9c35b355199727627d07ae34a4e2846d67",
+    "linux-amd64": "92ffebeceaa0a071066f233873c2438e73d70fe7",
+    "linux-arm64": "58cf8f9c35b355199727627d07ae34a4e2846d67"
+  },
+  "rust_backtrace_revision": "d902726a1dcdc1e1c66f73d1162181b5423c645b",
+  "limitations": [
+    "No bit-for-bit rebuild was performed.",
+    "The upstream cargo update cc step updates a build-tool dependency; the original runtime lock and its registry sources are preserved."
+  ],
+  "verification": {
+    "source_parts": [
+      {
+        "filename": "ffmpeg-9.0.2-btbn-sources-01.zip",
+        "sha256": "ccd17c8a3271da6936ecc4a6daf0d3546600467620248ddb42a1afbfb1027bb4",
+        "bytes": 1339100098,
+        "member_count": 90,
+        "member_content_hashes_and_crc_verified": true
+      },
+      {
+        "filename": "ffmpeg-9.0.2-btbn-sources-02.zip",
+        "sha256": "bd73910da42cf3d82b3d98e906830804da70963af4e07e28f9aacacbff797937",
+        "bytes": 1048643747,
+        "member_count": 45,
+        "member_content_hashes_and_crc_verified": true
+      },
+      {
+        "filename": "ffmpeg-9.0.2-btbn-rust-stdlib-crates.zip",
+        "sha256": "4cdc72650a24cce8ea8eb0947411259d96af403bda37c580296e1bf89ffa3c7e",
+        "bytes": 4287870,
+        "member_count": 41,
+        "member_content_hashes_and_crc_verified": true
+      }
+    ],
+    "notices_crc_and_sha256_verified": true,
+    "cache_aliases_verified": 129,
+    "rav1e_locked_registry_crates_verified": 273,
+    "rust_std_locked_registry_crates_verified": 39
+  },
+  "source_parts": [
+    {
+      "filename": "ffmpeg-9.0.2-btbn-sources-01.zip",
+      "bytes": 1339100098,
+      "sha256": "ccd17c8a3271da6936ecc4a6daf0d3546600467620248ddb42a1afbfb1027bb4"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-sources-02.zip",
+      "bytes": 1048643747,
+      "sha256": "bd73910da42cf3d82b3d98e906830804da70963af4e07e28f9aacacbff797937"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-rust-stdlib-crates.zip",
+      "bytes": 4287870,
+      "sha256": "4cdc72650a24cce8ea8eb0947411259d96af403bda37c580296e1bf89ffa3c7e"
+    }
+  ],
+  "notices": {
+    "filename": "ffmpeg-9.0.2-btbn-notices.zip",
+    "bytes": 53136682,
+    "sha256": "601385017d07a09ca6f9a64e39e8574fd0d6adc89a144ac85ef71f131a535226",
+    "notice_file_count": 69335,
+    "plaintext_sha256": "b71a279c252d95077eba84859c35173dd4e294150e4b6175eaba0495c6df25ea",
+    "plaintext_bytes": 99481162
+  },
+  "components": [
+    {
+      "filename": "10-glib_e8fabe008acef0d582fa2f400f8d038bfdefdb020a5305be521640905d286c93.tar.xz",
+      "bytes": 15784188,
+      "sha256": "43120ede6ff9b0d1bfd4e4e3faa52e24e4b1d3c8b38ff6c06b773b35cb1b56c1",
+      "stage": "10-glib",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/GNOME/glib.git",
+        "SCRIPT_COMMIT": "50b938a3e8f5154a25b5af3dd8b9dd8b2ccba7c3"
+      }
+    },
+    {
+      "filename": "10-mingw-std-threads_f6fe5dc5a067e90cd8b37a748b33962ac2eb09f3b486b287265803070dbf02d2.tar.xz",
+      "bytes": 86260,
+      "sha256": "ba58f654321fbe6ddf3f5a5cf15e2ebb3131d1e94d52d387bb6586c1e6244f10",
+      "stage": "10-mingw-std-threads",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/meganz/mingw-std-threads.git",
+        "SCRIPT_COMMIT": "c931bac289dd431f1dd30fc4a5d1a7be36668073"
+      }
+    },
+    {
+      "filename": "10-mingw_24cbc680568383841bd222adc2837abac54dbaae10a48d693b1db6b5dfbf1a66.tar.xz",
+      "bytes": 71335952,
+      "sha256": "6b4ec37dc7e890aef98ecc2b9e6fbb0421dc786e7bda0627b518108fc3cc298c",
+      "stage": "10-mingw",
+      "recipe": {
+        "SCRIPT_REPO": "https://git.code.sf.net/p/mingw-w64/mingw-w64.git",
+        "SCRIPT_COMMIT": "7213d719fe344553aa24fef7cc7dedee4940d594"
+      }
+    },
+    {
+      "filename": "10-xcbproto_aecb3156bc10c1a8bae6c1bb11f21b8d7f768876cddde7302804c9e8ffba7484.tar.xz",
+      "bytes": 322248,
+      "sha256": "d91e97413a811b144441c92f3d505966888ff525cf0488a6ec761f331b988dee",
+      "stage": "10-xcbproto",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/proto/xcbproto.git",
+        "SCRIPT_COMMIT": "cf7e2581b613802f2f8ec2a4b50a6a20aad4bf52"
+      }
+    },
+    {
+      "filename": "10-xorg-macros_4cc4d5b80fc71eb608dd47d9a2e05d5d724e1d7f93cb06a56141d73e90108378.tar.xz",
+      "bytes": 67632,
+      "sha256": "ece2e82946f07e3f04cae0851baec20735e6654f99b6cc401433520addcbf226",
+      "stage": "10-xorg-macros",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/util/macros.git",
+        "SCRIPT_COMMIT": "ea1e15a4909ac8b03b2c5a08ac3810b385985157"
+      }
+    },
+    {
+      "filename": "10-xproto_1aeee7bbb0cf339d20d6f7dfc16ea02f54348663e781781e624ebec374c85e41.tar.xz",
+      "bytes": 1832728,
+      "sha256": "4c18f87f989bf27404b9dadd791c776053aaad153047a8b860b22a342723a8c0",
+      "stage": "10-xproto",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/proto/xorgproto.git",
+        "SCRIPT_COMMIT": "6d3907b6d5dc4aa7d7ee6ee5d7d8714e7466630b"
+      }
+    },
+    {
+      "filename": "10-xtrans_b41af1c6913f15c4007f45375796b3cfe701cce8003bc6a1682f8f6952fea4c2.tar.xz",
+      "bytes": 131236,
+      "sha256": "f42254a84ea6cf8f1ca40c772de366c651795231372381b2afce23eb00e7ec6f",
+      "stage": "10-xtrans",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxtrans.git",
+        "SCRIPT_COMMIT": "79f6b0bfe2170496e8c37626043d009f4cd3f1e1"
+      }
+    },
+    {
+      "filename": "20-cairo_b460be039dc49e1a252ad8a1ed08863785f51cdb1156ceb585ca590d4f98beea.tar.xz",
+      "bytes": 76579072,
+      "sha256": "f566a12563eeb6ad54d9382c725cbfc6a6d636375b4731a187590510a3258fa6",
+      "stage": "20-cairo",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/cairo/cairo.git",
+        "SCRIPT_COMMIT": "74755964edef651691d5cd36ff140108298e4e6e"
+      }
+    },
+    {
+      "filename": "20-libiconv_5cfdda273e0d90c8ebbd56ec488ed825d5a08629242946e5c803e904ec4799e9.tar.xz",
+      "bytes": 15793540,
+      "sha256": "c022bd77db9e23a07ddec60a903e740c801df068aa70873a1f1fd6211b907b4c",
+      "stage": "20-libiconv",
+      "recipe": {
+        "SCRIPT_REPO": "https://git.savannah.gnu.org/git/libiconv.git",
+        "SCRIPT_MIRROR": "git://git.git.savannah.gnu.org/libiconv.git",
+        "SCRIPT_COMMIT": "b5a1735e02bf43ee6e490fcf9395e8abc8d32432",
+        "SCRIPT_REPO2": "https://git.savannah.gnu.org/git/gnulib.git",
+        "SCRIPT_MIRROR2": "https://github.com/coreutils/gnulib.git",
+        "SCRIPT_COMMIT2": "5df606bbd0ef54a8f150c3303c870b9381a661f0"
+      }
+    },
+    {
+      "filename": "20-libxau_8144e82dbddb1c5a8ac1ef670f5a78a7474aaf2dd418aebb50e572e40dbc5244.tar.xz",
+      "bytes": 57976,
+      "sha256": "882d697ea6b0a2cc6072d1bb64fdb22944eecd84cdc879bebb261ef4397e4265",
+      "stage": "20-libxau",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxau.git",
+        "SCRIPT_COMMIT": "be1daeb909f1d678e7859ac1555e90b4e768d5c4"
+      }
+    },
+    {
+      "filename": "20-zlib_3920a76da49c086b9f37354e0bb0a6a510044659df4998517794e604d2902f09.tar.xz",
+      "bytes": 2857888,
+      "sha256": "49bdb00414dba0abc40bf0dbf88d978b4ce7b091889acbf5a49440f35758da40",
+      "stage": "20-zlib",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/madler/zlib.git",
+        "SCRIPT_COMMIT": "9d314c341b2ce16e01ae44e27ec3dd2f32aa58fd"
+      }
+    },
+    {
+      "filename": "25-fftw3_1581349d67a82ca37f45cb6245c51643a2a241f600236a7b0d4708d86e5268df.tar.xz",
+      "bytes": 1155556,
+      "sha256": "7742a804ebd0ed0b2124db3f95fbbffee17d53b48067880812938322704584bd",
+      "stage": "25-fftw3",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/FFTW/fftw3.git",
+        "SCRIPT_COMMIT": "a7b679c528330cf6258253d6dcf5ec90552e6c93"
+      }
+    },
+    {
+      "filename": "25-freetype_5a16600613e9e439bee5dc9b264bc7bf21441e14826bf85b2d5e6741b0e34a63.tar.xz",
+      "bytes": 4635672,
+      "sha256": "e457a63a9bd55fe94f1286129bcb9c09f3d6c62fa257026ad8f5becac6d2c885",
+      "stage": "25-freetype",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/freetype/freetype.git",
+        "SCRIPT_COMMIT": "4ba7c3d82ab8b3cc80b869337d2c2b1913c5e415"
+      }
+    },
+    {
+      "filename": "25-fribidi_e258538a3d99f7f5a112e5382876cae8e91ea462d6e64d9473b0e1b977b60dd3.tar.xz",
+      "bytes": 2699040,
+      "sha256": "5e14b96343e75076d6cdddb5a07a9431b253027258b5924aa3f149b80bf087cf",
+      "stage": "25-fribidi",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/fribidi/fribidi.git",
+        "SCRIPT_COMMIT": "d2f3e1f4946e7cef9789e1c3ebdb4a60d4314c7f"
+      }
+    },
+    {
+      "filename": "25-gmp_58d2f27cc7551d6c55d8c20a0a6564124ec31c9a1d7994140e784d6e6b010e6d.tar.xz",
+      "bytes": 5582764,
+      "sha256": "aef6b4819272c7d6fc85c601632260a199ff9cadffa5e40d4876b82896267af1",
+      "stage": "25-gmp",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/BtbN/gmplib.git",
+        "SCRIPT_COMMIT": "5c3e9a9d52b697cab7b7d26a53972a3bf922d59a"
+      }
+    },
+    {
+      "filename": "25-libogg_bdea5ee518d129340be457dcc11c2cef63053ac3c827e71311caff1dd3c43339.tar.xz",
+      "bytes": 502596,
+      "sha256": "74d4ccca9000f449f02d1b5254425656a7d1843e356218b7d1e84cb1cbb79547",
+      "stage": "25-libogg",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/xiph/ogg.git",
+        "SCRIPT_COMMIT": "06a5e0262cdc28aa4ae6797627a783b5010440f0"
+      }
+    },
+    {
+      "filename": "25-libpng_9229c4b3cd9d77ac3410e77a349c41b3ce2754474d4f80e3dfce30fa209b6c59.tar.xz",
+      "bytes": 2097420,
+      "sha256": "7d88a62af84b64b4f00559a99953f2678d097f7ac0582c7321659d800554b9d1",
+      "stage": "25-libpng",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/glennrp/libpng.git",
+        "SCRIPT_COMMIT": "0b0876829d77db0827a8cc2c4326f63be22b2aa1"
+      }
+    },
+    {
+      "filename": "25-libxml2_57dbeec36fae049656e42f3007be0e79ba29833d7ce414357967b6c443bf01f2.tar.xz",
+      "bytes": 4838312,
+      "sha256": "193e68997df5f061b4b15d0873237819aab3d3fe5e0ef0780d905dd49127f137",
+      "stage": "25-libxml2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/GNOME/libxml2.git",
+        "SCRIPT_COMMIT": "c79c9612fcc77b06b0d16f35fd363d938bdbbf5e"
+      }
+    },
+    {
+      "filename": "25-openssl_8c4985fba3e65ef5a4af4c0669169d8efe76f316f31578ac3c55e270e722d2c1.tar.xz",
+      "bytes": 444213024,
+      "sha256": "b32cb7e606d36eccd80ccc74288463d6b9c63649e94e58b4a0175a937871618a",
+      "stage": "25-openssl",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/openssl/openssl.git",
+        "SCRIPT_COMMIT": "openssl-3.6.5"
+      }
+    },
+    {
+      "filename": "25-xz_a01bf7bd3df3bddf8aa5b83716d96d1c7b26cd444fd44c44a84297e13803e712.tar.xz",
+      "bytes": 2604500,
+      "sha256": "fa109e594e5c9ce0aa21c7633fb8807ab1ea401eb1a5e2ec09374c8e0a415b1e",
+      "stage": "25-xz",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/tukaani-project/xz.git",
+        "SCRIPT_COMMIT": "299eb5c3f597f107fd6019bf156885ac8bfaa5ea"
+      }
+    },
+    {
+      "filename": "30-libdvdcss_8e6c469595eeef1d2ca7962b68faabe5531518009472d449f700665a616bc66c.tar.xz",
+      "bytes": 233016,
+      "sha256": "1575ad0395411414e0368f55047993059a4b77c441d3fd5179fdc2529af9905a",
+      "stage": "30-libdvdcss",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/libdvdcss.git",
+        "SCRIPT_COMMIT": "811ce97a1d4d1c9d936f4b2707f533a9ef768251"
+      }
+    },
+    {
+      "filename": "30-libpciaccess_7e6e74a7ea243214bf8b5e16e9bdfe5b22f577c4daba8ee93b59b3e5dfa8c1ad.tar.xz",
+      "bytes": 201208,
+      "sha256": "eb43b7ecc416f53c1a52a8b6b160f3ba26095cc7c34784ec807b018a361f53b4",
+      "stage": "30-libpciaccess",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libpciaccess.git",
+        "SCRIPT_COMMIT": "38e6f15f839fba2c49982e7ad61cde681fd5d4d6"
+      }
+    },
+    {
+      "filename": "30-libxcb_e78cc0b6487fa3ecc322f0597baffacca986ff88601f35dce32807d12d845013.tar.xz",
+      "bytes": 338888,
+      "sha256": "fdb3afb854bb4d5f84648c5acd531e12dd56beab9d6fcb5fa3d0aae57361ad54",
+      "stage": "30-libxcb",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxcb.git",
+        "SCRIPT_COMMIT": "d4e07bab5729c7d7cc3d2b95568cd9a661a53c4f"
+      }
+    },
+    {
+      "filename": "30-pango_0e38f603f51c8bd47e78e2c9a7b6e3d2ccaefae3f859cdcd1f745b256b6c4dde.tar.xz",
+      "bytes": 4637556,
+      "sha256": "bb7dea8c58aaf5dec5687447371c9ee6608986041b522201aa232e8edc6a4b8e",
+      "stage": "30-pango",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/GNOME/pango.git",
+        "SCRIPT_COMMIT": "68e981d243d50e03f3df12fb400f31647ef570d2"
+      }
+    },
+    {
+      "filename": "35-fontconfig_7457daafc87c14bca377a8e6d45dfc39c72808aa06d2fe580e40b48023d4d1e1.tar.xz",
+      "bytes": 1346072,
+      "sha256": "47a28012c8418a60a5ddc5f0de854f5acc05c56f5566b992e64624c02751810a",
+      "stage": "35-fontconfig",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/fontconfig/fontconfig.git",
+        "SCRIPT_COMMIT": "b25ffeabd15b76f86c0c6736f6df2f1b89858010"
+      }
+    },
+    {
+      "filename": "40-libdrm_8704cddf087daeac8ce3e20f4802cf55e5a3484345df1107c0d3a8c92495176e.tar.xz",
+      "bytes": 1123804,
+      "sha256": "520b6889b78240a552a218d1eb535ece7e139ced27ca31f5edcb9fabbc4da77e",
+      "stage": "40-libdrm",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/mesa/drm.git",
+        "SCRIPT_COMMIT": "b97cbde15c5c3abfe44d78e8f57139e50f612fec"
+      }
+    },
+    {
+      "filename": "40-libdvdread_05480a48c37dea2502d831aa7dd0b71c28c6d32cfabf95e0cbb16512fe45d8f0.tar.xz",
+      "bytes": 295624,
+      "sha256": "1e296c018e59fabadf2e316821ce2bf3a1fdc68e925789072aa07c1116f26069",
+      "stage": "40-libdvdread",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/libdvdread.git",
+        "SCRIPT_COMMIT": "0f30df53125b564ef45903714403ce0a1e6c5e9e"
+      }
+    },
+    {
+      "filename": "40-libpsl_25c7f294f3928958c5700581a31fafa50a7a7dc87825c57f7b94e68f324d82e6.tar.xz",
+      "bytes": 6996756,
+      "sha256": "a0b6ee8dddf1f450f2cd8920f51cd206db8d16c1c48591ad22d5b1f479438f47",
+      "stage": "40-libpsl",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/rockdaboot/libpsl.git",
+        "SCRIPT_COMMIT": "620d51d13351e8f3cb724471032246592c9bbd69",
+        "SCRIPT_REPO2": "https://github.com/publicsuffix/list.git",
+        "SCRIPT_COMMIT2": "8437e5262f13305f94087abe699b4fe2be1d1de8"
+      }
+    },
+    {
+      "filename": "40-libx11_b505e74d9601ae59f1f15a8b305b11f51757460e2418d0a70922c48f99b001c1.tar.xz",
+      "bytes": 4208488,
+      "sha256": "2a8dd31600146ccfeb7c4680873717b2e6bdd0e760bcc8b6901b07414a233e6f",
+      "stage": "40-libx11",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libx11.git",
+        "SCRIPT_COMMIT": "b8d5a7046a98a244ee8ca3c9c07fd617c800dde2"
+      }
+    },
+    {
+      "filename": "40-mbedtls_8dd146455b388b9a7236d83bb2904ff89bba41fa28da9af8a310fc01f4ff1b53.tar.xz",
+      "bytes": 14060020,
+      "sha256": "98d678a055d0316aa28ae96a4994c237ca6b0ea39ca5258d921490cd8070714a",
+      "stage": "40-mbedtls",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/ARMmbed/mbedtls.git",
+        "SCRIPT_COMMIT": "v4.2.0"
+      }
+    },
+    {
+      "filename": "40-nghttp2_cd4ce193c19622160095f36f25fb73918a0795badf51752c3df046f62bdeb6af.tar.xz",
+      "bytes": 1991852,
+      "sha256": "3594fb3a129a45cc516e12bee43194b0257eb0793ff57a7ee433d6f7d601a9a6",
+      "stage": "40-nghttp2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/nghttp2/nghttp2.git",
+        "SCRIPT_COMMIT": "3baf9561e09f7ac8b0dce6e84132ce3909309ef0"
+      }
+    },
+    {
+      "filename": "40-nghttp3_349900c9fbaeb49bbcda63d1ccc7a41fba3f35e4091e1efa63142741543cd0f5.tar.xz",
+      "bytes": 588028,
+      "sha256": "679c9b51d1fe5d81c450c99a4524bf7f953d9d2f57cc024cd295518fa2beb633",
+      "stage": "40-nghttp3",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/ngtcp2/nghttp3.git",
+        "SCRIPT_COMMIT": "ac11a456eb9d76e55fd6c1626727111cd29d5459"
+      }
+    },
+    {
+      "filename": "40-ngtcp2_1b86753fc02a4b1e19da48f3dd330909f119374e5c6559cc6f82c3a327333de0.tar.xz",
+      "bytes": 1437404,
+      "sha256": "ab6ad9a0ee476ca9334d95806885958eda887cbf5fa22212329b0fa186c83af9",
+      "stage": "40-ngtcp2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/ngtcp2/ngtcp2.git",
+        "SCRIPT_COMMIT": "20da63db12a3e7fd2a3ae1a9f15be3cadd3f2695"
+      }
+    },
+    {
+      "filename": "40-vulkan-headers_ddc81d38d56ba4bdf4cec0219b9dde05a50af605e8990123796161c660bd920b.tar.xz",
+      "bytes": 5484176,
+      "sha256": "cdd5d938930c1188172f06e1770491ab5b601f250847d4880acda26631cf3e1e",
+      "stage": "40-vulkan-headers",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/KhronosGroup/Vulkan-Headers.git",
+        "SCRIPT_COMMIT": "v1.4.366"
+      }
+    },
+    {
+      "filename": "45-brotli_da008dd34ecc38730c8326e365080f6e8df7d5e3318f9baa11640013a3c2a3c3.tar.xz",
+      "bytes": 57211972,
+      "sha256": "5488e9a5d0ab7e9383ca6e1b4e8ef4321ab77846a4aba5d8953d15dd0742c95a",
+      "stage": "45-brotli",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/google/brotli.git",
+        "SCRIPT_COMMIT": "2e2bcf17ae7115d84ef6588d9a3651cc987d73e7"
+      }
+    },
+    {
+      "filename": "45-harfbuzz_bda4eaadc94e47205060109ae13e139ce86865c80d7166a6a99a65fceb75607d.tar.xz",
+      "bytes": 50236840,
+      "sha256": "8e8871c84244b7514e240371df173075222f3806fb9d8102cde2029f6c6e4f0a",
+      "stage": "45-harfbuzz",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/harfbuzz/harfbuzz.git",
+        "SCRIPT_COMMIT": "75d8ac5d2313842550174eaab0cbaf653c8f2f77"
+      }
+    },
+    {
+      "filename": "45-lcms2_27eacdf84d36c11c81718d5dd6d380178c11eaff50511b1b8526eb3aa4924635.tar.xz",
+      "bytes": 9111068,
+      "sha256": "49708e34c6c02651042f552e17a41a8005c3d1d99c86cf90e50a5be79d9f31c4",
+      "stage": "45-lcms2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/mm2/Little-CMS.git",
+        "SCRIPT_COMMIT": "1112313b3784ced9297d8c0ee076aba17499827a"
+      }
+    },
+    {
+      "filename": "45-libffi_4926a5ddb533e7af1ceb6847462394f09f68adb6ad0e7ec5408d79e5ab3fe73a.tar.xz",
+      "bytes": 1378328,
+      "sha256": "e5beca75362318679a22849603afc68909f1c9b828b24e35ba2317dd5fb8a566",
+      "stage": "45-libffi",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/libffi/libffi.git",
+        "SCRIPT_COMMIT": "bc553867367246d140cd156f060bd0409f57f157"
+      }
+    },
+    {
+      "filename": "45-libsamplerate_0810498d6a2fa7146ea7d224b33501c0e4ea37740e12902f1ffa9ab432f4213c.tar.xz",
+      "bytes": 7078008,
+      "sha256": "7b866e406bd5038c87da4303914ca8eaf820dc7dfa9eb5e38987555e0f591ba6",
+      "stage": "45-libsamplerate",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/libsndfile/libsamplerate.git",
+        "SCRIPT_COMMIT": "0844c208f683527c08ea8a80acc13b398aa9c8bf"
+      }
+    },
+    {
+      "filename": "45-libudfread_fd3762aa44b177492e9294237da9af64f7c2a22b97658e6e2a5395d1ae3a13c0.tar.xz",
+      "bytes": 267400,
+      "sha256": "6475a47042d4112a7af2b83a7c3806f50354f1bf6fdcbec2e419be5c5bcbf0fa",
+      "stage": "45-libudfread",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/libudfread.git",
+        "SCRIPT_COMMIT": "b0bc6957e7e07d5f35391f210596d9eb71cffdd9"
+      }
+    },
+    {
+      "filename": "45-libunibreak_0f3522905b8edfa966bc7d7eec5ed92793b7962f5f40ff31d885a8cb515688d7.tar.xz",
+      "bytes": 678940,
+      "sha256": "81fef45571b70f0f4de04179a968d03bb46de9100a94e6fe8718d264362e6ecc",
+      "stage": "45-libunibreak",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/adah1972/libunibreak.git",
+        "SCRIPT_COMMIT": "f8172fe771ef620112247cadfb876aecaa4f769e"
+      }
+    },
+    {
+      "filename": "45-libvorbis_0ab43e5711b2585b0c19dd71023f5852d755c633bda0215caad53dc63c62a644.tar.xz",
+      "bytes": 2314604,
+      "sha256": "2c53453d993477e5f42cea0507e8bea3d69229028050bfde19b273c1d80af975",
+      "stage": "45-libvorbis",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/xiph/vorbis.git",
+        "SCRIPT_COMMIT": "1b75110b5a2754ba1931d82dd83cb822b266a21d"
+      }
+    },
+    {
+      "filename": "45-opencl_2d69f824d43ae4eefcd36e1d9acfc34c521c761d6a3354893f4ab04265b257ff.tar.xz",
+      "bytes": 441220,
+      "sha256": "f75303cec86aece8413ef728f608a66608f2734540596e1888efb6e72369782a",
+      "stage": "45-opencl",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/KhronosGroup/OpenCL-Headers.git",
+        "SCRIPT_COMMIT": "82f60316cc142e7b21dc1d8983b26de18858fbd9",
+        "SCRIPT_REPO2": "https://github.com/KhronosGroup/OpenCL-ICD-Loader.git",
+        "SCRIPT_COMMIT2": "5192c84f8059e5f703e5452929b613f9487f6e4c"
+      }
+    },
+    {
+      "filename": "45-pcre2_ef588edc992e8e97993b1c2e1761d0b951dc5aec4d0c2fece1d4f1fd1efeeb55.tar.xz",
+      "bytes": 8307520,
+      "sha256": "0b8467caccbd09746e2bf4bc2f1d724dd9494e2e6967ad428f2efd4b048acc57",
+      "stage": "45-pcre2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/PCRE2Project/pcre2.git",
+        "SCRIPT_COMMIT": "be940c4eaec0bc4117e06e8f14e56bf82089be6b"
+      }
+    },
+    {
+      "filename": "45-pixman_011ae6c7826bf26de4d16616ff8d675e32921c2fed22a82b7d9d0819af80d62e.tar.xz",
+      "bytes": 1326076,
+      "sha256": "86d1c1c3566c8abaf9045b49772ae084aa1ec64d92ee92f094ec87e13a143636",
+      "stage": "45-pixman",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/pixman/pixman.git",
+        "SCRIPT_COMMIT": "e7fd44140fe6edef507d54bdbc25c09543ffc936"
+      }
+    },
+    {
+      "filename": "45-pulseaudio_75fc5468c2f6f4d4b273e1e1ee3e15bfeca5d31f131e21e4724c56b5484089c9.tar.xz",
+      "bytes": 10700884,
+      "sha256": "caca4b16fd0687f3fb5ff0ef568018e4217e41c9432a9fb8c752f3aa95ec7707",
+      "stage": "45-pulseaudio",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/pulseaudio/pulseaudio.git",
+        "SCRIPT_COMMIT": "77d25a1e613095bdf87a1d13b65e7c330565077a"
+      }
+    },
+    {
+      "filename": "45-vmaf_1c44f97a1bcafb8dbc51f7d96a30afcda407e079ba7375fa0dc9cf63f26117ae.tar.xz",
+      "bytes": 35059616,
+      "sha256": "12e7531df5c8839c3b1a2af146a244a5b80680a53dc36af18a41cafc3683180e",
+      "stage": "45-vmaf",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/Netflix/vmaf.git",
+        "SCRIPT_COMMIT": "f712fa7564fe49b12991d83920b83573af2ae063"
+      }
+    },
+    {
+      "filename": "45-vulkan-loader_56e5e75c96fa35dcef2f78ab98d16220825d237aac6b9b79c26a6ea58278a6ec.tar.xz",
+      "bytes": 5491824,
+      "sha256": "6e9893df270f4dfc1a662fd86fb19fca32521a3247e10abf3d4e4463669f4ead",
+      "stage": "45-vulkan-loader",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/BtbN/Vulkan-Shim-Loader.git",
+        "SCRIPT_COMMIT": "65b3936528cd92eb4ea3de485d03f858a3850484",
+        "SCRIPT_REPO2": "https://github.com/KhronosGroup/Vulkan-Headers.git",
+        "SCRIPT_COMMIT2": "v1.4.366"
+      }
+    },
+    {
+      "filename": "45-vulkan_6085f6aaf4e11c171fb87f266e26274896e3faa5ece695f41f56fbb02b95bf9a.tar.xz",
+      "bytes": 4438716,
+      "sha256": "728512a320575077aacb1795c2101953392e51f7a106a62e0ad6f4df39aded77",
+      "stage": "45-vulkan",
+      "recipe": {}
+    },
+    {
+      "filename": "45-xxhash_12b7c72fb58040129c224e71cea6c025839691752bc2e3389cd00dfafea74549.tar.xz",
+      "bytes": 1904832,
+      "sha256": "1a7b8bf8552d363208d4e2ac3afd06ebe748c9ddf4e2246ce9428bc1285ddd87",
+      "stage": "45-xxhash",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/Cyan4973/xxHash.git",
+        "SCRIPT_COMMIT": "61fd0fece2ebafc5bd9b573050e0c046c4e48d28"
+      }
+    },
+    {
+      "filename": "45-zstd_5630d1ec461c3296b7ce125ec1d2ddf9ac6d8b0a6e1e2f4995f9f93055d1a72d.tar.xz",
+      "bytes": 4340180,
+      "sha256": "2d8af528d0bdd056888a7ef94359c5fe16066108fb337751a631373a36951c5f",
+      "stage": "45-zstd",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/facebook/zstd.git",
+        "SCRIPT_COMMIT": "49cf51799ea051457f57243527aa2058f999f005"
+      }
+    },
+    {
+      "filename": "50-amf_0a3d21afc1753f7c9484a2ede293000bc3129fbdd3dcd942ebe98ff7c59c9fed.tar.xz",
+      "bytes": 4182764,
+      "sha256": "2b9b274e157ae453d20f4ffa2a8f60acef9a50fdaa949cadf1460c602ec3df7b",
+      "stage": "50-amf",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/GPUOpen-LibrariesAndSDKs/AMF.git",
+        "SCRIPT_COMMIT": "57ee0cfb0e1a08d9041f77435653794c1b012be0"
+      }
+    },
+    {
+      "filename": "50-aom_e96855aca62dfb199d85f4f6d6436f2379001ade93153a16ed1ec9828f163436.tar.xz",
+      "bytes": 12074620,
+      "sha256": "821d017de12bb671d995c847244334d6df7a29f14aad1a80233b35db5d11f225",
+      "stage": "50-aom",
+      "recipe": {
+        "SCRIPT_REPO": "https://aomedia.googlesource.com/aom",
+        "SCRIPT_COMMIT": "9ace39e02a34992b83fc7f7f2bfbbd2e79348c74"
+      }
+    },
+    {
+      "filename": "50-avisynth_1f4a5aef725b195786f21b2f600141272aa5e84dcb9941dae4a255ba3d0edae8.tar.xz",
+      "bytes": 21052744,
+      "sha256": "d950999d96f56bfe42d5f9872f7647f26da5330063199514f8bbbae2390dc58e",
+      "stage": "50-avisynth",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/AviSynth/AviSynthPlus.git",
+        "SCRIPT_COMMIT": "523370a39933e2f9c208a5d74c1d35d43d177a76"
+      }
+    },
+    {
+      "filename": "50-chromaprint_79d7c7c976ae5fe8caf2f98804282f4517c7e7366a05287d4a46893593abe42e.tar.xz",
+      "bytes": 3000212,
+      "sha256": "f2498649d039745c7b67316a0d5adbd387c099698e5b9ba1df8e6de497bc4e35",
+      "stage": "50-chromaprint",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/acoustid/chromaprint.git",
+        "SCRIPT_COMMIT": "3b38c100022bdfb49be7797c4828a476f1621d55"
+      }
+    },
+    {
+      "filename": "50-dav1d_2533f9856042f3f39dc8cda2e58311c24d27c3421fdd6e11af9860c4b9b301ae.tar.xz",
+      "bytes": 2973808,
+      "sha256": "fa75be6d516e1417374b82fdab377e4ffdeceb0cd9c6fcad40c4ee75ca46c1dc",
+      "stage": "50-dav1d",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/dav1d.git",
+        "SCRIPT_COMMIT": "b8b2d726b4b78a2fb174cb45baff441b5969672c"
+      }
+    },
+    {
+      "filename": "50-davs2_a2d3a5d05dbd810e7a33f41ca77f70f1775ab8318ffe3e1b365105e8ad813d7e.tar.xz",
+      "bytes": 1795708,
+      "sha256": "97f7fbcb6e14ec208d5b8c1c609a460c340fdca6b7ff904f420bcceedbb75426",
+      "stage": "50-davs2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/pkuvcl/davs2.git",
+        "SCRIPT_COMMIT": "b41cf117452e2d73d827f02d3e30aa20f1c721ac"
+      }
+    },
+    {
+      "filename": "50-fdk-aac_2347e0e93e897a22fcc45b01b5405c0af5aa770d6de284fa5bd00e60f77564cb.tar.xz",
+      "bytes": 8660652,
+      "sha256": "8069cd080db9beaae2bce585ec6e237953e5dc7c547c85391179f5435f2551ea",
+      "stage": "50-fdk-aac",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/mstorsjo/fdk-aac.git",
+        "SCRIPT_COMMIT": "c41c3c7516ea8d0d78a53b96b30bed3a29745cc6"
+      }
+    },
+    {
+      "filename": "50-ffnvcodec_cb0ed43b23374c3bfc7beedfb32a54f07d7c9e226849ff5b3fe68525c052dbb1.tar.xz",
+      "bytes": 385912,
+      "sha256": "49e939852a05a0f7907a673834e4f7adafe6737d2f324cdc45143ba70ae395cc",
+      "stage": "50-ffnvcodec",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/FFmpeg/nv-codec-headers.git",
+        "SCRIPT_COMMIT": "f2053071ea93137255b6dcf42e9b4c9e0965a44e",
+        "SCRIPT_REPO2": "https://github.com/FFmpeg/nv-codec-headers.git",
+        "SCRIPT_COMMIT2": "ced4f8eba3ba5dd431932cba17928f0dffdaeb2b",
+        "SCRIPT_REPO3": "https://github.com/FFmpeg/nv-codec-headers.git",
+        "SCRIPT_COMMIT3": "833faee5f7b8d3f56444347c587f4aed11ee213f"
+      }
+    },
+    {
+      "filename": "50-freetype_5a16600613e9e439bee5dc9b264bc7bf21441e14826bf85b2d5e6741b0e34a63.tar.xz",
+      "bytes": 4638076,
+      "sha256": "1c41e6dfe3139c213f01630e20d3c0d9b95d2a90390134c1381cd8345de6dc9e",
+      "stage": "50-freetype",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/freetype/freetype.git",
+        "SCRIPT_COMMIT": "4ba7c3d82ab8b3cc80b869337d2c2b1913c5e415"
+      }
+    },
+    {
+      "filename": "50-frei0r_4e5d48859e5046fe3d6eae5276456bffa385e66641ad8bbb32f46a8babe3db02.tar.xz",
+      "bytes": 8548124,
+      "sha256": "c661d65debb2cdc6adf66a992a63d4d1d6dec562489af285b502e3230ccc07ff",
+      "stage": "50-frei0r",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/dyne/frei0r.git",
+        "SCRIPT_COMMIT": "618dde79716fab4e428a05e6476325b9e6f5b063"
+      }
+    },
+    {
+      "filename": "50-gme_a777e130690856e910357309c2a2ece4423a149328c5a5780012b7d4ad3641ff.tar.xz",
+      "bytes": 661380,
+      "sha256": "8d9367397d5a357faf8c6ce295778c7be3bfd4f9bcf3d5ba367505a133881b18",
+      "stage": "50-gme",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/libgme/game-music-emu.git",
+        "SCRIPT_COMMIT": "f68963b1de0633149b05732113d3c3113c6f63a1"
+      }
+    },
+    {
+      "filename": "50-kvazaar_46c0cdef9594b8c304dbff6ad4a7a1226dc9764e056489ef17cbf0475bb07d8d.tar.xz",
+      "bytes": 1212388,
+      "sha256": "3944cc59fd239b592a5a63b7ce88c3978beca1452b32b485a004b2ad0773a54b",
+      "stage": "50-kvazaar",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/ultravideo/kvazaar.git",
+        "SCRIPT_COMMIT": "1f11f9ae33ef0cbe48a7d335b7144af1ecfe8092"
+      }
+    },
+    {
+      "filename": "50-lcevcdec_f5d80ac2702c700db08d56adc3cced6d3eca48acc3fef9ad56e76bd562db3a8d.tar.xz",
+      "bytes": 4778648,
+      "sha256": "8a557785fb977dfd639009507db8810072a0f3b16c5b0a42f5bc01ca185ab3f0",
+      "stage": "50-lcevcdec",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/v-novaltd/LCEVCdec.git",
+        "SCRIPT_COMMIT": "741fb7c869cf61012f7dcebfcd9e56981198c78b"
+      }
+    },
+    {
+      "filename": "50-libaribb24_3dd74ffb861f7ef9133dab074b9845408d84ebc49db9aee5d91829efba6d52ce.tar.xz",
+      "bytes": 109104,
+      "sha256": "a39f0c4cd4b28cbaecaa8a65d93667525875ffedffba7a6f9f30eeebd542ceda",
+      "stage": "50-libaribb24",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/nkoriyama/aribb24.git",
+        "SCRIPT_COMMIT": "5e9be272f96e00f15a2f3c5f8ba7e124862aec38"
+      }
+    },
+    {
+      "filename": "50-libaribcaption_c339ab3c771c8ab4d6cd1b47e60e40d6ed627ea3dcfd99c0470fcc32e96121ad.tar.xz",
+      "bytes": 544284,
+      "sha256": "187b34f7bbcbfa97e243ddaee4d2ae42060681785aee2d4c261427b90606e8eb",
+      "stage": "50-libaribcaption",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/xqq/libaribcaption.git",
+        "SCRIPT_COMMIT": "37dde0f32652c32aa98bf92278944d1cfb2e7354"
+      }
+    },
+    {
+      "filename": "50-libass_8d32f6ca9b508226966e8a676c7e47ed5a6ad66bd2caab05a6738c80d45feaab.tar.xz",
+      "bytes": 703456,
+      "sha256": "4ce9992b2089e1a72998cd288d47bc6b9b776d1913203c125ba3333c7f48fed2",
+      "stage": "50-libass",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/libass/libass.git",
+        "SCRIPT_COMMIT": "f61db567e6593df3470e91594bcd4ad2d0473aff"
+      }
+    },
+    {
+      "filename": "50-libbluray_edca5ac1903759355a7f260560ca11c21a5a92043cc4e8226d71a9e5ca997dfe.tar.xz",
+      "bytes": 1383864,
+      "sha256": "190393cbfc1bdd4aaf75ee39f7ed1c6300146687596c6bf8740645f14c94af36",
+      "stage": "50-libbluray",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/libbluray.git",
+        "SCRIPT_COMMIT": "f33a738fd7bb8b5e1148b0a5424778db7342450b"
+      }
+    },
+    {
+      "filename": "50-libcurl_1831735e4de0363d550ce63f143ec99436e3d8efbd61e080a118f0ec86d487d9.tar.xz",
+      "bytes": 7941000,
+      "sha256": "8bcc3a49fb0c314c39c5006ac39c47cd06687ee35c09d951c5282e45bc504362",
+      "stage": "50-libcurl",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/curl/curl.git",
+        "SCRIPT_COMMIT": "bc677a8f16a51e728136eff130509cfac57aad19"
+      }
+    },
+    {
+      "filename": "50-libdvdnav_20088474345356fbabc64ef14250d1f5ed698d04d2facb7d73dddfc9ace7b684.tar.xz",
+      "bytes": 249264,
+      "sha256": "f122b0bccbd3b4d9cdf7e174b461070e0a449e4eb7dc619d235c58efaef3c383",
+      "stage": "50-libdvdnav",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/libdvdnav.git",
+        "SCRIPT_COMMIT": "8147ccd35e5aae4afdd21171cf7b6b4d8f179d28"
+      }
+    },
+    {
+      "filename": "50-libjxl_7c56642fa32eaa425d25a962f3a67e917ce2ba5eeadf689754e94c71b716a19d.tar.xz",
+      "bytes": 22999976,
+      "sha256": "5cee4f0a5ad8897e4fc7111b58170824b0e2556b6d4198e22487d88609d4b88d",
+      "stage": "50-libjxl",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/libjxl/libjxl.git",
+        "SCRIPT_COMMIT": "e47d2a2b5bb418f2947ce07f36cb048861db3820"
+      }
+    },
+    {
+      "filename": "50-libmp3lame_414ea17768b396fc4638b6867888ca5f013f3a92a1bce2c003dbe6986a94118c.tar.xz",
+      "bytes": 2203068,
+      "sha256": "b206fb54e4f716a98f83ec4a4de7ad1f55deec7a512ecd0cfa23f37d18fe1cf1",
+      "stage": "50-libmp3lame",
+      "recipe": {
+        "SCRIPT_REPO": "https://svn.code.sf.net/p/lame/svn/trunk/lame"
+      }
+    },
+    {
+      "filename": "50-libopus_5e1564aea58d4cd56d8e4c0df78118a05343c637bbd1b0da95faa04b4f0edb2b.tar.xz",
+      "bytes": 268044560,
+      "sha256": "c00bc2d037b01a618e3aec7dd7b9b7e536bffd6710f7b15f691e7c179ddd2084",
+      "stage": "50-libopus",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/xiph/opus.git",
+        "SCRIPT_COMMIT": "a8b2545eec71e0f53ecead2d583e7b6baa42684d"
+      }
+    },
+    {
+      "filename": "50-libplacebo_aa3eb0352b4bd00dc4bc648525a49c86927164dae57126696bf798b2f6f29d0b.tar.xz",
+      "bytes": 17241968,
+      "sha256": "34bf2fff84802042d377528afe9b85334f80a2a1b2543a229fd15303372b6067",
+      "stage": "50-libplacebo",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/libplacebo.git",
+        "SCRIPT_COMMIT": "275f7dea27924cdd34ab2e6c20e448b6bc4fab65"
+      }
+    },
+    {
+      "filename": "50-librist_14396bbf9b7e8ab45e7e6a56d2cb299f382d405f7ff63f95c6cfe252c0abf321.tar.xz",
+      "bytes": 6334396,
+      "sha256": "b658debf0f350b3e6feaef795f8f76c24732064be300c558d9805225965c471c",
+      "stage": "50-librist",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/rist/librist.git",
+        "SCRIPT_COMMIT": "47ad5513d1aa0adb692d78f635512e7fa123f06e"
+      }
+    },
+    {
+      "filename": "50-libssh_42574f0c3419e24b6661ec8965fffdce0de52640816a32d8a031f2969d8082b0.tar.xz",
+      "bytes": 2311460,
+      "sha256": "f6d7e9c249dbba36b7ac544f07c30ae7f0022b5173c11a511aed46541261c5e7",
+      "stage": "50-libssh",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.com/libssh/libssh-mirror.git",
+        "SCRIPT_COMMIT": "9de02f3d01ba16d06f46c0c4d27aa08d8deeecee"
+      }
+    },
+    {
+      "filename": "50-libtheora_c5b1505081f2493a61c94a64ef8eef6de9b851447fab834bd5f9b6e35ee1d008.tar.xz",
+      "bytes": 1805520,
+      "sha256": "7baf4f2de030b47fb9f80e15b72cdf09246d1b277fedd5334e3c5ce62c5b22cc",
+      "stage": "50-libtheora",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/xiph/theora.git",
+        "SCRIPT_COMMIT": "28fd5ec77f0ad0e07a371cef1047828116f6bd8a"
+      }
+    },
+    {
+      "filename": "50-libva_12e3a5b0a3669406b4688f3654f98f2f2973e69b901b6d9e933d6a616f59f300.tar.xz",
+      "bytes": 612900,
+      "sha256": "7dfa1fd7351c23f121beff6f010b94f7c4f48a6971b061a160ebe23b682f4b8b",
+      "stage": "50-libva",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/intel/libva.git",
+        "SCRIPT_COMMIT": "f052e984e0c8bf10784198cc311b23c567b1367f"
+      }
+    },
+    {
+      "filename": "50-libvpx_c47989190526d404154d9be2855d1ee7ebc0a144957c1dbe7df36b85d9b8c450.tar.xz",
+      "bytes": 10701944,
+      "sha256": "d16fc2e473467eeaa8afc22160d72e08a2329e0e0b922b5e8eddcfdfda8d3855",
+      "stage": "50-libvpx",
+      "recipe": {
+        "SCRIPT_REPO": "https://chromium.googlesource.com/webm/libvpx",
+        "SCRIPT_COMMIT": "900b2a52b69e9d4ab72eb855c365da1100c50eb1"
+      }
+    },
+    {
+      "filename": "50-libwebp_fddc711fb703733c0d17a383eefe593d6ad9ce367832f1770e4ee5ca942bc8c0.tar.xz",
+      "bytes": 3735200,
+      "sha256": "20b6cadbd8c293ee1f88c2eddcd490c76841a668fd0567f96c07d31230bd2bec",
+      "stage": "50-libwebp",
+      "recipe": {
+        "SCRIPT_REPO": "https://chromium.googlesource.com/webm/libwebp",
+        "SCRIPT_COMMIT": "1844042d1ca751e62e61df7617dba19c98588339"
+      }
+    },
+    {
+      "filename": "50-libxext_63e9942f10f8639169486c0c50997c583892b495d6aa9608c99f22bec8f9cbb6.tar.xz",
+      "bytes": 274132,
+      "sha256": "fcc3a87713f29b98b46722a41b1ce08370692c1c172882eb3d6c25b6934f5c2d",
+      "stage": "50-libxext",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxext.git",
+        "SCRIPT_COMMIT": "508f8adca2540ff8926ac8456cb1c553a8caae76"
+      }
+    },
+    {
+      "filename": "50-libxfixes_b0399b879cf10da97be556a7d224dc7e04f3caad8b63a46fcc683e8507fb1495.tar.xz",
+      "bytes": 54328,
+      "sha256": "3a8cc1c884d5e3106827dc08da47eb4899ae523b4b35570360c0ff7a7cf5ac11",
+      "stage": "50-libxfixes",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxfixes.git",
+        "SCRIPT_COMMIT": "55bb2d1d57d43e0595ce45393f26eb433d75a7cc"
+      }
+    },
+    {
+      "filename": "50-libxi_8c237b64d4df28813193f8d9f49bd551d6ef4ad38d65a2bf2e63a1ffab70f7a5.tar.xz",
+      "bytes": 303816,
+      "sha256": "5910003acf05e19663d9627d99c70d3b2a9810769acbcb3da1b432708efea709",
+      "stage": "50-libxi",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxi.git",
+        "SCRIPT_COMMIT": "9ea632ab9dce9ad6630ef7db9d1850ea3d0a2419"
+      }
+    },
+    {
+      "filename": "50-libxinerama_ba0cdf4b001e4bcb597ff1724ca04a818f15665b64bf9241c52047031c063f79.tar.xz",
+      "bytes": 40020,
+      "sha256": "dd7b545b5a78c282cf5f896569977b31220e1bc684877fa02a2b7bb0ddef3961",
+      "stage": "50-libxinerama",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxinerama.git",
+        "SCRIPT_COMMIT": "d7162b962710bc724b41cabab4e7cea303c4b541"
+      }
+    },
+    {
+      "filename": "50-libxrender_6daa5951899da7b943fa38de6d89b8a445f9e66f8cb03fd24da11c48449ad04b.tar.xz",
+      "bytes": 160640,
+      "sha256": "3459c1e8be5eef940e2072e6b76be2f598efad11354d6a15e6b47936131654ef",
+      "stage": "50-libxrender",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxrender.git",
+        "SCRIPT_COMMIT": "f30d654658ebf17d41141ed3ec2abf607d8a512e"
+      }
+    },
+    {
+      "filename": "50-libxscrnsaver_5c9dcd646e93ff51cbd135d4e0985d88853f250ce626ab0889723b8bee770e3d.tar.xz",
+      "bytes": 48920,
+      "sha256": "a62017f126e823382deff20701e2a6eccba8ed677ab6749e0abbe320bb93cccf",
+      "stage": "50-libxscrnsaver",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxscrnsaver.git",
+        "SCRIPT_COMMIT": "3f753e7a4050db083474444ae91cc17a849eaa4d"
+      }
+    },
+    {
+      "filename": "50-libxxf86vm_03e86e2ea8e466bee1b235888c6ce6a6239689b2dd3d8f1f2a8c2f1ce5abdadc.tar.xz",
+      "bytes": 49484,
+      "sha256": "9577bcc5e8a8fab4b0f16609ec61d931e9c60c0fb64d8e139f3697205fcfa4a9",
+      "stage": "50-libxxf86vm",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxxf86vm.git",
+        "SCRIPT_COMMIT": "c76fde6bffcc87e5dd98d8196bb01a299bdc3236"
+      }
+    },
+    {
+      "filename": "50-libzmq_e68f6ea67cc2e84e0b320f3a4b5538dc90d97142264dc310dd8bbcb5f989d9e2.tar.xz",
+      "bytes": 1688328,
+      "sha256": "650bcd37905a95f56bc29de27e57c8948382a1de698577075003e07b96711f77",
+      "stage": "50-libzmq",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/zeromq/libzmq.git",
+        "SCRIPT_COMMIT": "46493370217ac135246617fa2f6ac819d8b61bfc"
+      }
+    },
+    {
+      "filename": "50-onevpl_c67accd07bdf24795034753f097eec4331f1a1174ce643cf5bcf94cb26ddd5e4.tar.xz",
+      "bytes": 16127492,
+      "sha256": "e82b05b0feab7b6dc76db2bd781c84e1a73b23ffc11a1bf2c9f4b04c77b23674",
+      "stage": "50-onevpl",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/intel/libvpl.git",
+        "SCRIPT_COMMIT": "674d015bcb294bc39fa276e99a652ea045423e82"
+      }
+    },
+    {
+      "filename": "50-openal_75621c86ba55c9432100695ec76dc2b90eaa72f49cc6d5542930d03390d13cde.tar.xz",
+      "bytes": 3033384,
+      "sha256": "cd6cf11de15d1249749f65c4ecbe939ada08b6cca4bc9d1c3b2fb4c5448ffff1",
+      "stage": "50-openal",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/kcat/openal-soft.git",
+        "SCRIPT_COMMIT": "4a52288b772d1722713675f71bb30f321e78fd80"
+      }
+    },
+    {
+      "filename": "50-openapv_88de83e9d056a62b91a068ecb025fb15111482ffa583943495f4a55ba4926a43.tar.xz",
+      "bytes": 326851328,
+      "sha256": "2d1b6c39a3a2d2c79ea6e2b78c33889c594a794ba0a68d29608e53f4dd9c7269",
+      "stage": "50-openapv",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/AcademySoftwareFoundation/openapv.git",
+        "SCRIPT_COMMIT": "b4ff69856b4c3e8849df431ee3db54fd535f9bf3"
+      }
+    },
+    {
+      "filename": "50-opencore-amr_5d7ec3b8ffdd0f32309a659256916e3286724f08acf0f625a4b4f1f9c17ebf7c.tar.xz",
+      "bytes": 1065720,
+      "sha256": "73df364d53bbd34f6acb6dbb73839691730142c5393a01a91b40f70de334bfee",
+      "stage": "50-opencore-amr",
+      "recipe": {
+        "SCRIPT_REPO": "https://git.code.sf.net/p/opencore-amr/code",
+        "SCRIPT_COMMIT": "7dba8c32238418ce0b316a852b2224df586ca896"
+      }
+    },
+    {
+      "filename": "50-openh264_a190744ec7bc191b9c0665346cb53732657397a33da8e7f6399d135ad681dc9d.tar.xz",
+      "bytes": 119216496,
+      "sha256": "02fd2b695d9e05367fd94868af54aec8e1ce7602b0c37f788591c8305b494e3c",
+      "stage": "50-openh264",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/cisco/openh264.git",
+        "SCRIPT_COMMIT": "1bca62311e447fd9c39fc93de2c4b96cd5ce971c"
+      }
+    },
+    {
+      "filename": "50-openjpeg_b35ab3ef10d52ce49eb8146e05af61e7560bf3b18aa2dd750cb5b083079caac4.tar.xz",
+      "bytes": 3845868,
+      "sha256": "0a1fe113f8919ec3706ee7cacde3c44fb3d1835b955c8f1337ac698cf6358db5",
+      "stage": "50-openjpeg",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/uclouvain/openjpeg.git",
+        "SCRIPT_COMMIT": "8314119b067c0fc77834731168daaebd379fdb12"
+      }
+    },
+    {
+      "filename": "50-openmpt_afcc3bca4fd32a596b1caa9087dc6ce2d3ab7391690a1bdf959935bae3b33bf4.tar.xz",
+      "bytes": 50964452,
+      "sha256": "0b22dfb682dcd1c5f0e3ba97cccd7458639d12ee8a8eca5971828bc07072d669",
+      "stage": "50-openmpt",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/OpenMPT/openmpt.git",
+        "SCRIPT_COMMIT": "3ee3c8000b45886703816fd027369ab6ad6fc6cb"
+      }
+    },
+    {
+      "filename": "50-rav1e_b2d3a4caec12576416c156eb16b4f83433caf3dc3a8270ed0bfe4fb74098dd54.tar.xz",
+      "bytes": 5539668,
+      "sha256": "d416ebd4b5d2a9443c5fd7f1888cb402368f91c64a86723b6a07d92d7744d1e6",
+      "stage": "50-rav1e",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/xiph/rav1e.git",
+        "SCRIPT_COMMIT": "31435de9d76fddd38f6dcc31d4014574cebb2092"
+      }
+    },
+    {
+      "filename": "50-rubberband_5d3ca7b4a1f4c07ead3f23ba9c7a3736384a9394a34e41bf70a78075e0ed9593.tar.xz",
+      "bytes": 586584,
+      "sha256": "77495a8a3119e26efb21d29ad5c38bd8a985756de0966527f59474d7952b10bd",
+      "stage": "50-rubberband",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/breakfastquay/rubberband.git",
+        "SCRIPT_COMMIT": "e4296ac80b1170018a110bc326fd0d45a0eb27d6"
+      }
+    },
+    {
+      "filename": "50-sdl_e9ff25aac373919ff283eb8f4017c116008ac8c210c77a99a78d22713792cd0a.tar.xz",
+      "bytes": 13829892,
+      "sha256": "62089d92083727bde2ed3ae816d4c5e47458d3fdfebbd6d3ffc0ce805a84cdec",
+      "stage": "50-sdl",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/libsdl-org/SDL.git",
+        "SCRIPT_COMMIT": "8acf7cfc0f88717e5c036f60f0314bfcafe39189"
+      }
+    },
+    {
+      "filename": "50-shaderc_9fb6f90fcb980db57cbd05768906a6f0a9bee84abfaf01d6dfc33df488260939.tar.xz",
+      "bytes": 170183236,
+      "sha256": "7b508e88d563d98eae8fec1295b3d995f9884fffd80d2ec6bbbd6bd10ca98197",
+      "stage": "50-shaderc",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/google/shaderc.git",
+        "SCRIPT_COMMIT": "2737994b552137a85545f956e303d620e6ff232c"
+      }
+    },
+    {
+      "filename": "50-snappy_321fc33fe352fb12cdc2e61068884fd17af73bdbdf1592ca3f509a9fbe7dc318.tar.xz",
+      "bytes": 2128416,
+      "sha256": "36401533f38ed5ca22c2adac59cde5dfe8f9ca11b8a53036851b7f6489cfd791",
+      "stage": "50-snappy",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/google/snappy.git",
+        "SCRIPT_COMMIT": "946606459314e55d029c85f9a8c46f8809467f0f"
+      }
+    },
+    {
+      "filename": "50-soxr_d24c000584012b62b406f09325af85575932219b972b87ab3e2b1037bdc97c6a.tar.xz",
+      "bytes": 308508,
+      "sha256": "f72b77ab2f6d4bfdcd1242d3dcc0579ff20ed03948fdfe5fb2b0380e2dd2d22c",
+      "stage": "50-soxr",
+      "recipe": {
+        "SCRIPT_REPO": "https://git.code.sf.net/p/soxr/code",
+        "SCRIPT_COMMIT": "945b592b70470e29f917f4de89b4281fbbd540c0"
+      }
+    },
+    {
+      "filename": "50-srt_f64348f866a4d03ceeb59882c4d76f42ca632dc4ffc6b4f4d2d643a24d6e124a.tar.xz",
+      "bytes": 3453436,
+      "sha256": "9e7211324d55cc639609cea71a0ec17264e6d49d347e3afb1c9be06220a93595",
+      "stage": "50-srt",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/Haivision/srt.git",
+        "SCRIPT_COMMIT": "9f2390232a8256ed4c72a5418c2b2777c49ad737"
+      }
+    },
+    {
+      "filename": "50-svtav1_8686a5e100427295d0b35944defa4595e2a8afafeb27c1e49ad073ff4cad403f.tar.xz",
+      "bytes": 89437416,
+      "sha256": "72ee393c074e69933a167a7690fd3fd172b5d24deb2bb018845a8db3a5930a87",
+      "stage": "50-svtav1",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.com/AOMediaCodec/SVT-AV1.git",
+        "SCRIPT_COMMIT": "f2c3fb78611d542b12b11c6d10d3744b31b754a0"
+      }
+    },
+    {
+      "filename": "50-twolame_b034b56f3c8caa730922980b6e8aca15c6f3b46e3fa98d3229c337aeb7858f71.tar.xz",
+      "bytes": 828424,
+      "sha256": "f49d916cd63bd478beb52baa0fe9fd829527a1bcd3c5fe9ae64f8ec11f1c8001",
+      "stage": "50-twolame",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/njh/twolame.git",
+        "SCRIPT_COMMIT": "6fced852d4d5cfad58cf9dbe3ea619b08e87d398"
+      }
+    },
+    {
+      "filename": "50-uavs3d_f5c1983f0fc2360d5846298e08a8f89f2f345caa3beb83100ca9b48eff5ded6b.tar.xz",
+      "bytes": 1442168,
+      "sha256": "cbe10f685faaa0fa276bd1f3797a8a482b9bb6ff55a7a75b9693c8a7012acea1",
+      "stage": "50-uavs3d",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/uavs3/uavs3d.git",
+        "SCRIPT_COMMIT": "0e20d2c291853f196c68922a264bcd8471d75b68"
+      }
+    },
+    {
+      "filename": "50-vapoursynth_a86486f12498c8da7869e3dc656d5b8b516a40f3bf81fd78f1829ab6241619f0.tar.xz",
+      "bytes": 2128288,
+      "sha256": "9b45f37388a4aae96a73db652f52d0d777f7a81531f5384f0b25c119b642bad2",
+      "stage": "50-vapoursynth",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/vapoursynth/vapoursynth.git",
+        "SCRIPT_COMMIT": "R81"
+      }
+    },
+    {
+      "filename": "50-vidstab_4775a069821691e584b2eb878047d58081f140d98fc8d3c759766f099723179e.tar.xz",
+      "bytes": 645268,
+      "sha256": "c63c6c3774d1252dd59d32ec25a203a68c111403adc180cea3e8a2fc0a780f9a",
+      "stage": "50-vidstab",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/georgmartius/vid.stab.git",
+        "SCRIPT_COMMIT": "e2445c4081658318223762a696eb1c645c2d7168"
+      }
+    },
+    {
+      "filename": "50-vvenc_fe9ba1507b97792ce10f332e8bbfa31a02b4eca31e28739dd0ded31f750d6dd9.tar.xz",
+      "bytes": 4527616,
+      "sha256": "b240c636c50753251dfd1a47e1e28e5d6b2af4e99246fbb333cb9c7b9714be00",
+      "stage": "50-vvenc",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/fraunhoferhhi/vvenc.git",
+        "SCRIPT_COMMIT": "0e7508b811bbea3cd510956ddb3193f3a4c93684"
+      }
+    },
+    {
+      "filename": "50-whisper_5dd72ab250fdc3faad8644f602d742e75b46882802657159b2a9739d95197495.tar.xz",
+      "bytes": 14300532,
+      "sha256": "5b8413fee5427406ecba537268086ae22b7c79f385feb9a5a4a2914459dd538a",
+      "stage": "50-whisper",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/ggml-org/whisper.cpp.git",
+        "SCRIPT_COMMIT": "231638a0717b7822784297e5980965ffcec05810"
+      }
+    },
+    {
+      "filename": "50-x264_7aee4cf46b7c0eff1a5ad3d23ae43a29562065ef2866a4a883d7ad2db0fb755d.tar.xz",
+      "bytes": 1916864,
+      "sha256": "b7c2bbb51005d101691a69d24edb99ea7ac9b9e448e74a606ecdc6e0357e3026",
+      "stage": "50-x264",
+      "recipe": {
+        "SCRIPT_REPO": "https://code.videolan.org/videolan/x264.git",
+        "SCRIPT_COMMIT": "0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee"
+      }
+    },
+    {
+      "filename": "50-x265_4f62c3a4d4f92a0b7156f9dadf00f2d69d48b2e5672894def14919159bbda398.tar.xz",
+      "bytes": 16946780,
+      "sha256": "6c12ac00046f52cec88def27bf5d2cc939786b6fa5f30233229c0f8dc69d880a",
+      "stage": "50-x265",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/Multicorewareinc/x265.git",
+        "SCRIPT_COMMIT": "5143a2a00ad0cc600831654a248b96ec7307eb4a"
+      }
+    },
+    {
+      "filename": "50-xavs2_983aacbab6d33318bf9c4742b41a1ed9d42afc12a0493ba97d07404a99734009.tar.xz",
+      "bytes": 2048468,
+      "sha256": "f69acaed672671ee460aa898e323a5e7190428be86e6bd4471b080e133cd8296",
+      "stage": "50-xavs2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/pkuvcl/xavs2.git",
+        "SCRIPT_COMMIT": "eae1e8b9d12468059bdd7dee893508e470fa83d8"
+      }
+    },
+    {
+      "filename": "50-xvid_03619a39e7e15a372b56fc954435c35668ed47258d7e7d3f2e47ba521e3b884f.tar.xz",
+      "bytes": 598692,
+      "sha256": "21e568c3f51bc5bc56cd564f72a42b730076045f350d6b4fbeef681aafe81bb8",
+      "stage": "50-xvid",
+      "recipe": {
+        "SCRIPT_REPO": "https://svn.xvid.org/trunk/xvidcore"
+      }
+    },
+    {
+      "filename": "50-zimg_7ac9b5905a13db62bae8b61a2a7b3806f25a5f3e173cc0c6c79edf9f38d8b437.tar.xz",
+      "bytes": 4555140,
+      "sha256": "3ad00d5b7171714787028a218c47877cd1b38697c0c7cca40d0cdb0082b6a7a7",
+      "stage": "50-zimg",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/sekrit-twc/zimg.git",
+        "SCRIPT_COMMIT": "67e0603271c080e22c8429856dd4a8a56587e61e"
+      }
+    },
+    {
+      "filename": "50-zvbi_b774b157c947fa3919367a434944b1908990616353e31f7ffd2949bc5fb3d7ab.tar.xz",
+      "bytes": 1755016,
+      "sha256": "f391f7befc8a62e24a84e79df6b15e6333eb960c91c71aca48c2c286407d23dc",
+      "stage": "50-zvbi",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/zapping-vbi/zvbi",
+        "SCRIPT_COMMIT": "34bb6f660c5c1bacd4a66cc7b22311e4ca3c1ab5"
+      }
+    },
+    {
+      "filename": "55-spirv-cross_8d2467aa644979698d20d36671060a6c0f6eac3782721527906bea5975e26af7.tar.xz",
+      "bytes": 3511604,
+      "sha256": "9e9e4c6e1b8f115d6226d62473137e84134fb7f9bb51e663ab483aad22253eda",
+      "stage": "55-spirv-cross",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/KhronosGroup/SPIRV-Cross.git",
+        "SCRIPT_COMMIT": "300681bbcb8365a8d1eacdacdbdd0249bbf1d6b1"
+      }
+    },
+    {
+      "filename": "60-libglvnd_b5decd6ef0d35071d5ef435a736000a7c2dfe94707206653267c61e11630c960.tar.xz",
+      "bytes": 1413728,
+      "sha256": "6f27add0ffd01c1d9073e82a29506b4fd3d9ed38efeb057e6fa378a6fa1ad283",
+      "stage": "60-libglvnd",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/glvnd/libglvnd.git",
+        "SCRIPT_COMMIT": "c046a760d845416e98ac4128757b2b356c47fdaa"
+      }
+    },
+    {
+      "filename": "60-libplacebo_5a9e7a2c1730d73611818360298f95b0576bdc39a942708a5547d0abb6fce11a.tar.xz",
+      "bytes": 15941884,
+      "sha256": "7bdf77f08e272e4e3bdf7ac67ec8b4366e296e92dbc2f4a0315c9f9066ade309",
+      "stage": "60-libplacebo",
+      "recipe": {}
+    },
+    {
+      "filename": "60-libxcursor_899caf3541ff1f0fdf3a60cbc483877819b6bc6b8fc6d56ae9863dd95d5b4a45.tar.xz",
+      "bytes": 105860,
+      "sha256": "e7b623b68080baeafa01e03e98d307caa2a8842986859f1436662dcec5525988",
+      "stage": "60-libxcursor",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxcursor.git",
+        "SCRIPT_COMMIT": "15efad7ccd035f5d1ddc8d437e047569d1775fa7"
+      }
+    },
+    {
+      "filename": "60-libxrandr_76ce7ef426d59979a255619444de369567889d5bfe2af130ef77700c096230fc.tar.xz",
+      "bytes": 93176,
+      "sha256": "84395e4f93af6b1cf79dacc880cc2d17c6c1da9835fd11c5c17b657d8c2fa658",
+      "stage": "60-libxrandr",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxrandr.git",
+        "SCRIPT_COMMIT": "8a4ba1974bcf07057cf891128d86ae1ab5303574"
+      }
+    },
+    {
+      "filename": "60-libxv_cda840dfd0f852c6535789148438618900c0a214b03a010c02ff1364a5499e02.tar.xz",
+      "bytes": 85836,
+      "sha256": "4b158ed124f60d2ea39cb8f6d252d546441292b412a13461ea3ab112c65c6d63",
+      "stage": "60-libxv",
+      "recipe": {
+        "SCRIPT_REPO": "https://gitlab.freedesktop.org/xorg/lib/libxv.git",
+        "SCRIPT_COMMIT": "f315ec50fcad9bdbaed46c3e78dc5e7fe209f933"
+      }
+    },
+    {
+      "filename": "60-spirv-headers_54cdecdd2165d64c7e2d86331e8fb9ae3d9623b6592f28fd7b5c764a96afd1b2.tar.xz",
+      "bytes": 692068,
+      "sha256": "3a9429e614ee18a5762b6b672481defaa5211f921077cf7891a72d0583deccc7",
+      "stage": "60-spirv-headers",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/KhronosGroup/SPIRV-Headers.git",
+        "SCRIPT_COMMIT": "fbf86836a9b1966586faf7be7bb8a6440e156d62"
+      }
+    },
+    {
+      "filename": "96-lv2_1833e554a5a1760aa41062569225bbb9856f09f3c23d37301074d82a17b0624e.tar.xz",
+      "bytes": 537464,
+      "sha256": "801b068e50832f417e4c7d44c05edeb47b8be3ceda3f677c016a39c91b99cadf",
+      "stage": "96-lv2",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/lv2/lv2.git",
+        "SCRIPT_COMMIT": "3c57dae600a5ad8d05acd53ee3490f7d91cb7be6"
+      }
+    },
+    {
+      "filename": "96-serd_85b62adf2841ea334e53cfaa67c987132eccf786c439583d021b39de09bb3f70.tar.xz",
+      "bytes": 519456,
+      "sha256": "f41c81898c843a38271932cb61ee4c1ea5140f000bcb1294a1e3b00dbb944fb2",
+      "stage": "96-serd",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/drobilla/serd.git",
+        "SCRIPT_COMMIT": "b621b0bc790d1e8102d3138ead16b974ddda8432"
+      }
+    },
+    {
+      "filename": "96-zix_21e780c9ab8c0f8067c36bb53b76fcabc2dd828153b3f1ab082ed44281f62d13.tar.xz",
+      "bytes": 231200,
+      "sha256": "189631500861f0879a37d8df8edacec36a7e79a2383ff37808cf7388e127c6e3",
+      "stage": "96-zix",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/drobilla/zix.git",
+        "SCRIPT_COMMIT": "17d632393f5addb6fa24dda2927b96515407cca7"
+      }
+    },
+    {
+      "filename": "97-sord_6ef433b3c59e64a645002e31f929dfec02cbd979f0d70b5373173e1ca217125d.tar.xz",
+      "bytes": 275684,
+      "sha256": "916791878f0a54483ad13d3eb04d26d36774763db85909bf6c577319cee43a97",
+      "stage": "97-sord",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/drobilla/sord.git",
+        "SCRIPT_COMMIT": "4b5232bb91e7f2f1b84df384494d073fabbcd312"
+      }
+    },
+    {
+      "filename": "98-sratom_a7e01a157b247bfecbce4a5c63016fa503ddd5703ffc208af3f81805a7d30535.tar.xz",
+      "bytes": 72464,
+      "sha256": "4a389e6a8662c7a03b938074a832399eef441af8b3cdaa3b2f86db9bb9d0cf2a",
+      "stage": "98-sratom",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/lv2/sratom.git",
+        "SCRIPT_COMMIT": "9e8ee84eed502e6030ce8bb49694fd28542b08fc"
+      }
+    },
+    {
+      "filename": "99-librsvg_13350adcab840c02279f23f917e44cd2cd91dce9f2ddfe0d84370925c37c1eb3.tar.xz",
+      "bytes": 38088000,
+      "sha256": "58628fa669cda654477488b05599ba683f20e0a7ffb9884576a6f725ac976142",
+      "stage": "99-librsvg",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/GNOME/librsvg.git",
+        "SCRIPT_COMMIT": "0c074d0a25adefd65843067306f9bc1fb609f68f"
+      }
+    },
+    {
+      "filename": "99-lilv_0543a3c15e7971c2371260e51aad5ead6ffbc7a539de39540a906ebf944d829d.tar.xz",
+      "bytes": 325436,
+      "sha256": "c376edca722630a84f70aa9a7635b293a289f47d7edf6c05b5d7761acdf4e49f",
+      "stage": "99-lilv",
+      "recipe": {
+        "SCRIPT_REPO": "https://github.com/lv2/lilv.git",
+        "SCRIPT_COMMIT": "4b8f30055fa5cb4134a2eb45fc1555bc04289314"
+      }
+    }
+  ],
+  "full_source_lock": {
+    "filename": "ffmpeg-9.0.2-btbn-source-lock.json",
+    "sha256": "947aa68ce08e9dd719228f8bba3505d3f6198cfe370d0f5eff437dbc653dde54"
+  }
+}

@@ -1,0 +1,753 @@
+{
+  "family": "macos",
+  "ffmpeg_version": "9.0.2",
+  "source_complete": true,
+  "source_identity": "Reconstructed from matching provider recipe, published version records, official repository history, and locked Cargo sources; no bit-reproducible rebuild claim.",
+  "recipe": {
+    "repository": "https://git.martin-riedl.de/ffmpeg/build-script",
+    "commit": "6a611e19870e197bc37c6e4c7fccddebd3715466"
+  },
+  "binary_sha256": {
+    "osx-amd64": {
+      "ffmpeg": "b25689cf2211c0582d317e849912769a1f1c93904fe102c485b5364a425633d1",
+      "ffprobe": "b5df9964b0c2048318fafedcd4e3bbafbc561033cee77de8da1840685d8a9d0d"
+    },
+    "osx-arm64": {
+      "ffmpeg": "2e11c6f90993cdb79fff84d3f90044d28316b310e75b3e030cfc9a54f2c9d384",
+      "ffprobe": "2738aa46a7f9acbc8ab09a6715554c90f7de603171ac403726765685df6a0059"
+    }
+  },
+  "components": [
+    {
+      "name": "aom",
+      "version": "3.15.0",
+      "url": "https://storage.googleapis.com/aom-releases/libaom-3.15.0.tar.gz",
+      "sha256": "ea08c38ecc078bc85bb1b691020e52b06250f1a81fe7ca5b624629225081af96",
+      "archive": "sources/aom-3.15.0.tar.gz",
+      "notice_file_count": 1355
+    },
+    {
+      "name": "dav1d",
+      "version": "1.5.4",
+      "url": "https://code.videolan.org/videolan/dav1d/-/archive/1.5.4/dav1d-1.5.4.tar.gz",
+      "sha256": "a1d5b63d2d38ec9bd03acf643caa51fa22edd1e89c5a109c4807717216bbec07",
+      "archive": "sources/dav1d-1.5.4.tar.gz",
+      "notice_file_count": 311
+    },
+    {
+      "name": "ffmpeg",
+      "version": "9.0.2",
+      "url": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.bz2",
+      "sha256": "ee80a25a5621df84498cef46917be87eab3b4f01951e85c2c7cbe5c94914ee70",
+      "archive": "sources/ffmpeg-9.0.2.tar.bz2",
+      "notice_file_count": 3966
+    },
+    {
+      "name": "fontconfig",
+      "version": "2.17.1",
+      "url": "https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/2.17.1/fontconfig-2.17.1.tar.xz",
+      "sha256": "9f5cae93f4fffc1fbc05ae99cdfc708cd60dfd6612ffc0512827025c026fa541",
+      "archive": "sources/fontconfig-2.17.1.tar.xz",
+      "notice_file_count": 105
+    },
+    {
+      "name": "freetype",
+      "version": "2.13.0",
+      "url": "https://download.savannah.gnu.org/releases/freetype/freetype-2.13.0.tar.gz",
+      "sha256": "a7aca0e532a276ea8d85bd31149f0a74c33d19c8d287116ef8f5f8357b4f1f80",
+      "archive": "sources/freetype-2.13.0.tar.gz",
+      "notice_file_count": 490
+    },
+    {
+      "name": "fribidi",
+      "version": "1.0.16",
+      "url": "https://github.com/fribidi/fribidi/releases/download/v1.0.16/fribidi-1.0.16.tar.xz",
+      "sha256": "1b1cde5b235d40479e91be2f0e88a309e3214c8ab470ec8a2744d82a5a9ea05c",
+      "archive": "sources/fribidi-1.0.16.tar.xz",
+      "notice_file_count": 64
+    },
+    {
+      "name": "harfbuzz",
+      "version": "14.4.0",
+      "url": "https://github.com/harfbuzz/harfbuzz/releases/download/14.4.0/harfbuzz-14.4.0.tar.xz",
+      "sha256": "2357ed966c6ced7bfa720b0640c0231065af01158fbea215093ffa15aed44371",
+      "archive": "sources/harfbuzz-14.4.0.tar.xz",
+      "notice_file_count": 296
+    },
+    {
+      "name": "lame",
+      "version": "4.0",
+      "url": "https://unlimited.dl.sourceforge.net/project/lame/lame/4.0/lame-4.0.tar.gz",
+      "sha256": "3df5124d5ad3a98312ffd7ba6a9b36230e4f8a3e66d3ce0f425e336c32d216eb",
+      "archive": "sources/lame-4.0.tar.gz",
+      "notice_file_count": 98
+    },
+    {
+      "name": "libass",
+      "version": "0.17.5",
+      "url": "https://github.com/libass/libass/releases/download/0.17.5/libass-0.17.5.tar.gz",
+      "sha256": "caab4b993dd7be6187c55623b789ed75dddefea6e65938af134637c732fe094a",
+      "archive": "sources/libass-0.17.5.tar.gz",
+      "notice_file_count": 84
+    },
+    {
+      "name": "libbluray",
+      "version": "1.5.0",
+      "url": "https://download.videolan.org/pub/videolan/libbluray/1.5.0/libbluray-1.5.0.tar.xz",
+      "sha256": "f676408e91a5d321abf8b8d4dfdae36205c297dab5c54c3ec519639025f474a2",
+      "archive": "sources/libbluray-1.5.0.tar.xz",
+      "notice_file_count": 167
+    },
+    {
+      "name": "libiconv",
+      "version": "1.17",
+      "url": "https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz",
+      "sha256": "8f74213b56238c85a50a5329f77e06198771e70dd9a739779f4c02f65d971313",
+      "archive": "sources/libiconv-1.17.tar.gz",
+      "notice_file_count": 395
+    },
+    {
+      "name": "libklvanc",
+      "version": "1.6.0",
+      "url": "https://github.com/stoth68000/libklvanc/archive/refs/tags/vid.obe.1.6.0.tar.gz",
+      "sha256": "5076ca48455a4ef4ead2cd880ba189b21937a9ad8fd458adfc133d7bb1c948c3",
+      "archive": "sources/libklvanc-1.6.0.tar.gz",
+      "notice_file_count": 55
+    },
+    {
+      "name": "libogg",
+      "version": "1.3.6",
+      "url": "https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.6.tar.gz",
+      "sha256": "83e6704730683d004d20e21b8f7f55dcb3383cdf84c0daedf30bde175f774638",
+      "archive": "sources/libogg-1.3.6.tar.gz",
+      "notice_file_count": 8
+    },
+    {
+      "name": "libtheora",
+      "version": "1.2.0",
+      "url": "https://downloads.xiph.org/releases/theora/libtheora-1.2.0.tar.gz",
+      "sha256": "279327339903b544c28a92aeada7d0dcfd0397b59c2f368cc698ac56f515906e",
+      "archive": "sources/libtheora-1.2.0.tar.gz",
+      "notice_file_count": 115
+    },
+    {
+      "name": "libvmaf",
+      "version": "3.2.0",
+      "url": "https://github.com/Netflix/vmaf/archive/refs/tags/v3.2.0.tar.gz",
+      "sha256": "a28f93f3b4fa65601be324587072e32a6a704a304ba7b1aec9b70b3f709bc1dc",
+      "archive": "sources/libvmaf-3.2.0.tar.gz",
+      "notice_file_count": 203
+    },
+    {
+      "name": "libvorbis",
+      "version": "1.3.7",
+      "url": "https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.7.tar.gz",
+      "sha256": "0e982409a9c3fc82ee06e08205b1355e5c6aa4c36bca58146ef399621b0ce5ab",
+      "archive": "sources/libvorbis-1.3.7.tar.gz",
+      "notice_file_count": 92
+    },
+    {
+      "name": "libwebp",
+      "version": "1.6.0",
+      "url": "https://github.com/webmproject/libwebp/archive/refs/tags/v1.6.0.tar.gz",
+      "sha256": "93a852c2b3efafee3723efd4636de855b46f9fe1efddd607e1f42f60fc8f2136",
+      "archive": "sources/libwebp-1.6.0.tar.gz",
+      "notice_file_count": 250
+    },
+    {
+      "name": "libxml2",
+      "version": "2.15.3",
+      "url": "https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.3.tar.xz",
+      "sha256": "78262a6e7ac170d6528ebfe2efccdf220191a5af6a6cd61ea4a9a9a5042c7a07",
+      "archive": "sources/libxml2-2.15.3.tar.xz",
+      "notice_file_count": 131
+    },
+    {
+      "name": "nasm",
+      "version": "3.02",
+      "url": "https://www.nasm.us/pub/nasm/releasebuilds/3.02/nasm-3.02.tar.gz",
+      "sha256": "f504227b2f529e658d41629075f0503b38d67d790af345f34eba4af60c6a5998",
+      "archive": "sources/nasm-3.02.tar.gz",
+      "notice_file_count": 141
+    },
+    {
+      "name": "ninja",
+      "version": "1.13.2",
+      "url": "https://github.com/ninja-build/ninja/archive/refs/tags/v1.13.2.tar.gz",
+      "sha256": "974d6b2f4eeefa25625d34da3cb36bdcebe7fbce40f4c16ac0835fd1c0cbae17",
+      "archive": "sources/ninja-1.13.2.tar.gz",
+      "notice_file_count": 130
+    },
+    {
+      "name": "openh264",
+      "version": "2.6.0",
+      "url": "https://github.com/cisco/openh264/archive/v2.6.0.tar.gz",
+      "sha256": "558544ad358283a7ab2930d69a9ceddf913f4a51ee9bf1bfb9e377322af81a69",
+      "archive": "sources/openh264-2.6.0.tar.gz",
+      "notice_file_count": 322
+    },
+    {
+      "name": "openjpeg",
+      "version": "2.5.4",
+      "url": "https://github.com/uclouvain/openjpeg/archive/refs/tags/v2.5.4.tar.gz",
+      "sha256": "a695fbe19c0165f295a8531b1e4e855cd94d0875d2f88ec4b61080677e27188a",
+      "archive": "sources/openjpeg-2.5.4.tar.gz",
+      "notice_file_count": 311
+    },
+    {
+      "name": "openssl",
+      "version": "3.6.4",
+      "url": "https://github.com/openssl/openssl/releases/download/openssl-3.6.4/openssl-3.6.4.tar.gz",
+      "sha256": "9bffaa1ad1e07b354c21bd3324ec02fa15579f45a7d0494b3e74bc449b7333ef",
+      "archive": "sources/openssl-3.6.4.tar.gz",
+      "notice_file_count": 2192
+    },
+    {
+      "name": "opus",
+      "version": "1.6.1",
+      "url": "https://downloads.xiph.org/releases/opus/opus-1.6.1.tar.gz",
+      "sha256": "6ffcb593207be92584df15b32466ed64bbec99109f007c82205f0194572411a1",
+      "archive": "sources/opus-1.6.1.tar.gz",
+      "notice_file_count": 370
+    },
+    {
+      "name": "pkg-config",
+      "version": "0.29.2",
+      "url": "https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz",
+      "sha256": "6fc69c01688c9458a57eb9a1664c9aba372ccda420a02bf4429fe610e7e7d591",
+      "archive": "sources/pkg-config-0.29.2.tar.gz",
+      "notice_file_count": 212
+    },
+    {
+      "name": "rav1e",
+      "version": "0.8.1",
+      "url": "https://github.com/xiph/rav1e/archive/refs/tags/v0.8.1.tar.gz",
+      "sha256": "06d1523955fb6ed9cf9992eace772121067cca7e8926988a1ee16492febbe01e",
+      "archive": "sources/rav1e-0.8.1.tar.gz",
+      "notice_file_count": 227
+    },
+    {
+      "name": "sdl",
+      "version": "2.32.10",
+      "url": "https://www.libsdl.org/release/SDL2-2.32.10.tar.gz",
+      "sha256": "5f5993c530f084535c65a6879e9b26ad441169b3e25d789d83287040a9ca5165",
+      "archive": "sources/sdl-2.32.10.tar.gz",
+      "notice_file_count": 1100
+    },
+    {
+      "name": "snappy",
+      "version": "1.2.2",
+      "url": "https://github.com/google/snappy/archive/refs/tags/1.2.2.tar.gz",
+      "sha256": "90f74bc1fbf78a6c56b3c4a082a05103b3a56bb17bca1a27e052ea11723292dc",
+      "archive": "sources/snappy-1.2.2.tar.gz",
+      "notice_file_count": 20
+    },
+    {
+      "name": "srt",
+      "version": "1.5.7",
+      "url": "https://github.com/Haivision/srt/archive/refs/tags/v1.5.7.tar.gz",
+      "sha256": "017cd1e437ef2073a4dd10ddf7b55e86bc3d6ebac0393d13bd22f6a57055d32b",
+      "archive": "sources/srt-1.5.7.tar.gz",
+      "notice_file_count": 140
+    },
+    {
+      "name": "svt-av1",
+      "version": "4.2.0",
+      "url": "https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v4.2.0/SVT-AV1-v4.2.0.tar.gz",
+      "sha256": "c7b13c4a84bd3751aa35fcc72be13e6875467e7c2216879251a486e5b1e4e740",
+      "archive": "sources/svt-av1-4.2.0.tar.gz",
+      "notice_file_count": 870
+    },
+    {
+      "name": "vpx",
+      "version": "1.16.0",
+      "url": "https://github.com/webmproject/libvpx/archive/v1.16.0.tar.gz",
+      "sha256": "7a479a3c66b9f5d5542a4c6a1b7d3768a983b1e5c14c60a9396edc9b649e015c",
+      "archive": "sources/vpx-1.16.0.tar.gz",
+      "notice_file_count": 1164
+    },
+    {
+      "name": "vvenc",
+      "version": "1.14.0",
+      "url": "https://github.com/fraunhoferhhi/vvenc/archive/refs/tags/v1.14.0.tar.gz",
+      "sha256": "dd43d061d59dbc0d9b9ae5b99cb40672877dd811646228938f065798939ee174",
+      "archive": "sources/vvenc-1.14.0.tar.gz",
+      "notice_file_count": 692
+    },
+    {
+      "name": "x265",
+      "version": "4.2",
+      "url": "https://bitbucket.org/multicoreware/x265_git/get/4.2.tar.gz",
+      "sha256": "0a3d41f6b4e2fe5a49d783d6631bd1a49c44cdf999074a3ff09e2cb71ac8ed33",
+      "archive": "sources/x265-4.2.tar.gz",
+      "notice_file_count": 283
+    },
+    {
+      "name": "zimg",
+      "version": "3.0.6",
+      "url": "https://github.com/sekrit-twc/zimg/archive/refs/tags/release-3.0.6.tar.gz",
+      "sha256": "be89390f13a5c9b2388ce0f44a5e89364a20c1c57ce46d382b1fcc3967057577",
+      "archive": "sources/zimg-3.0.6.tar.gz",
+      "notice_file_count": 11
+    },
+    {
+      "name": "zlib",
+      "version": "1.3.2",
+      "url": "https://www.zlib.net/fossils/zlib-1.3.2.tar.gz",
+      "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+      "archive": "sources/zlib-1.3.2.tar.gz",
+      "notice_file_count": 65
+    },
+    {
+      "name": "zvbi",
+      "version": "0.2.35",
+      "url": "https://sourceforge.net/projects/zapping/files/zvbi/0.2.35/zvbi-0.2.35.tar.bz2/download",
+      "sha256": "fc883c34111a487c4a783f91b1b2bb5610d8d8e58dcba80c7ab31e67e4765318",
+      "archive": "sources/zvbi-0.2.35.tar.bz2",
+      "notice_file_count": 137
+    },
+    {
+      "name": "cmake",
+      "version": "4.0.3",
+      "url": "https://cmake.org/files/v4.0/cmake-4.0.3.tar.gz",
+      "sha256": "8d3537b7b7732660ea247398f166be892fe6131d63cc291944b45b91279f3ffb",
+      "archive": "sources/cmake-4.0.3.tar.gz",
+      "notice_file_count": 977
+    },
+    {
+      "name": "x264",
+      "version": "0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee",
+      "url": "https://code.videolan.org/videolan/x264/-/archive/0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee/x264-0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee.tar.gz",
+      "sha256": "d0967a1348c85dfde363bb52610403be898171493100561efa0dd05d5fd1ae50",
+      "archive": "sources/x264-0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee.tar.gz",
+      "notice_file_count": 233
+    },
+    {
+      "name": "rust-standard-library",
+      "version": "17067e9ac6d7ecb70e50f92c1944e545188d2359",
+      "url": "https://github.com/rust-lang/rust/archive/17067e9ac6d7ecb70e50f92c1944e545188d2359.tar.gz",
+      "sha256": "3ba009b8ffe2bfc0fb6796adde2e3612b09813db388ece98a22bfc4c3162f728",
+      "archive": "sources/rust-standard-library-17067e9ac6d7ecb70e50f92c1944e545188d2359.tar.gz",
+      "notice_file_count": 62
+    },
+    {
+      "name": "build-recipe",
+      "version": "6a611e19870e197bc37c6e4c7fccddebd3715466",
+      "url": "https://git.martin-riedl.de/ffmpeg/build-script/archive/6a611e19870e197bc37c6e4c7fccddebd3715466.tar.gz",
+      "sha256": "467803813ab9f090052b0913bd12f984dcee888b154eb3644f7b1cbf04b57887",
+      "archive": "sources/build-recipe-6a611e19870e197bc37c6e4c7fccddebd3715466.tar.gz",
+      "notice_file_count": 44
+    },
+    {
+      "name": "rust-stdlib-addr2line",
+      "version": "0.24.2",
+      "url": "https://static.crates.io/crates/addr2line/addr2line-0.24.2.crate",
+      "sha256": "dfbe277e56a376000877090da837660b4427aad530e3028d44e0bffe4f89a1c1",
+      "archive": "sources/rust-stdlib-addr2line-0.24.2.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-adler2",
+      "version": "2.0.0",
+      "url": "https://static.crates.io/crates/adler2/adler2-2.0.0.crate",
+      "sha256": "512761e0bb2578dd7380c6baaa0f4ce03e84f95e960231d1dec8bf4d7d6e2627",
+      "archive": "sources/rust-stdlib-adler2-2.0.0.tar.gz",
+      "notice_file_count": 4
+    },
+    {
+      "name": "rust-stdlib-allocator-api2",
+      "version": "0.2.21",
+      "url": "https://static.crates.io/crates/allocator-api2/allocator-api2-0.2.21.crate",
+      "sha256": "683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923",
+      "archive": "sources/rust-stdlib-allocator-api2-0.2.21.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-cc",
+      "version": "1.2.0",
+      "url": "https://static.crates.io/crates/cc/cc-1.2.0.crate",
+      "sha256": "1aeb932158bd710538c73702db6945cb68a8fb08c519e6e12706b94263b36db8",
+      "archive": "sources/rust-stdlib-cc-1.2.0.tar.gz",
+      "notice_file_count": 8
+    },
+    {
+      "name": "rust-stdlib-cfg-if",
+      "version": "1.0.0",
+      "url": "https://static.crates.io/crates/cfg-if/cfg-if-1.0.0.crate",
+      "sha256": "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd",
+      "archive": "sources/rust-stdlib-cfg-if-1.0.0.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-compiler_builtins",
+      "version": "0.1.152",
+      "url": "https://static.crates.io/crates/compiler_builtins/compiler_builtins-0.1.152.crate",
+      "sha256": "2153cf213eb259361567720ce55f6446f17acd0ccca87fb6dc05360578228a58",
+      "archive": "sources/rust-stdlib-compiler_builtins-0.1.152.tar.gz",
+      "notice_file_count": 26
+    },
+    {
+      "name": "rust-stdlib-dlmalloc",
+      "version": "0.2.7",
+      "url": "https://static.crates.io/crates/dlmalloc/dlmalloc-0.2.7.crate",
+      "sha256": "d9b5e0d321d61de16390ed273b647ce51605b575916d3c25e6ddf27a1e140035",
+      "archive": "sources/rust-stdlib-dlmalloc-0.2.7.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-fortanix-sgx-abi",
+      "version": "0.5.0",
+      "url": "https://static.crates.io/crates/fortanix-sgx-abi/fortanix-sgx-abi-0.5.0.crate",
+      "sha256": "57cafc2274c10fab234f176b25903ce17e690fca7597090d50880e047a0389c5",
+      "archive": "sources/rust-stdlib-fortanix-sgx-abi-0.5.0.tar.gz",
+      "notice_file_count": 2
+    },
+    {
+      "name": "rust-stdlib-getopts",
+      "version": "0.2.21",
+      "url": "https://static.crates.io/crates/getopts/getopts-0.2.21.crate",
+      "sha256": "14dbbfd5c71d70241ecf9e6f13737f7b5ce823821063188d7e46c41d371eebd5",
+      "archive": "sources/rust-stdlib-getopts-0.2.21.tar.gz",
+      "notice_file_count": 4
+    },
+    {
+      "name": "rust-stdlib-gimli",
+      "version": "0.31.1",
+      "url": "https://static.crates.io/crates/gimli/gimli-0.31.1.crate",
+      "sha256": "07e28edb80900c19c28f1072f2e8aeca7fa06b23cd4169cefe1af5aa3260783f",
+      "archive": "sources/rust-stdlib-gimli-0.31.1.tar.gz",
+      "notice_file_count": 4
+    },
+    {
+      "name": "rust-stdlib-hashbrown",
+      "version": "0.15.2",
+      "url": "https://static.crates.io/crates/hashbrown/hashbrown-0.15.2.crate",
+      "sha256": "bf151400ff0baff5465007dd2f3e717f3fe502074ca563069ce3a6629d07b289",
+      "archive": "sources/rust-stdlib-hashbrown-0.15.2.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-hermit-abi",
+      "version": "0.5.0",
+      "url": "https://static.crates.io/crates/hermit-abi/hermit-abi-0.5.0.crate",
+      "sha256": "fbd780fe5cc30f81464441920d82ac8740e2e46b29a6fad543ddd075229ce37e",
+      "archive": "sources/rust-stdlib-hermit-abi-0.5.0.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-libc",
+      "version": "0.2.171",
+      "url": "https://static.crates.io/crates/libc/libc-0.2.171.crate",
+      "sha256": "c19937216e9d3aa9956d9bb8dfc0b0c8beb6058fc4f7a4dc4d850edf86a237d6",
+      "archive": "sources/rust-stdlib-libc-0.2.171.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-memchr",
+      "version": "2.7.4",
+      "url": "https://static.crates.io/crates/memchr/memchr-2.7.4.crate",
+      "sha256": "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3",
+      "archive": "sources/rust-stdlib-memchr-2.7.4.tar.gz",
+      "notice_file_count": 4
+    },
+    {
+      "name": "rust-stdlib-miniz_oxide",
+      "version": "0.8.3",
+      "url": "https://static.crates.io/crates/miniz_oxide/miniz_oxide-0.8.3.crate",
+      "sha256": "b8402cab7aefae129c6977bb0ff1b8fd9a04eb5b51efc50a70bea51cda0c7924",
+      "archive": "sources/rust-stdlib-miniz_oxide-0.8.3.tar.gz",
+      "notice_file_count": 5
+    },
+    {
+      "name": "rust-stdlib-object",
+      "version": "0.36.7",
+      "url": "https://static.crates.io/crates/object/object-0.36.7.crate",
+      "sha256": "62948e14d923ea95ea2c7c86c71013138b66525b86bdc08d2dcc262bdb497b87",
+      "archive": "sources/rust-stdlib-object-0.36.7.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-proc-macro2",
+      "version": "1.0.93",
+      "url": "https://static.crates.io/crates/proc-macro2/proc-macro2-1.0.93.crate",
+      "sha256": "60946a68e5f9d28b0dc1c21bb8a97ee7d018a8b322fa57838ba31cc878e22d99",
+      "archive": "sources/rust-stdlib-proc-macro2-1.0.93.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-quote",
+      "version": "1.0.38",
+      "url": "https://static.crates.io/crates/quote/quote-1.0.38.crate",
+      "sha256": "0e4dccaaaf89514f546c693ddc140f729f958c247918a13380cccc6078391acc",
+      "archive": "sources/rust-stdlib-quote-1.0.38.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-r-efi",
+      "version": "4.5.0",
+      "url": "https://static.crates.io/crates/r-efi/r-efi-4.5.0.crate",
+      "sha256": "e9e935efc5854715dfc0a4c9ef18dc69dee0ec3bf9cc3ab740db831c0fdd86a3",
+      "archive": "sources/rust-stdlib-r-efi-4.5.0.tar.gz",
+      "notice_file_count": 2
+    },
+    {
+      "name": "rust-stdlib-r-efi-alloc",
+      "version": "1.0.0",
+      "url": "https://static.crates.io/crates/r-efi-alloc/r-efi-alloc-1.0.0.crate",
+      "sha256": "31d6f09fe2b6ad044bc3d2c34ce4979796581afd2f1ebc185837e02421e02fd7",
+      "archive": "sources/rust-stdlib-r-efi-alloc-1.0.0.tar.gz",
+      "notice_file_count": 2
+    },
+    {
+      "name": "rust-stdlib-rand",
+      "version": "0.9.0",
+      "url": "https://static.crates.io/crates/rand/rand-0.9.0.crate",
+      "sha256": "3779b94aeb87e8bd4e834cee3650289ee9e0d5677f976ecdb6d219e5f4f6cd94",
+      "archive": "sources/rust-stdlib-rand-0.9.0.tar.gz",
+      "notice_file_count": 35
+    },
+    {
+      "name": "rust-stdlib-rand_core",
+      "version": "0.9.0",
+      "url": "https://static.crates.io/crates/rand_core/rand_core-0.9.0.crate",
+      "sha256": "b08f3c9802962f7e1b25113931d94f43ed9725bebc59db9d0c3e9a23b67e15ff",
+      "archive": "sources/rust-stdlib-rand_core-0.9.0.tar.gz",
+      "notice_file_count": 9
+    },
+    {
+      "name": "rust-stdlib-rand_xorshift",
+      "version": "0.4.0",
+      "url": "https://static.crates.io/crates/rand_xorshift/rand_xorshift-0.4.0.crate",
+      "sha256": "513962919efc330f829edb2535844d1b912b0fbe2ca165d613e4e8788bb05a5a",
+      "archive": "sources/rust-stdlib-rand_xorshift-0.4.0.tar.gz",
+      "notice_file_count": 5
+    },
+    {
+      "name": "rust-stdlib-rustc-demangle",
+      "version": "0.1.24",
+      "url": "https://static.crates.io/crates/rustc-demangle/rustc-demangle-0.1.24.crate",
+      "sha256": "719b953e2095829ee67db738b3bfa9fa368c94900df327b3f07fe6e794d2fe1f",
+      "archive": "sources/rust-stdlib-rustc-demangle-0.1.24.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-shlex",
+      "version": "1.3.0",
+      "url": "https://static.crates.io/crates/shlex/shlex-1.3.0.crate",
+      "sha256": "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64",
+      "archive": "sources/rust-stdlib-shlex-1.3.0.tar.gz",
+      "notice_file_count": 5
+    },
+    {
+      "name": "rust-stdlib-syn",
+      "version": "2.0.98",
+      "url": "https://static.crates.io/crates/syn/syn-2.0.98.crate",
+      "sha256": "36147f1a48ae0ec2b5b3bc5b537d267457555a10dc06f3dbc8cb11ba3006d3b1",
+      "archive": "sources/rust-stdlib-syn-2.0.98.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-unicode-ident",
+      "version": "1.0.16",
+      "url": "https://static.crates.io/crates/unicode-ident/unicode-ident-1.0.16.crate",
+      "sha256": "a210d160f08b701c8721ba1c726c11662f877ea6b7094007e1ca9a1041945034",
+      "archive": "sources/rust-stdlib-unicode-ident-1.0.16.tar.gz",
+      "notice_file_count": 4
+    },
+    {
+      "name": "rust-stdlib-unicode-width",
+      "version": "0.1.14",
+      "url": "https://static.crates.io/crates/unicode-width/unicode-width-0.1.14.crate",
+      "sha256": "7dd6e30e90baa6f72411720665d41d89b9a3d039dc45b8faea1ddd07f617f6af",
+      "archive": "sources/rust-stdlib-unicode-width-0.1.14.tar.gz",
+      "notice_file_count": 9
+    },
+    {
+      "name": "rust-stdlib-unwinding",
+      "version": "0.2.5",
+      "url": "https://static.crates.io/crates/unwinding/unwinding-0.2.5.crate",
+      "sha256": "51f06a05848f650946acef3bf525fe96612226b61f74ae23ffa4e98bfbb8ab3c",
+      "archive": "sources/rust-stdlib-unwinding-0.2.5.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-wasi",
+      "version": "0.11.0+wasi-snapshot-preview1",
+      "url": "https://static.crates.io/crates/wasi/wasi-0.11.0+wasi-snapshot-preview1.crate",
+      "sha256": "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423",
+      "archive": "sources/rust-stdlib-wasi-0.11.0+wasi-snapshot-preview1.tar.gz",
+      "notice_file_count": 4
+    },
+    {
+      "name": "rust-stdlib-windows-sys",
+      "version": "0.59.0",
+      "url": "https://static.crates.io/crates/windows-sys/windows-sys-0.59.0.crate",
+      "sha256": "1e38bc4d79ed67fd075bcc251a1c39b32a1776bbe92e5bef1f0bf1f8c531853b",
+      "archive": "sources/rust-stdlib-windows-sys-0.59.0.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows-targets",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows-targets/windows-targets-0.52.6.crate",
+      "sha256": "9b724f72796e036ab90c1021d4780d4d3d648aca59e491e6b98e725b84e99973",
+      "archive": "sources/rust-stdlib-windows-targets-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_aarch64_gnullvm",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_aarch64_gnullvm/windows_aarch64_gnullvm-0.52.6.crate",
+      "sha256": "32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3",
+      "archive": "sources/rust-stdlib-windows_aarch64_gnullvm-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_aarch64_msvc",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_aarch64_msvc/windows_aarch64_msvc-0.52.6.crate",
+      "sha256": "09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469",
+      "archive": "sources/rust-stdlib-windows_aarch64_msvc-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_i686_gnu",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_i686_gnu/windows_i686_gnu-0.52.6.crate",
+      "sha256": "8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b",
+      "archive": "sources/rust-stdlib-windows_i686_gnu-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_i686_gnullvm",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_i686_gnullvm/windows_i686_gnullvm-0.52.6.crate",
+      "sha256": "0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66",
+      "archive": "sources/rust-stdlib-windows_i686_gnullvm-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_i686_msvc",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_i686_msvc/windows_i686_msvc-0.52.6.crate",
+      "sha256": "240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66",
+      "archive": "sources/rust-stdlib-windows_i686_msvc-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_x86_64_gnu",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_x86_64_gnu/windows_x86_64_gnu-0.52.6.crate",
+      "sha256": "147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78",
+      "archive": "sources/rust-stdlib-windows_x86_64_gnu-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_x86_64_gnullvm",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_x86_64_gnullvm/windows_x86_64_gnullvm-0.52.6.crate",
+      "sha256": "24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d",
+      "archive": "sources/rust-stdlib-windows_x86_64_gnullvm-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-windows_x86_64_msvc",
+      "version": "0.52.6",
+      "url": "https://static.crates.io/crates/windows_x86_64_msvc/windows_x86_64_msvc-0.52.6.crate",
+      "sha256": "589f6da84c646204747d1270a2a5661ea66ed1cced2631d546fdfb155959f9ec",
+      "archive": "sources/rust-stdlib-windows_x86_64_msvc-0.52.6.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-stdlib-zerocopy",
+      "version": "0.8.17",
+      "url": "https://static.crates.io/crates/zerocopy/zerocopy-0.8.17.crate",
+      "sha256": "aa91407dacce3a68c56de03abe2760159582b846c6a4acd2f456618087f12713",
+      "archive": "sources/rust-stdlib-zerocopy-0.8.17.tar.gz",
+      "notice_file_count": 239
+    },
+    {
+      "name": "rust-stdlib-zerocopy-derive",
+      "version": "0.8.17",
+      "url": "https://static.crates.io/crates/zerocopy-derive/zerocopy-derive-0.8.17.crate",
+      "sha256": "06718a168365cad3d5ff0bb133aad346959a2074bd4a85c121255a11304a8626",
+      "archive": "sources/rust-stdlib-zerocopy-derive-0.8.17.tar.gz",
+      "notice_file_count": 64
+    },
+    {
+      "name": "rust-stdarch",
+      "version": "9426bb56586c6ae4095a2dcbd66c570253e6fb32",
+      "url": "https://github.com/rust-lang/stdarch/archive/9426bb56586c6ae4095a2dcbd66c570253e6fb32.tar.gz",
+      "sha256": "35cd400c29862f3813152fed3c5ba1804451a85effac081f3275129a28a14e3c",
+      "archive": "sources/rust-stdarch-9426bb56586c6ae4095a2dcbd66c570253e6fb32.tar.gz",
+      "notice_file_count": 9
+    },
+    {
+      "name": "rust-backtrace",
+      "version": "9d2c34e7e63afe1e71c333b247065e3b7ba4d883",
+      "url": "https://github.com/rust-lang/backtrace-rs/archive/9d2c34e7e63afe1e71c333b247065e3b7ba4d883.tar.gz",
+      "sha256": "3fe3ff625d9fa4d7f7feb0c1be7ee33b82fbddeb153447271bd731f50e440e49",
+      "archive": "sources/rust-backtrace-9d2c34e7e63afe1e71c333b247065e3b7ba4d883.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-compiler-builtins-upstream",
+      "version": "52d96c47681ef504a8ad7398efffe53214898aab",
+      "url": "https://github.com/rust-lang/compiler-builtins/archive/52d96c47681ef504a8ad7398efffe53214898aab.tar.gz",
+      "sha256": "ca4ca74a56da7e371ed6ab5e5bc5b776457d96f62725994cf11c9e228a6229ca",
+      "archive": "sources/rust-compiler-builtins-upstream-52d96c47681ef504a8ad7398efffe53214898aab.tar.gz",
+      "notice_file_count": 3
+    },
+    {
+      "name": "rust-libm",
+      "version": "69219c491ee9f05761d2068fd6d4c7c0de6faa3a",
+      "url": "https://github.com/rust-lang/libm/archive/69219c491ee9f05761d2068fd6d4c7c0de6faa3a.tar.gz",
+      "sha256": "6076bbd1cb8bad70a91ab5a41e10c4bf3b33f6d2835d27c6b079edb480704132",
+      "archive": "sources/rust-libm-69219c491ee9f05761d2068fd6d4c7c0de6faa3a.tar.gz",
+      "notice_file_count": 26
+    }
+  ],
+  "rust_vendor": {
+    "filename": "rav1e-0.8.1-vendor.zip",
+    "sha256": "6a9d131b3d8525e7bc2a3d102402deb34b64ee93d28447ff277843f4c1ba300b",
+    "package_count": 271,
+    "offline_metadata_verified": true,
+    "cargo_lock_sha256": "861482385bdef579e207bb371937dd49cb9ff47d9406c40660b760fa672d0589"
+  },
+  "x264_evidence": {
+    "commit": "0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee",
+    "committed_date": "2025-09-10T09:40:56+08:00",
+    "current_master_matches_master_before_build": true,
+    "build_core": 165,
+    "files": [
+      "evidence/x264-commits-at-build.json",
+      "evidence/x264-current-master.json"
+    ]
+  },
+  "notice_file_count": 20860,
+  "license_supplements": [
+    {
+      "url": "https://www.mozilla.org/media/MPL/2.0/index.txt",
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+      "path": "supplemental-licenses/MPL-2.0.txt"
+    }
+  ],
+  "rust_standard_library": {
+    "revision": "17067e9ac6d7ecb70e50f92c1944e545188d2359",
+    "locked_crate_count": 42,
+    "git_submodules": {
+      "library/stdarch": "9426bb56586c6ae4095a2dcbd66c570253e6fb32",
+      "library/backtrace": "9d2c34e7e63afe1e71c333b247065e3b7ba4d883"
+    },
+    "cargo_lock_sha256": "0b408243b7d57c70dc26025ab900108445367aa9b5f013afa544d73ac1d8cea6",
+    "compiler_builtins_vcs": "52d96c47681ef504a8ad7398efffe53214898aab",
+    "compiler_builtins_libm_gitlink": "69219c491ee9f05761d2068fd6d4c7c0de6faa3a"
+  },
+  "scope_notes": [
+    "All original source archives are preserved byte-for-byte. The collection conservatively includes build-tool, optional, and test dependency notices; not every included component is necessarily linked into the executables.",
+    "Apple compiler and SDK system tools are prerequisites; they are not redistributed. Recipe and binary configuration records preserve the build flags.",
+    "The original x264 URL named master. Official master tip and history before the build identify the same unchanged commit, committed more than one year before the binaries were built.",
+    "rav1e sources include all 271 Cargo.lock dependencies; package and file checksums were verified and cargo metadata resolved with --offline --locked."
+  ],
+  "full_notice_index": "ffmpeg-9.0.2-macos-sources.zip/source-lock.json"
+}

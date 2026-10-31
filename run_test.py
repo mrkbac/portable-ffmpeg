@@ -17,6 +17,7 @@ def main() -> None:
             "--cov=src/portable_ffmpeg",
             "--cov-report=term-missing",
             "--cov-fail-under=100",
+            *sys.argv[1:],
         ],
         check=False,
         capture_output=True,

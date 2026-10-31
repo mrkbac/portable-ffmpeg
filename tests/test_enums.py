@@ -88,7 +88,4 @@ class TestFFmpegVersions:
         """Test that supported FFmpeg major version values are correct."""
         assert FFmpegVersions.LATEST.value == "latest"
         assert FFmpegVersions.V9.value == "9"
-        assert FFmpegVersions.V8.value == "8"
-        assert FFmpegVersions.V7.value == "7"
-        assert FFmpegVersions.V6.value == "6"
-        assert FFmpegVersions.V5.value == "5"
+        assert set(FFmpegVersions) == {FFmpegVersions.LATEST, FFmpegVersions.V9}

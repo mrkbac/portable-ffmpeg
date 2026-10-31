@@ -50,7 +50,3 @@ class FFmpegVersions(Enum):
 
     LATEST = "latest"
     V9 = "9"
-    V8 = "8"
-    V7 = "7"
-    V6 = "6"
-    V5 = "5"
