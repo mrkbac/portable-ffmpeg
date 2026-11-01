@@ -14,6 +14,28 @@ from portable_ffmpeg.core import CACHE_DIR
 from portable_ffmpeg.enums import FFmpegVersions
 
 
+@pytest.fixture(autouse=True)
+def release_downloads(
+    request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Use exact unpublished TAR.XZ archives with a cache isolated from the checkout."""
+    from portable_ffmpeg import core
+    from portable_ffmpeg.config import DOWNLOAD_URLS
+    from portable_ffmpeg.enums import Architectures, OperatingSystems
+
+    cache = tmp_path / "binaries"
+    monkeypatch.setattr(core, "CACHE_DIR", cache)
+    monkeypatch.setattr("tests.test_integration.CACHE_DIR", cache)
+    release_dir = request.config.getoption("release_dir")
+    if release_dir is not None:
+        assert isinstance(release_dir, Path)
+        config = DOWNLOAD_URLS[OperatingSystems.from_current_system()][
+            Architectures.from_current_architecture()
+        ]
+        archive = (release_dir / config.url.rsplit("/", 1)[1]).resolve(strict=True)
+        monkeypatch.setattr(config, "url", archive.as_uri())
+
+
 class TestModuleIntegration:
     """Comprehensive integration tests for the complete module."""
 
@@ -26,11 +48,7 @@ class TestModuleIntegration:
         architecture = Architectures.from_current_architecture()
         from portable_ffmpeg.config import DOWNLOAD_URLS
 
-        if (
-            system not in DOWNLOAD_URLS
-            or architecture not in DOWNLOAD_URLS[system]
-            or FFmpegVersions.V9 not in DOWNLOAD_URLS[system][architecture]
-        ):
+        if system not in DOWNLOAD_URLS or architecture not in DOWNLOAD_URLS[system]:
             pytest.skip("V9 is not configured for this platform")
 
         clear_cache()
@@ -52,6 +70,40 @@ class TestModuleIntegration:
             )
             assert result.returncode == 0
             assert re.match(expected, result.stdout.splitlines()[0])
+
+        for flag, required in [
+            ("-encoders", {"libx264", "libx265", "libvpx-vp9", "libaom-av1"}),
+            ("-decoders", {"h264", "hevc", "vp9", "av1"}),
+        ]:
+            result = subprocess.run(
+                [str(ffmpeg_path), "-hide_banner", flag],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=True,
+            )
+            names = {
+                line.split()[1]
+                for line in result.stdout.splitlines()
+                if re.match(r"^ [VAS.][A-Z.]{5} ", line)
+            }
+            assert required <= names, f"Missing {flag}: {required - names}"
+
+        result = subprocess.run(
+            [str(ffmpeg_path), "-hide_banner", "-hwaccels"],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            check=True,
+        )
+        required_hw = (
+            {"videotoolbox"} if system == OperatingSystems.OSX else {"cuda", "vulkan", "amf"}
+        )
+        if system == OperatingSystems.LINUX:
+            required_hw.add("vaapi")
+        if system != OperatingSystems.OSX and architecture == Architectures.AMD64:
+            required_hw.add("qsv")
+        assert required_hw <= set(result.stdout.split())
 
         assert architecture in {Architectures.AMD64, Architectures.ARM64}
         clear_cache()
@@ -189,7 +241,10 @@ class TestModuleIntegration:
 
         system = OperatingSystems.from_current_system()
         arch = Architectures.from_current_architecture()
-        platform_subdir = CACHE_DIR / f"{system.value}-{arch.value}-latest"
+        from portable_ffmpeg.config import DOWNLOAD_URLS
+
+        config = DOWNLOAD_URLS[system][arch]
+        platform_subdir = CACHE_DIR / f"{system.value}-{arch.value}-{config.cache_id}"
 
         # Create file where directory should be
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -208,43 +263,10 @@ class TestModuleIntegration:
         from portable_ffmpeg.config import DOWNLOAD_URLS
         from portable_ffmpeg.enums import Architectures, OperatingSystems
 
-        # Test that all enum versions have configurations
-        enum_versions = set(FFmpegVersions)
-        configured_versions = set()
-
-        for os_configs in DOWNLOAD_URLS.values():
-            for arch_configs in os_configs.values():
-                configured_versions.update(arch_configs.keys())
-
-        missing_versions = enum_versions - configured_versions
-        assert not missing_versions, (
-            f"Versions {missing_versions} are in enum but have no configurations"
-        )
-
-        # Test current platform support
         system = OperatingSystems.from_current_system()
         arch = Architectures.from_current_architecture()
-
-        if system in DOWNLOAD_URLS and arch in DOWNLOAD_URLS[system]:
-            available_versions = list(DOWNLOAD_URLS[system][arch].keys())
-            assert len(available_versions) > 0
-
-            # Test at least one version works
-            test_version = available_versions[0]
-            clear_cache()
-            ffmpeg_path, ffprobe_path = get_ffmpeg(test_version)
-
-            assert ffmpeg_path.exists()
-            assert ffprobe_path.exists()
-            assert os.access(ffmpeg_path, os.X_OK)
-            assert os.access(ffprobe_path, os.X_OK)
-
-            # Test version-specific caching
-            if len(available_versions) > 1:
-                version2 = available_versions[1]
-                ffmpeg_path2, _ = get_ffmpeg(version2)
-
-                # Different versions should be in different cache directories
-                assert ffmpeg_path.parent != ffmpeg_path2.parent
-                assert test_version.value in str(ffmpeg_path.parent)
-                assert version2.value in str(ffmpeg_path2.parent)
+        assert arch in DOWNLOAD_URLS[system]
+        clear_cache()
+        paths = get_ffmpeg(FFmpegVersions.V9)
+        assert all(path.is_file() and os.access(path, os.X_OK) for path in paths)
+        assert get_ffmpeg(FFmpegVersions.LATEST) == paths

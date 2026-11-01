@@ -16,6 +16,8 @@ jobs:
 
   test:
     needs: pre-commit
+    permissions:
+      contents: read
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -40,6 +42,21 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen --no-dev --group test -p "${{ matrix.python-version }}"
 
+      - name: Download the pinned platform archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          uv run python - <<'PY'
+          import subprocess
+          from portable_ffmpeg.config import DOWNLOAD_URLS
+          from portable_ffmpeg.enums import Architectures, OperatingSystems
+          config = DOWNLOAD_URLS[OperatingSystems.from_current_system()][Architectures.from_current_architecture()]
+          base, tag, filename = config.url.rsplit("/", 2)
+          repository = "/".join(base.split("/")[3:5])
+          subprocess.run(["gh", "release", "download", tag, "--repo", repository, "--pattern", filename, "--dir", "dist/binaries"], check=True)
+          PY
+
       - name: Run tests
         run: |
-          uv run run_test.py
+          uv run run_test.py --release-dir dist/binaries

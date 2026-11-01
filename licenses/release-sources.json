@@ -1,0 +1,130 @@
+{
+  "ffmpeg_version": "9.0.2",
+  "review_complete": true,
+  "review_date": "2026-10-31",
+  "review_basis": {
+    "btbn": "Exact Actions dependency-source cache and pinned FFmpeg/build commits, including vendored locked Rust sources and notices.",
+    "macos": "Pinned recipe and dependency version records; official x264 repository history identifies unchanged master commit. Locked Rust sources and notices retained."
+  },
+  "limitations": [
+    "No bit-for-bit binary rebuild was performed.",
+    "BtbN cargo update cc affects a build-tool dependency; original runtime locks and sources are preserved."
+  ],
+  "files": [
+    {
+      "filename": "ffmpeg-9.0.2-btbn-sources-01.zip",
+      "sha256": "ccd17c8a3271da6936ecc4a6daf0d3546600467620248ddb42a1afbfb1027bb4"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-sources-02.zip",
+      "sha256": "bd73910da42cf3d82b3d98e906830804da70963af4e07e28f9aacacbff797937"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-rust-stdlib-crates.zip",
+      "sha256": "4cdc72650a24cce8ea8eb0947411259d96af403bda37c580296e1bf89ffa3c7e"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-notices.zip",
+      "sha256": "601385017d07a09ca6f9a64e39e8574fd0d6adc89a144ac85ef71f131a535226"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-source-lock.json",
+      "sha256": "947aa68ce08e9dd719228f8bba3505d3f6198cfe370d0f5eff437dbc653dde54"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-RESTORE.md",
+      "sha256": "2ed929bdfe05489823cd3b367a4c4286a173e73c25c8cc16d4a01cb607806b21"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-btbn-NOTICES.txt",
+      "sha256": "b71a279c252d95077eba84859c35173dd4e294150e4b6175eaba0495c6df25ea"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-macos-sources.zip",
+      "sha256": "00583f1540ec1b415c7db16040e12ecdcb5a0d6f44a499ac0dd37135835d3f10"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-macos-notices.zip",
+      "sha256": "963b0ec72f3f8db9ea7a5588221ee78ab227e1c19b7255ec53dee497f8c55bff"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-macos-source-lock.json",
+      "sha256": "7ffd161f6914fa4bc9ba13b08a44455ffe163e61b3772cd4f434b9587f31a022"
+    },
+    {
+      "filename": "ffmpeg-9.0.2-macos-NOTICES.txt",
+      "sha256": "1f537ffc58ed65459468a485d6554d3d2d1bd1d85e11caedc2470c835cd3a1df"
+    }
+  ],
+  "platforms": {
+    "windows-amd64": {
+      "source_files": [
+        "ffmpeg-9.0.2-btbn-sources-01.zip",
+        "ffmpeg-9.0.2-btbn-sources-02.zip",
+        "ffmpeg-9.0.2-btbn-rust-stdlib-crates.zip",
+        "ffmpeg-9.0.2-btbn-notices.zip",
+        "ffmpeg-9.0.2-btbn-source-lock.json",
+        "ffmpeg-9.0.2-btbn-RESTORE.md"
+      ],
+      "notice_file": "ffmpeg-9.0.2-btbn-NOTICES.txt",
+      "binary_sha256": {
+        "ffmpeg.exe": "c930b63cb1ee8b7e2eaf9c15161160edd5c9acad34f0303b5855c8eb142a7e8d",
+        "ffprobe.exe": "075848c1bbb8b4e2e0b0ecba06e8ad06c889a8902ed219d6a9f5758c417ca108"
+      }
+    },
+    "osx-amd64": {
+      "source_files": [
+        "ffmpeg-9.0.2-macos-sources.zip",
+        "ffmpeg-9.0.2-macos-notices.zip",
+        "ffmpeg-9.0.2-macos-source-lock.json"
+      ],
+      "notice_file": "ffmpeg-9.0.2-macos-NOTICES.txt",
+      "binary_sha256": {
+        "ffmpeg": "b25689cf2211c0582d317e849912769a1f1c93904fe102c485b5364a425633d1",
+        "ffprobe": "b5df9964b0c2048318fafedcd4e3bbafbc561033cee77de8da1840685d8a9d0d"
+      }
+    },
+    "osx-arm64": {
+      "source_files": [
+        "ffmpeg-9.0.2-macos-sources.zip",
+        "ffmpeg-9.0.2-macos-notices.zip",
+        "ffmpeg-9.0.2-macos-source-lock.json"
+      ],
+      "notice_file": "ffmpeg-9.0.2-macos-NOTICES.txt",
+      "binary_sha256": {
+        "ffmpeg": "2e11c6f90993cdb79fff84d3f90044d28316b310e75b3e030cfc9a54f2c9d384",
+        "ffprobe": "2738aa46a7f9acbc8ab09a6715554c90f7de603171ac403726765685df6a0059"
+      }
+    },
+    "linux-amd64": {
+      "source_files": [
+        "ffmpeg-9.0.2-btbn-sources-01.zip",
+        "ffmpeg-9.0.2-btbn-sources-02.zip",
+        "ffmpeg-9.0.2-btbn-rust-stdlib-crates.zip",
+        "ffmpeg-9.0.2-btbn-notices.zip",
+        "ffmpeg-9.0.2-btbn-source-lock.json",
+        "ffmpeg-9.0.2-btbn-RESTORE.md"
+      ],
+      "notice_file": "ffmpeg-9.0.2-btbn-NOTICES.txt",
+      "binary_sha256": {
+        "ffmpeg": "384742b75419584d065bbf372613f9f7e8ccf22525b421c16a2ee679a78ee748",
+        "ffprobe": "ae9051af68f52e7ad5706b442577689c74c02da618ca1590caf1ac7199f2931c"
+      }
+    },
+    "linux-arm64": {
+      "source_files": [
+        "ffmpeg-9.0.2-btbn-sources-01.zip",
+        "ffmpeg-9.0.2-btbn-sources-02.zip",
+        "ffmpeg-9.0.2-btbn-rust-stdlib-crates.zip",
+        "ffmpeg-9.0.2-btbn-notices.zip",
+        "ffmpeg-9.0.2-btbn-source-lock.json",
+        "ffmpeg-9.0.2-btbn-RESTORE.md"
+      ],
+      "notice_file": "ffmpeg-9.0.2-btbn-NOTICES.txt",
+      "binary_sha256": {
+        "ffmpeg": "091fe4df4902fedd20f4d5accab14d02947a531d14d789cc7e8f18b0a808e6d1",
+        "ffprobe": "8e967d51f1e9e7d1c84423417e68625d267128c5014e0c20ae470f53506631ef"
+      }
+    }
+  }
+}
