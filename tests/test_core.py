@@ -11,6 +11,8 @@ from portable_ffmpeg.core import get_ffmpeg, print_paths, run_ffmpeg, run_ffprob
 from portable_ffmpeg.enums import FFmpegVersions
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from pytest_mock import MockerFixture
 
 
@@ -80,29 +82,31 @@ class TestEdgeCases:
 class TestCliEntryPoints:
     """Test CLI entry point functions."""
 
-    @patch("portable_ffmpeg.core.get_ffmpeg")
-    @patch("subprocess.run")
-    def test_run_ffmpeg(self, mock_subprocess_run: MagicMock, mock_get_ffmpeg: MagicMock) -> None:
-        """Test run_ffmpeg entry point."""
-        mock_path = Path("/cache/ffmpeg")
-        mock_get_ffmpeg.return_value = (mock_path, Path("/cache/ffprobe"))
+    @pytest.mark.parametrize(
+        ("entry_point", "tool"), [(run_ffmpeg, "ffmpeg"), (run_ffprobe, "ffprobe")]
+    )
+    @pytest.mark.parametrize(
+        ("returncode", "expected"), [(0, 0), (1, 1), (7, 7), (0xFFFF_FFFE, -2), (-15, 143)]
+    )
+    def test_run_tool(
+        self,
+        mocker: "MockerFixture",
+        entry_point: "Callable[[], int]",
+        tool: str,
+        returncode: int,
+        expected: int,
+    ) -> None:
+        """Forward arguments and report the child status through the console entry point."""
+        paths = (Path("/cache/ffmpeg"), Path("/cache/ffprobe"))
+        mocker.patch("portable_ffmpeg.core.get_ffmpeg", return_value=paths)
+        run = mocker.patch("subprocess.run")
+        run.return_value.returncode = returncode
+        mocker.patch.object(sys, "argv", ["script", "-i", "missing file.mp4"])
 
-        with patch.object(sys, "argv", ["script", "-version"]):
-            run_ffmpeg()
-
-        mock_subprocess_run.assert_called_once_with([str(mock_path), "-version"], check=False)
-
-    @patch("portable_ffmpeg.core.get_ffmpeg")
-    @patch("subprocess.run")
-    def test_run_ffprobe(self, mock_subprocess_run: MagicMock, mock_get_ffmpeg: MagicMock) -> None:
-        """Test run_ffprobe entry point."""
-        mock_path = Path("/cache/ffprobe")
-        mock_get_ffmpeg.return_value = (Path("/cache/ffmpeg"), mock_path)
-
-        with patch.object(sys, "argv", ["script", "-version"]):
-            run_ffprobe()
-
-        mock_subprocess_run.assert_called_once_with([str(mock_path), "-version"], check=False)
+        assert entry_point() == expected
+        run.assert_called_once_with(
+            [str(Path("/cache") / tool), "-i", "missing file.mp4"], check=False
+        )
 
     @patch("portable_ffmpeg.core.get_ffmpeg")
     def test_print_paths(
