@@ -133,26 +133,37 @@ def remove_from_path(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
         os.environ["PATH"] = os.pathsep.join(new_path_parts)
 
 
-def run_ffmpeg(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
-    """Entry point to run ffmpeg binary directly.
+def _run_cli(executable: Path) -> int:
+    returncode = subprocess.run([str(executable), *sys.argv[1:]], check=False).returncode
+    if returncode > 0x7FFF_FFFF:
+        # Windows reports an unsigned DWORD. Older CPython needs a signed int for sys.exit().
+        return returncode - (1 << 32)
+    if returncode < 0:
+        # subprocess represents POSIX signals as negative numbers; shells use 128 + signal.
+        return 128 - returncode
+    return returncode
+
+
+def run_ffmpeg(version: FFmpegVersions = FFmpegVersions.LATEST) -> int:
+    """Run ffmpeg and return its exit status.
 
     Args:
         version: FFmpeg major version to use (default: latest).
 
     """
     ffmpeg_path, _ = get_ffmpeg(version)
-    subprocess.run([str(ffmpeg_path), *sys.argv[1:]], check=False)
+    return _run_cli(ffmpeg_path)
 
 
-def run_ffprobe(version: FFmpegVersions = FFmpegVersions.LATEST) -> None:
-    """Entry point to run ffprobe binary directly.
+def run_ffprobe(version: FFmpegVersions = FFmpegVersions.LATEST) -> int:
+    """Run ffprobe and return its exit status.
 
     Args:
         version: FFmpeg major version to use (default: latest).
 
     """
     _, ffprobe_path = get_ffmpeg(version)
-    subprocess.run([str(ffprobe_path), *sys.argv[1:]], check=False)
+    return _run_cli(ffprobe_path)
 
 
 def print_paths() -> None:
